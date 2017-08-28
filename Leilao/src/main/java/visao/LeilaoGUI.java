@@ -219,7 +219,7 @@ public class LeilaoGUI extends JFrame {
 					mercado.cadastrarUsuario(nome, endereco, email, cpf);
 					janela.dispose();
 				} catch (Exception e) {
-					e.printStackTrace();
+//					e.printStackTrace();
 					JOptionPane.showMessageDialog(null, "O usuario ja existe.");
 				}
 			}
@@ -300,7 +300,7 @@ public class LeilaoGUI extends JFrame {
 				try {
 					valorMinimo = Double.parseDouble(fieldLanceMinimo.getText());
 				}catch(Exception e) {
-					e.printStackTrace();
+//					e.printStackTrace();
 					JOptionPane.showMessageDialog(null, "O lance minimo deve ser um numero.\nEx: 1234.56");
 				}
 				String cpfLeiloador = fieldCpf.getText();
@@ -310,7 +310,7 @@ public class LeilaoGUI extends JFrame {
 					mercado.cadastrarProduto(nome, descricao, valorMinimo, cpfLeiloador, dataLimite);
 					janela.dispose();
 				} catch (Exception e) {
-					e.printStackTrace();
+//					e.printStackTrace();
 					JOptionPane.showMessageDialog(null, "O produto ja existe ou o leiloador nao esta cadastrado.");
 				}
 			}
@@ -369,14 +369,14 @@ public class LeilaoGUI extends JFrame {
 				try {
 					valorLance = Double.parseDouble(fieldValor.getText());
 				}catch(Exception e) {
-					e.printStackTrace();
+//					e.printStackTrace();
 					JOptionPane.showMessageDialog(null, "O valor do lance deve ser um numero.\nEx: 1234.56");
 				}
 				try {
 					mercado.daLance(nomeProduto, cpfComprador, valorLance);
 					janela.dispose();
 				} catch (Exception e) {
-					e.printStackTrace();
+//					e.printStackTrace();
 					JOptionPane.showMessageDialog(null, "O valor do lance eh inferior ao necessario ou o comprador nao esta cadastrado.");
 				}
 			}
@@ -414,36 +414,39 @@ public class LeilaoGUI extends JFrame {
 		scroll2.setViewportView(panel);
 		
 		List<IUsuario> usuariosCadastrados = mercado.getUsuariosCadastrados();
-		final JList list = new JList(usuariosCadastrados.toArray());
+		final JList<Object> list = new JList<>(usuariosCadastrados.toArray());
 		list.setBorder(new LineBorder(new Color(0, 0, 0)));
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setSelectedIndex(0);
 		scroll.setViewportView(list);
 		
-		IUsuario usuarioSelecionado = (IUsuario) list.getSelectedValue();
-		final JLabel labelNome = new JLabel("Nome:  " + usuarioSelecionado.getNome());
-		final JLabel labelCpf = new JLabel("CPF:  " + usuarioSelecionado.getCpf());
-		final JLabel labelEndereco = new JLabel("Endereco:  " + usuarioSelecionado.getEndereco());
-		final JLabel labelEmail = new JLabel("E-mail:  " + usuarioSelecionado.getEmail());
-        panel.add(labelNome);
+		final JLabel labelNome = new JLabel("Nome:  ");
+		final JLabel labelCpf = new JLabel("CPF:  ");
+		final JLabel labelEndereco = new JLabel("Endereco:  ");
+		final JLabel labelEmail = new JLabel("E-mail:  ");
+		panel.add(labelNome);
         panel.add(labelCpf);
         panel.add(labelEndereco);
         panel.add(labelEmail);
         
+        atualizaJanelaUsuariosCadastrados(list, labelNome, labelCpf, labelEndereco, labelEmail);
+        
 		list.addListSelectionListener(new ListSelectionListener() {
             
 			public void valueChanged(ListSelectionEvent event) {
-                Usuario usuarioSelecionado = (Usuario) list.getSelectedValue();
-                labelNome.setText("Nome:  " + usuarioSelecionado.getNome());
-                labelCpf.setText("CPF:  " + usuarioSelecionado.getCpf());
-                labelEndereco.setText("Endereco:  " + usuarioSelecionado.getEndereco());
-                labelEmail.setText("E-mail:  " + usuarioSelecionado.getEmail());
-                panel.add(labelNome);
-                panel.add(labelCpf);
-                panel.add(labelEndereco);
-                panel.add(labelEmail);
+				atualizaJanelaUsuariosCadastrados(list, labelNome, labelCpf, labelEndereco, labelEmail);
             }
         });
+	}
+	
+	private void atualizaJanelaUsuariosCadastrados(JList<Object> list, JLabel labelNome, JLabel labelCpf, JLabel labelEndereco, JLabel labelEmail) {
+		IUsuario usuarioSelecionado = (IUsuario) list.getSelectedValue();
+		if(usuarioSelecionado != null) {
+			labelNome.setText("Nome:  " + usuarioSelecionado.getNome());
+            labelCpf.setText("CPF:  " + usuarioSelecionado.getCpf());
+            labelEndereco.setText("Endereco:  " + usuarioSelecionado.getEndereco());
+            labelEmail.setText("E-mail:  " + usuarioSelecionado.getEmail());
+		}
 	}
 	
 	
@@ -476,20 +479,20 @@ public class LeilaoGUI extends JFrame {
 		panel.setLayout(new GridLayout(6, 1, 0, 0));
 		scroll2.setViewportView(panel);
 		
+		@SuppressWarnings("unchecked")
 		List<ProdutoLeilao> produtosEmLeilao = (List<ProdutoLeilao>) mercado.getProdutosEmLeilao();
-		final JList list = new JList(produtosEmLeilao.toArray());
+		final JList<Object> list = new JList<>(produtosEmLeilao.toArray());
 		list.setBorder(new LineBorder(new Color(0, 0, 0)));
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setSelectedIndex(0);
 		scroll.setViewportView(list);
 		
-		ProdutoLeilao produtoSelecionado = (ProdutoLeilao)list.getSelectedValue();
-		final JLabel labelNome = new JLabel("Nome:  " + produtoSelecionado.getNome());
-		final JLabel labelDescricao = new JLabel("Descricao:  " + produtoSelecionado.getDescricao());
-		final JLabel labelLanceMinimo = new JLabel("Lance minimo:  R$" + produtoSelecionado.getLanceMinimo());
-		final JLabel labelUltimoLance = new JLabel("Ultimo lance: R$" + produtoSelecionado.getValorUltimoLance());
-		final JLabel labelCpfLeiloador = new JLabel("CPF Leiloador:  " + produtoSelecionado.getCpfLeiloador());
-		final JLabel labelDataLimite = new JLabel("Data limite:  " + dateFormat.format(produtoSelecionado.getDataLimite()));
+		final JLabel labelNome = new JLabel("Nome:  ");
+		final JLabel labelDescricao = new JLabel("Descricao:  ");
+		final JLabel labelLanceMinimo = new JLabel("Lance minimo:  R$");
+		final JLabel labelUltimoLance = new JLabel("Ultimo lance: R$");
+		final JLabel labelCpfLeiloador = new JLabel("CPF Leiloador:  ");
+		final JLabel labelDataLimite = new JLabel("Data limite:  ");
         panel.add(labelNome);
         panel.add(labelDescricao);
         panel.add(labelLanceMinimo);
@@ -497,24 +500,29 @@ public class LeilaoGUI extends JFrame {
         panel.add(labelCpfLeiloador);
         panel.add(labelDataLimite);
         
+        atualizaJanelaProdutosEmLeilao(list, labelNome, labelDescricao, labelLanceMinimo, 
+        		labelUltimoLance, labelCpfLeiloador, labelDataLimite);
+        
 		list.addListSelectionListener(new ListSelectionListener() {
             
 			public void valueChanged(ListSelectionEvent event) {
-				ProdutoLeilao produtoSelecionado = (ProdutoLeilao)list.getSelectedValue();
-				labelNome.setText("Nome:  " + produtoSelecionado.getNome());
-		        labelDescricao.setText("Descricao:  " + produtoSelecionado.getDescricao());
-		        labelLanceMinimo.setText("Lance minimo:  R$" + produtoSelecionado.getLanceMinimo());
-		        labelUltimoLance.setText("Ultimo lance: R$" + produtoSelecionado.getValorUltimoLance());
-		        labelCpfLeiloador.setText("CPF Leiloador:  " + produtoSelecionado.getCpfLeiloador());
-		        labelDataLimite.setText("Data limite:  " + dateFormat.format(produtoSelecionado.getDataLimite()));
-		        panel.add(labelNome);
-		        panel.add(labelDescricao);
-		        panel.add(labelLanceMinimo);
-		        panel.add(labelUltimoLance);
-		        panel.add(labelCpfLeiloador);
-		        panel.add(labelDataLimite);
+				atualizaJanelaProdutosEmLeilao(list, labelNome, labelDescricao, labelLanceMinimo, 
+						labelUltimoLance, labelCpfLeiloador, labelDataLimite);
             }
         });
+	}
+	
+	private void atualizaJanelaProdutosEmLeilao(JList<Object> list, JLabel labelNome, JLabel labelDescricao,
+			JLabel labelLanceMinimo, JLabel labelUltimoLance, JLabel labelCpfLeiloador, JLabel labelDataLimite) {
+		ProdutoLeilao produtoSelecionado = (ProdutoLeilao)list.getSelectedValue();
+		if(produtoSelecionado != null) {
+			labelNome.setText("Nome:  " + produtoSelecionado.getNome());
+	        labelDescricao.setText("Descricao:  " + produtoSelecionado.getDescricao());
+	        labelLanceMinimo.setText("Lance minimo:  R$" + produtoSelecionado.getLanceMinimo());
+	        labelUltimoLance.setText("Ultimo lance: R$" + produtoSelecionado.getValorUltimoLance());
+	        labelCpfLeiloador.setText("CPF Leiloador:  " + produtoSelecionado.getCpfLeiloador());
+	        labelDataLimite.setText("Data limite:  " + dateFormat.format(produtoSelecionado.getDataLimite()));
+		}
 	}
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -546,21 +554,21 @@ public class LeilaoGUI extends JFrame {
 		panel.setLayout(new GridLayout(7, 1, 0, 0));
 		scroll2.setViewportView(panel);
 		
+		@SuppressWarnings("unchecked")
 		List<ProdutoLeilao> produtosVendidos = (List<ProdutoLeilao>) mercado.getProdutosVendidos();
-		final JList list = new JList(produtosVendidos.toArray());
+		final JList<Object> list = new JList<>(produtosVendidos.toArray());
 		list.setBorder(new LineBorder(new Color(0, 0, 0)));
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setSelectedIndex(0);
 		scroll.setViewportView(list);
 		
-		ProdutoLeilao produtoSelecionado = (ProdutoLeilao)list.getSelectedValue();
-		final JLabel labelNome = new JLabel("Nome:  " + produtoSelecionado.getNome());
-		final JLabel labelDescricao = new JLabel("Descricao:  " + produtoSelecionado.getDescricao());
-		final JLabel labelLanceMinimo = new JLabel("Lance minimo:  R$" + produtoSelecionado.getLanceMinimo());
-		final JLabel labelPrecoVendido = new JLabel("Preco vendido: R$" + produtoSelecionado.getValorUltimoLance());
-		final JLabel labelCpfLeiloador = new JLabel("CPF Leiloador:  " + produtoSelecionado.getCpfLeiloador());
-		final JLabel labelCpfComprador = new JLabel("CPF Comprador:  " + produtoSelecionado.getCpfComprador());
-		final JLabel labelDataLimite = new JLabel("Data limite:  " + dateFormat.format(produtoSelecionado.getDataLimite()));
+		final JLabel labelNome = new JLabel("Nome:  ");
+		final JLabel labelDescricao = new JLabel("Descricao:  ");
+		final JLabel labelLanceMinimo = new JLabel("Lance minimo:  R$");
+		final JLabel labelPrecoVendido = new JLabel("Preco vendido: R$");
+		final JLabel labelCpfLeiloador = new JLabel("CPF Leiloador:  ");
+		final JLabel labelCpfComprador = new JLabel("CPF Comprador:  ");
+		final JLabel labelDataLimite = new JLabel("Data limite:  ");
         panel.add(labelNome);
         panel.add(labelDescricao);
         panel.add(labelLanceMinimo);
@@ -569,26 +577,29 @@ public class LeilaoGUI extends JFrame {
         panel.add(labelCpfComprador);
         panel.add(labelDataLimite);
         
+        atualizaJanelaProdutosVendidos(list, labelNome, labelDescricao, labelLanceMinimo, 
+				labelPrecoVendido, labelCpfLeiloador, labelCpfComprador, labelDataLimite);
+        
 		list.addListSelectionListener(new ListSelectionListener() {
             
 			public void valueChanged(ListSelectionEvent event) {
-				ProdutoLeilao produtoSelecionado = (ProdutoLeilao)list.getSelectedValue();
-				labelNome.setText("Nome:  " + produtoSelecionado.getNome());
-		        labelDescricao.setText("Descricao:  " + produtoSelecionado.getDescricao());
-		        labelLanceMinimo.setText("Lance minimo:  R$" + produtoSelecionado.getLanceMinimo());
-		        labelPrecoVendido.setText("Preco vendido: R$" + produtoSelecionado.getValorUltimoLance());
-		        labelCpfLeiloador.setText("CPF Leiloador:  " + produtoSelecionado.getCpfLeiloador());
-		        labelCpfComprador.setText("CPF Comprador:  " + produtoSelecionado.getCpfComprador());
-		        labelDataLimite.setText("Data limite:  " + dateFormat.format(produtoSelecionado.getDataLimite()));
-		        panel.add(labelNome);
-		        panel.add(labelDescricao);
-		        panel.add(labelLanceMinimo);
-		        panel.add(labelPrecoVendido);
-		        panel.add(labelCpfLeiloador);
-		        panel.add(labelCpfComprador);
-		        panel.add(labelDataLimite);
+				atualizaJanelaProdutosVendidos(list, labelNome, labelDescricao, labelLanceMinimo, 
+						labelPrecoVendido, labelCpfLeiloador, labelCpfComprador, labelDataLimite);
             }
         });
+	}
+	
+	private void atualizaJanelaProdutosVendidos(JList<Object> list, JLabel labelNome, JLabel labelDescricao, JLabel labelLanceMinimo, JLabel labelPrecoVendido, JLabel labelCpfLeiloador, JLabel labelCpfComprador, JLabel labelDataLimite) {
+		ProdutoLeilao produtoSelecionado = (ProdutoLeilao)list.getSelectedValue();
+		if(produtoSelecionado != null) {
+			labelNome.setText("Nome:  " + produtoSelecionado.getNome());
+	        labelDescricao.setText("Descricao:  " + produtoSelecionado.getDescricao());
+	        labelLanceMinimo.setText("Lance minimo:  R$" + produtoSelecionado.getLanceMinimo());
+	        labelPrecoVendido.setText("Preco vendido: R$" + produtoSelecionado.getValorUltimoLance());
+	        labelCpfLeiloador.setText("CPF Leiloador:  " + produtoSelecionado.getCpfLeiloador());
+	        labelCpfComprador.setText("CPF Comprador:  " + produtoSelecionado.getCpfComprador());
+	        labelDataLimite.setText("Data limite:  " + dateFormat.format(produtoSelecionado.getDataLimite()));
+		}
 	}
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -620,41 +631,45 @@ public class LeilaoGUI extends JFrame {
 		panel.setLayout(new GridLayout(5, 1, 0, 0));
 		scroll2.setViewportView(panel);
 		
+		@SuppressWarnings("unchecked")
 		List<ProdutoLeilao> produtosVencidosENaoVendidos = (List<ProdutoLeilao>) mercado.getProdutosVencidosENaoVendidos();
-		final JList list = new JList(produtosVencidosENaoVendidos.toArray());
+		final JList<Object> list = new JList<>(produtosVencidosENaoVendidos.toArray());
 		list.setBorder(new LineBorder(new Color(0, 0, 0)));
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setSelectedIndex(0);
 		scroll.setViewportView(list);
 		
-		ProdutoLeilao produtoSelecionado = (ProdutoLeilao)list.getSelectedValue();
-		final JLabel labelNome = new JLabel("Nome:  " + produtoSelecionado.getNome());
-		final JLabel labelDescricao = new JLabel("Descricao:  " + produtoSelecionado.getDescricao());
-		final JLabel labelLanceMinimo = new JLabel("Lance minimo:  R$" + produtoSelecionado.getLanceMinimo());
-		final JLabel labelCpfLeiloador = new JLabel("CPF Leiloador:  " + produtoSelecionado.getCpfLeiloador());
-		final JLabel labelDataLimite = new JLabel("Data limite:  " + dateFormat.format(produtoSelecionado.getDataLimite()));
+		final JLabel labelNome = new JLabel("Nome:  ");
+		final JLabel labelDescricao = new JLabel("Descricao:  ");
+		final JLabel labelLanceMinimo = new JLabel("Lance minimo:  R$");
+		final JLabel labelCpfLeiloador = new JLabel("CPF Leiloador:  ");
+		final JLabel labelDataLimite = new JLabel("Data limite:  ");
         panel.add(labelNome);
         panel.add(labelDescricao);
         panel.add(labelLanceMinimo);
         panel.add(labelCpfLeiloador);
         panel.add(labelDataLimite);
         
+        atualizaJanelaProdutosVencidos(list, labelNome, labelDescricao, labelLanceMinimo, labelCpfLeiloador, labelDataLimite);
+        
 		list.addListSelectionListener(new ListSelectionListener() {
             
 			public void valueChanged(ListSelectionEvent event) {
-				ProdutoLeilao produtoSelecionado = (ProdutoLeilao)list.getSelectedValue();
-				labelNome.setText("Nome:  " + produtoSelecionado.getNome());
-		        labelDescricao.setText("Descricao:  " + produtoSelecionado.getDescricao());
-		        labelLanceMinimo.setText("Lance minimo:  R$" + produtoSelecionado.getLanceMinimo());
-		        labelCpfLeiloador.setText("CPF Leiloador:  " + produtoSelecionado.getCpfLeiloador());
-		        labelDataLimite.setText("Data limite:  " + dateFormat.format(produtoSelecionado.getDataLimite()));
-		        panel.add(labelNome);
-		        panel.add(labelDescricao);
-		        panel.add(labelLanceMinimo);
-		        panel.add(labelCpfLeiloador);
-		        panel.add(labelDataLimite);
+				atualizaJanelaProdutosVencidos(list, labelNome, labelDescricao, labelLanceMinimo, labelCpfLeiloador, labelDataLimite);
             }
         });
+	}
+	
+	private void atualizaJanelaProdutosVencidos(JList<Object> list, JLabel labelNome, JLabel labelDescricao, 
+			JLabel labelLanceMinimo, JLabel labelCpfLeiloador, JLabel labelDataLimite) {
+		ProdutoLeilao produtoSelecionado = (ProdutoLeilao)list.getSelectedValue();
+		if(produtoSelecionado != null) {
+			labelNome.setText("Nome:  " + produtoSelecionado.getNome());
+			labelDescricao.setText("Descricao:  " + produtoSelecionado.getDescricao());
+			labelLanceMinimo.setText("Lance minimo:  R$" + produtoSelecionado.getLanceMinimo());
+			labelCpfLeiloador.setText("CPF Leiloador:  " + produtoSelecionado.getCpfLeiloador());
+			labelDataLimite.setText("Data limite:  " + dateFormat.format(produtoSelecionado.getDataLimite()));
+		}
 	}
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -677,13 +692,28 @@ public class LeilaoGUI extends JFrame {
 		scrollPane.setBounds(5, 56, 189, 224);
 		contentPane.add(scrollPane);
 		
-		
-		
 		final JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane_1.setBounds(204, 56, 385, 224);
 		contentPane.add(scrollPane_1);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setLayout(new GridLayout(6, 1, 0, 0));
+		final JLabel labelNome = new JLabel("Nome:  ");
+		final JLabel labelDescricao = new JLabel("Descricao:  ");
+		final JLabel labelLanceMinimo = new JLabel("Lance minimo:  R$");
+		final JLabel labelUltimoLance = new JLabel("Ultimo lance: R$");
+		final JLabel labelCpfLeiloador = new JLabel("CPF Leiloador:  ");
+		final JLabel labelDataLimite = new JLabel("Data limite:  ");
+        panel.add(labelNome);
+        panel.add(labelDescricao);
+        panel.add(labelLanceMinimo);
+        panel.add(labelUltimoLance);
+        panel.add(labelCpfLeiloador);
+        panel.add(labelDataLimite);
+		scrollPane_1.setViewportView(panel);
 		
 		JLabel label = new JLabel("Selecione o usuario");
 		label.setBounds(5, 3, 113, 20);
@@ -691,7 +721,7 @@ public class LeilaoGUI extends JFrame {
 		
 		List<IUsuario> usuariosCadastrados = mercado.getUsuariosCadastrados();
 		
-		final JComboBox comboBox = new JComboBox(usuariosCadastrados.toArray());
+		final JComboBox<Object> comboBox = new JComboBox<>(usuariosCadastrados.toArray());
 		comboBox.setBounds(5, 23, 189, 22);
 		contentPane.add(comboBox);
 		comboBox.addActionListener(new ActionListener () {
@@ -704,34 +734,37 @@ public class LeilaoGUI extends JFrame {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				final JList listProdutos = new JList(produtosDoLeiloador.toArray());
+				final JList<Object> listProdutos = new JList<>(produtosDoLeiloador.toArray());
 				scrollPane.setViewportView(listProdutos);
 				listProdutos.setBorder(new LineBorder(new Color(0, 0, 0)));
 				listProdutos.addListSelectionListener(new ListSelectionListener() {
 		            
 					public void valueChanged(ListSelectionEvent arg0) {
 						ProdutoLeilao produtoSelecionado = (ProdutoLeilao)listProdutos.getSelectedValue();
-						JPanel panel = new JPanel();
-						panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-						panel.setLayout(new GridLayout(6, 1, 0, 0));
-						JLabel labelNome = new JLabel("Nome:  " + produtoSelecionado.getNome());
-						JLabel labelDescricao = new JLabel("Descricao:  " + produtoSelecionado.getDescricao());
-						JLabel labelLanceMinimo = new JLabel("Lance minimo:  R$" + produtoSelecionado.getLanceMinimo());
-						JLabel labelUltimoLance = new JLabel("Ultimo lance: R$" + produtoSelecionado.getValorUltimoLance());
-						JLabel labelCpfLeiloador = new JLabel("CPF Leiloador:  " + produtoSelecionado.getCpfLeiloador());
-						JLabel labelDataLimite = new JLabel("Data limite:  " + dateFormat.format(produtoSelecionado.getDataLimite()));
-				        panel.add(labelNome);
-				        panel.add(labelDescricao);
-				        panel.add(labelLanceMinimo);
-				        panel.add(labelUltimoLance);
-				        panel.add(labelCpfLeiloador);
-				        panel.add(labelDataLimite);
-						scrollPane_1.setViewportView(panel);
+						
+						labelNome.setText("Nome:  " + produtoSelecionado.getNome());
+						labelDescricao.setText("Descricao:  " + produtoSelecionado.getDescricao());
+						labelLanceMinimo.setText("Lance minimo:  R$" + produtoSelecionado.getLanceMinimo());
+						labelUltimoLance.setText("Ultimo lance: R$" + produtoSelecionado.getValorUltimoLance());
+						labelCpfLeiloador.setText("CPF Leiloador:  " + produtoSelecionado.getCpfLeiloador());
+						labelDataLimite.setText("Data limite:  " + dateFormat.format(produtoSelecionado.getDataLimite()));
 		            }
 		        });
+				
+				if(listProdutos.getModel().getSize() > 0)
+					listProdutos.setSelectedIndex(0);
+				else {
+					labelNome.setText("Nome:  ");
+					labelDescricao.setText("Descricao:  ");
+					labelLanceMinimo.setText("Lance minimo:  R$");
+					labelUltimoLance.setText("Ultimo lance: R$");
+					labelCpfLeiloador.setText("CPF Leiloador:  ");
+					labelDataLimite.setText("Data limite:  ");
+				}
 			}
 		});
-		
+		if(comboBox.getItemCount() > 0)
+			comboBox.setSelectedIndex(0);
 	}
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -754,13 +787,22 @@ public class LeilaoGUI extends JFrame {
 		scrollPane.setBounds(5, 56, 189, 224);
 		contentPane.add(scrollPane);
 		
-		
-		
 		final JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane_1.setBounds(204, 56, 385, 224);
 		contentPane.add(scrollPane_1);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setLayout(new GridLayout(3, 1, 0, 0));
+		final JLabel labelNomeDoUsuario = new JLabel("Nome do usuario:  ");
+		final JLabel labelNomeDoProduto = new JLabel("Nome do produto:  ");
+		final JLabel labelValorDoLance = new JLabel("Valor do lance:  R$");
+		panel.add(labelNomeDoUsuario);
+		panel.add(labelNomeDoProduto);
+		panel.add(labelValorDoLance);
+		scrollPane_1.setViewportView(panel);
 		
 		JLabel label = new JLabel("Selecione o usuario");
 		label.setBounds(5, 3, 113, 20);
@@ -768,7 +810,7 @@ public class LeilaoGUI extends JFrame {
 		
 		List<IUsuario> usuariosCadastrados = mercado.getUsuariosCadastrados();
 		
-		final JComboBox comboBox = new JComboBox(usuariosCadastrados.toArray());
+		final JComboBox<Object> comboBox = new JComboBox<>(usuariosCadastrados.toArray());
 		comboBox.setBounds(5, 23, 189, 22);
 		contentPane.add(comboBox);
 		comboBox.addActionListener(new ActionListener () {
@@ -781,26 +823,29 @@ public class LeilaoGUI extends JFrame {
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-				final JList listLances = new JList(lancesDoUsuario.toArray());
+				final JList<Object> listLances = new JList<>(lancesDoUsuario.toArray());
 				scrollPane.setViewportView(listLances);
 				listLances.setBorder(new LineBorder(new Color(0, 0, 0)));
 				listLances.addListSelectionListener(new ListSelectionListener() {
 		            
 					public void valueChanged(ListSelectionEvent arg0) {
 						Lance lanceSelecionado = (Lance)listLances.getSelectedValue();
-						JPanel panel = new JPanel();
-						panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-						panel.setLayout(new GridLayout(3, 1, 0, 0));
-						JLabel labelNomeDoUsuario = new JLabel("Nome do usuario:  " + lanceSelecionado.getNomeDonoDoLance());
-						JLabel labelNomeDoProduto = new JLabel("Nome do produto:  " + lanceSelecionado.getNomeProdutoQueRecebeuOLance());
-						JLabel labelValorDoLance = new JLabel("Valor do lance:  R$" + lanceSelecionado.getValorDoLance());
-						panel.add(labelNomeDoUsuario);
-						panel.add(labelNomeDoProduto);
-						panel.add(labelValorDoLance);
-						scrollPane_1.setViewportView(panel);
+						
+						labelNomeDoUsuario.setText("Nome do usuario:  " + lanceSelecionado.getNomeDonoDoLance());
+						labelNomeDoProduto.setText("Nome do produto:  " + lanceSelecionado.getNomeProdutoQueRecebeuOLance());
+						labelValorDoLance.setText("Valor do lance:  R$" + lanceSelecionado.getValorDoLance());
 		            }
 		        });
+				if(listLances.getModel().getSize() > 0)
+					listLances.setSelectedIndex(0);
+				else {
+					labelNomeDoUsuario.setText("Nome do usuario:  ");
+					labelNomeDoProduto.setText("Nome do produto:  ");
+					labelValorDoLance.setText("Valor do lance:  R$");
+				}
 			}
 		});
+		if(comboBox.getItemCount() > 0)
+			comboBox.setSelectedIndex(0);
 	}
 }
