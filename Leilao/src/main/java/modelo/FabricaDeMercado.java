@@ -10,14 +10,9 @@ import java.io.Serializable;
 import interfaces.IMercadoLeilao;
 
 public class FabricaDeMercado implements Serializable {
-	
-	
 	private static final long serialVersionUID = 1L;
 	
-	public FabricaDeMercado() {
-		
-	}
-
+	public FabricaDeMercado() {}
 	
 	public IMercadoLeilao montar() {
 		MercadoLeilao mercado = null;
@@ -31,7 +26,6 @@ public class FabricaDeMercado implements Serializable {
 		}
 		return mercado;
 	}
-
 	
 	public void desmontar(IMercadoLeilao mercado) {
 		try {

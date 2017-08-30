@@ -10,7 +10,7 @@ public interface IUsuario {
 
 	String getEmail();
 
-	String getCpf();
+	String getApelido();
 
 	List<? extends IVendido> getBensComprados();
 	

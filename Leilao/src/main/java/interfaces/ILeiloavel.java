@@ -5,7 +5,7 @@ public interface ILeiloavel {
 
 	public String getDescricao();
 
-	public String getCpfLeiloador();
+	public String getApelidoLeiloador();
 
 	public Double getValorUltimoLance();
 }

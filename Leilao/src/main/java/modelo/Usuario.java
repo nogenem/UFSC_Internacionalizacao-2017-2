@@ -12,7 +12,7 @@ public class Usuario implements IUsuario, Serializable {
 	
 	
 	private static final long serialVersionUID = 1L;
-	private String cpf;
+	private String apelido;
 	private String nome;
 	private String endereco;
 	private String email;
@@ -20,8 +20,8 @@ public class Usuario implements IUsuario, Serializable {
 	private List<IVendido> bensComprados;
 	
 	
-	public Usuario(String cpf, String nome) {
-		this.cpf = cpf;
+	public Usuario(String apelido, String nome) {
+		this.apelido = apelido;
 		this.nome = nome;
 		this.bensOfertados = new ArrayList<ILeiloavel>();
 		this.bensComprados = new ArrayList<IVendido>();
@@ -39,8 +39,8 @@ public class Usuario implements IUsuario, Serializable {
 		return this.email;
 	}
 	
-	public String getCpf() {
-		return this.cpf;
+	public String getApelido() {
+		return this.apelido;
 	}
 	
 	public void setEndereco(String endereco) {

@@ -4,10 +4,7 @@ import java.io.Serializable;
 
 
 public class Lance implements Serializable {
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private Double valorDoLance;
 	private Usuario donoDoLance;
@@ -23,8 +20,8 @@ public class Lance implements Serializable {
 		return this.valorDoLance;
 	}
 	
-	public String getCpfDonoDoLance() {
-		return this.donoDoLance.getCpf();
+	public String getApelidoDonoDoLance() {
+		return this.donoDoLance.getApelido();
 	}
 	
 	public String getNomeDonoDoLance() {

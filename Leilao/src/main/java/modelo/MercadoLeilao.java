@@ -29,22 +29,22 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 	}
 	
 	
-	public void cadastrarUsuario(String nome, String endereco, String email, String cpf) throws Exception {
-		if(verificaSeOUsuarioJaExiste(cpf)) {
-			throw new Exception("O usuario ja existe.");
+	public void cadastrarUsuario(String nome, String endereco, String email, String apelido) throws Exception {
+		if(verificaSeOUsuarioJaExiste(apelido)) {
+			throw new Exception("Ja existe um usuario com este apelido.");
 		}
 		else {
-			Usuario usuario = new Usuario(cpf, nome);
+			Usuario usuario = new Usuario(apelido, nome);
 			usuario.setEndereco(endereco);
 			usuario.setEmail(email);
-			this.usuarios.put(cpf, usuario);
+			this.usuarios.put(apelido, usuario);
 		}
 	}
 
 	
-	public void cadastrarProduto(String nome, String descricao, Double lanceMinimo, String cpfLeiloador, Date dataLimite) throws Exception {
-		if(!verificaSeOProdutoJaExiste(nome) && verificaSeOUsuarioJaExiste(cpfLeiloador)) {
-			Usuario leiloador = usuarios.get(cpfLeiloador);
+	public void cadastrarProduto(String nome, String descricao, Double lanceMinimo, String apelidoLeiloador, Date dataLimite) throws Exception {
+		if(!verificaSeOProdutoJaExiste(nome) && verificaSeOUsuarioJaExiste(apelidoLeiloador)) {
+			Usuario leiloador = usuarios.get(apelidoLeiloador);
 			ProdutoLeilao produto = new ProdutoLeilao(nome, descricao, lanceMinimo, leiloador);
 			produto.setDataLimite(dataLimite);
 			produtosEmLeilao.add(produto);
@@ -85,13 +85,13 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 	}
 	
 
-	public void daLance(String nomeProduto, String cpfComprador, Double valorLance) throws Exception {
+	public void daLance(String nomeProduto, String apelidoComprador, Double valorLance) throws Exception {
 		atualizarListasDeProdutos();
-		Lance lance = new Lance(valorLance, (Usuario)this.getUsuarioPor(cpfComprador));
+		Lance lance = new Lance(valorLance, (Usuario)this.getUsuarioPor(apelidoComprador));
 		ProdutoLeilao produto = produtosEmLeilao.get(pesquisaIndexProdutoEmLeilaoViaNome(nomeProduto));
 		Double lanceMinimo = produto.getLanceMinimo();
 		Double lanceAtual = produto.getValorUltimoLance();
-		if(verificaSeOUsuarioJaExiste(cpfComprador) && valorLance >= lanceMinimo && valorLance > lanceAtual) {
+		if(verificaSeOUsuarioJaExiste(apelidoComprador) && valorLance >= lanceMinimo && valorLance > lanceAtual) {
 			produto.recebaLance(lance);
 			lance.setProdutoQueRecebeuOLance(produto);
 		}
@@ -106,42 +106,42 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		return retornoLances;
 	}
 	
-	public List<Lance> retornaLancesDeUmUsuario(String cpfUsuario) throws Exception {
-		if(!verificaSeOUsuarioJaExiste(cpfUsuario))
+	public List<Lance> retornaLancesDeUmUsuario(String apelidoUsuario) throws Exception {
+		if(!verificaSeOUsuarioJaExiste(apelidoUsuario))
 			throw new Exception("O usuario nao esta cadastrado.");
 		List<Lance> retornoLances = new ArrayList<Lance>();
-		retornoLances.addAll(retornaLancesDeUmUsuarioEmProdutosAindaEmLeilao(cpfUsuario));
-		retornoLances.addAll(retornaLancesDeUmUsuarioEmProdutosVendidos(cpfUsuario));
+		retornoLances.addAll(retornaLancesDeUmUsuarioEmProdutosAindaEmLeilao(apelidoUsuario));
+		retornoLances.addAll(retornaLancesDeUmUsuarioEmProdutosVendidos(apelidoUsuario));
 		return retornoLances;
 	}
 	
-	public List<ProdutoLeilao> retornaProdutosDeUmLeiloador(String cpfUsuario) throws Exception {
+	public List<ProdutoLeilao> retornaProdutosDeUmLeiloador(String apelidoUsuario) throws Exception {
 		atualizarListasDeProdutos();
-		if(!verificaSeOUsuarioJaExiste(cpfUsuario))
+		if(!verificaSeOUsuarioJaExiste(apelidoUsuario))
 			throw new Exception("O usuario nao esta cadastrado.");
 		List<ProdutoLeilao> retornoProdutos = new ArrayList<ProdutoLeilao>();
-		retornoProdutos.addAll(retornaProdutosEmLeilaoPorUmUsuario(cpfUsuario));
-		retornoProdutos.addAll(retornaProdutosVendidosPorUmUsuario(cpfUsuario));
-		retornoProdutos.addAll(retornaProdutosVencidosMasNaoVendidosPorUmUsuario(cpfUsuario));
+		retornoProdutos.addAll(retornaProdutosEmLeilaoPorUmUsuario(apelidoUsuario));
+		retornoProdutos.addAll(retornaProdutosVendidosPorUmUsuario(apelidoUsuario));
+		retornoProdutos.addAll(retornaProdutosVencidosMasNaoVendidosPorUmUsuario(apelidoUsuario));
 		return retornoProdutos;
 	}
 	
 	
-	public List<? extends ILeiloavel> getProdutosQueDeuLance(String cpf) throws Exception {
+	public List<? extends ILeiloavel> getProdutosQueDeuLance(String apelidoUsuario) throws Exception {
 		atualizarListasDeProdutos();
-		if(!verificaSeOUsuarioJaExiste(cpf))
+		if(!verificaSeOUsuarioJaExiste(apelidoUsuario))
 			throw new Exception("O usuario nao esta cadastrado.");
 		else {
 			List<ILeiloavel> produtosQueDeuLance = new ArrayList<ILeiloavel>();
-			produtosQueDeuLance.addAll(getProdutosEmLeilaoQueDeuLance(cpf));
-			produtosQueDeuLance.addAll(getProdutosVendidosQueDeuLance(cpf));
+			produtosQueDeuLance.addAll(getProdutosEmLeilaoQueDeuLance(apelidoUsuario));
+			produtosQueDeuLance.addAll(getProdutosVendidosQueDeuLance(apelidoUsuario));
 			return produtosQueDeuLance;
 		}
 	}
 	
 	
-	public IUsuario getUsuarioPor(String cpf) throws Exception {
-		return this.usuarios.get(cpf);
+	public IUsuario getUsuarioPor(String apelido) throws Exception {
+		return this.usuarios.get(apelido);
 	}
 
 	
@@ -160,8 +160,8 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		int qtdLances = produto.retornaTodosOsLancesFeitosNesseProduto().size();
 		if(produto.dataDoProdutoExpirou() && qtdLances > 0) {
 			produtosVendidos.add(produto);
-			String cpfDonoDoLance = produto.getLanceMaisRecente().getCpfDonoDoLance();
-			Usuario comprador = usuarios.get(cpfDonoDoLance);
+			String apelidoDonoDoLance = produto.getLanceMaisRecente().getApelidoDonoDoLance();
+			Usuario comprador = usuarios.get(apelidoDonoDoLance);
 			comprador.setBemComprado(produto);
 			produto.setComprador(comprador);
 			produtosEmLeilao.remove(produto);
@@ -178,10 +178,8 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 	
 	
 	private boolean verificaSeOProdutoJaExiste(String nome) {
-		boolean entreOsProdutosEmLeilao = verificaSeExisteEntreOsEmLeilao(nome);
-		boolean entreOsProdutosVendidos = verificaSeExisteEntreOsVendidos(nome);
-		boolean entreOsProdutosVencidos = verificaSeExisteEntreOsVencidosENaoVendidos(nome);
-		return entreOsProdutosEmLeilao || entreOsProdutosVendidos || entreOsProdutosVencidos;
+		return verificaSeExisteEntreOsEmLeilao(nome) || verificaSeExisteEntreOsVendidos(nome) || 
+				verificaSeExisteEntreOsVencidosENaoVendidos(nome);
 	}
 	
 	private boolean verificaSeExisteEntreOsEmLeilao(String nome) {
@@ -211,8 +209,9 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		return false;
 	}
 	
-	private boolean verificaSeOUsuarioJaExiste(String cpfUsuario) {
-		return (usuarios.containsKey(cpfUsuario) || cpfUsuario.contains("_"));
+	private boolean verificaSeOUsuarioJaExiste(String apelidoUsuario) {
+		//|| apelidoUsuario.contains("_")
+		return usuarios.containsKey(apelidoUsuario);
 	}
 	
 	private Integer pesquisaIndexProdutoEmLeilaoViaNome(String nomeProduto) throws Exception {
@@ -223,18 +222,18 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		throw new Exception("Nao existe produto cadastrado com esse nome.");
 	}
 	
-	private List<Lance> retornaLancesDeUmUsuarioEmProdutosAindaEmLeilao(String cpfUsuario) {
+	private List<Lance> retornaLancesDeUmUsuarioEmProdutosAindaEmLeilao(String apelidoUsuario) {
 		List<Lance> retornoLances = new ArrayList<Lance>();
 		for(int i=0; i<produtosEmLeilao.size(); i++) {
-			retornoLances.addAll(produtosEmLeilao.get(i).verificaLancesEfetuadosPorUmUsuario(cpfUsuario));
+			retornoLances.addAll(produtosEmLeilao.get(i).verificaLancesEfetuadosPorUmUsuario(apelidoUsuario));
 		}
 		return retornoLances;
 	}
 	
-	private List<Lance> retornaLancesDeUmUsuarioEmProdutosVendidos(String cpfUsuario) {
+	private List<Lance> retornaLancesDeUmUsuarioEmProdutosVendidos(String apelidoUsuario) {
 		List<Lance> retornoLances = new ArrayList<Lance>();
 		for(int i=0; i<produtosVendidos.size(); i++) {
-			retornoLances.addAll(produtosVendidos.get(i).verificaLancesEfetuadosPorUmUsuario(cpfUsuario));
+			retornoLances.addAll(produtosVendidos.get(i).verificaLancesEfetuadosPorUmUsuario(apelidoUsuario));
 		}
 		return retornoLances;
 	}
@@ -255,59 +254,59 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		return retornoLances;
 	}
 	
-	private List<ProdutoLeilao> retornaProdutosEmLeilaoPorUmUsuario(String cpfUsuario) {
+	private List<ProdutoLeilao> retornaProdutosEmLeilaoPorUmUsuario(String apelidoUsuario) {
 		List<ProdutoLeilao> retornoProdutos = new ArrayList<ProdutoLeilao>();
 		for(int i=0; i<produtosEmLeilao.size(); i++) {
-			if(cpfUsuario.equals(produtosEmLeilao.get(i).getCpfLeiloador()))
+			if(apelidoUsuario.equals(produtosEmLeilao.get(i).getApelidoLeiloador()))
 				retornoProdutos.add(produtosEmLeilao.get(i));
 		}
 		return retornoProdutos;
 	}
 	
-	private List<ProdutoLeilao> retornaProdutosVendidosPorUmUsuario(String cpfUsuario) {
+	private List<ProdutoLeilao> retornaProdutosVendidosPorUmUsuario(String apelidoUsuario) {
 		List<ProdutoLeilao> retornoProdutos = new ArrayList<ProdutoLeilao>();
 		for(int i=0; i<produtosVendidos.size(); i++) {
-			if(cpfUsuario.equals(produtosVendidos.get(i).getCpfLeiloador()))
+			if(apelidoUsuario.equals(produtosVendidos.get(i).getApelidoLeiloador()))
 				retornoProdutos.add(produtosVendidos.get(i));
 		}
 		return retornoProdutos;
 	}
 	
-	private List<ProdutoLeilao> retornaProdutosVencidosMasNaoVendidosPorUmUsuario(String cpfUsuario) {
+	private List<ProdutoLeilao> retornaProdutosVencidosMasNaoVendidosPorUmUsuario(String apelidoUsuario) {
 		List<ProdutoLeilao> retornoProdutos = new ArrayList<ProdutoLeilao>();
 		for(int i=0; i<produtosVencidosENaoVendidos.size(); i++) {
-			if(cpfUsuario.equals(produtosVencidosENaoVendidos.get(i).getCpfLeiloador()))
+			if(apelidoUsuario.equals(produtosVencidosENaoVendidos.get(i).getApelidoLeiloador()))
 				retornoProdutos.add(produtosVencidosENaoVendidos.get(i));
 		}
 		return retornoProdutos;
 	}
 	
 	
-	private boolean verificaSeDeuLanceNesseProduto(String cpfComprador, ProdutoLeilao produto) {
+	private boolean verificaSeDeuLanceNesseProduto(String apelidoComprador, ProdutoLeilao produto) {
 		List<Lance> lances = produto.retornaTodosOsLancesFeitosNesseProduto();
 		for(int i=0; i<lances.size(); i++) {
-			if(lances.get(i).getCpfDonoDoLance().equalsIgnoreCase(cpfComprador))
+			if(lances.get(i).getApelidoDonoDoLance().equalsIgnoreCase(apelidoComprador))
 				return true;
 		}
 		return false;
 	}
 	
 	
-	private List<? extends ILeiloavel> getProdutosEmLeilaoQueDeuLance(String cpf) {
+	private List<? extends ILeiloavel> getProdutosEmLeilaoQueDeuLance(String apelido) {
 		List<ILeiloavel> retornoProdutos = new ArrayList<ILeiloavel>();
 		for(int i=0; i<produtosEmLeilao.size(); i++) {
 			ProdutoLeilao produto = produtosEmLeilao.get(i);
-			if(verificaSeDeuLanceNesseProduto(cpf, produto))
+			if(verificaSeDeuLanceNesseProduto(apelido, produto))
 				retornoProdutos.add(produto);
 		}
 		return retornoProdutos;
 	}
 	
-	private List<? extends ILeiloavel> getProdutosVendidosQueDeuLance(String cpf) {
+	private List<? extends ILeiloavel> getProdutosVendidosQueDeuLance(String apelido) {
 		List<ILeiloavel> retornoProdutos = new ArrayList<ILeiloavel>();
 		for(int i=0; i<produtosVendidos.size(); i++) {
 			ProdutoLeilao produto = produtosVendidos.get(i);
-			if(verificaSeDeuLanceNesseProduto(cpf, produto))
+			if(verificaSeDeuLanceNesseProduto(apelido, produto))
 				retornoProdutos.add(produto);
 		}
 		return retornoProdutos;

@@ -39,7 +39,9 @@ public class LeilaoGUI extends JFrame {
 	
 	
 	private static final long serialVersionUID = 1L;
-	private JButton botao1, botao2, botao3, botao4, botao5, botao6, botao7, botao8, botao9, botao10, botao11;
+	private JButton btnCadastraUsuario, btnCadastraProduto, btnDarLance, 
+		btnVerUsuarios, btnVerProdsLeilao, btnVerProdsVendidos, btnVerProdsVencidos, 
+		btnVerProdsLeiloador, btnVerLancesUsuario, btnSalvar, btnCarregar;
 	private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	private MercadoLeilao mercado;
 	
@@ -53,90 +55,90 @@ public class LeilaoGUI extends JFrame {
 	    setLocationRelativeTo(null);
 	    setVisible(true);
 	    
-	    botao1 = new JButton("Cadastrar Usuario");
-	    botao1.setBounds(30, 20, 350, 30);
-	    botao1.addActionListener(new ActionListener() {
+	    btnCadastraUsuario = new JButton("Cadastrar Usuario");
+	    btnCadastraUsuario.setBounds(30, 20, 350, 30);
+	    btnCadastraUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				janelaCadastrarUsuario(mercado);
 			}
 		});
-	    getContentPane().add(botao1);
+	    getContentPane().add(btnCadastraUsuario);
 	    
-	    botao2 = new JButton("Cadastrar Produto");
-	    botao2.setBounds(30, 60, 350, 30);
-	    botao2.addActionListener(new ActionListener() {
+	    btnCadastraProduto = new JButton("Cadastrar Produto");
+	    btnCadastraProduto.setBounds(30, 60, 350, 30);
+	    btnCadastraProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				janelaCadastrarProduto(mercado);
 			}
 		});
-	    getContentPane().add(botao2);
+	    getContentPane().add(btnCadastraProduto);
 	    
-	    botao3 = new JButton("Dar Lance");
-	    botao3.setBounds(30, 100, 350, 30);
-	    botao3.addActionListener(new ActionListener() {
+	    btnDarLance = new JButton("Dar Lance");
+	    btnDarLance.setBounds(30, 100, 350, 30);
+	    btnDarLance.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				janelaDarLance(mercado);
 			}
 		});
-	    getContentPane().add(botao3);
+	    getContentPane().add(btnDarLance);
 	    
-	    botao4 = new JButton("Ver Usu\u00E1rios Cadastrados");
-	    botao4.setBounds(30, 140, 350, 30);
-	    botao4.addActionListener(new ActionListener() {
+	    btnVerUsuarios = new JButton("Ver Usu\u00E1rios Cadastrados");
+	    btnVerUsuarios.setBounds(30, 140, 350, 30);
+	    btnVerUsuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				janelaUsuariosCadastrados(mercado);
 			}
 		});
-	    getContentPane().add(botao4);
+	    getContentPane().add(btnVerUsuarios);
 	    
-	    botao5 = new JButton("Ver Produtos Em Leilao");
-	    botao5.setBounds(30, 180, 350, 30);
-	    botao5.addActionListener(new ActionListener() {
+	    btnVerProdsLeilao = new JButton("Ver Produtos Em Leilao");
+	    btnVerProdsLeilao.setBounds(30, 180, 350, 30);
+	    btnVerProdsLeilao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				janelaProdutosEmLeilao(mercado);
 			}
 		});
-	    getContentPane().add(botao5);
+	    getContentPane().add(btnVerProdsLeilao);
 	    
-	    botao6 = new JButton("Ver Produtos Vendidos");
-	    botao6.setBounds(30, 220, 350, 30);
-	    botao6.addActionListener(new ActionListener() {
+	    btnVerProdsVendidos = new JButton("Ver Produtos Vendidos");
+	    btnVerProdsVendidos.setBounds(30, 220, 350, 30);
+	    btnVerProdsVendidos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				janelaProdutosVendidos(mercado);
 			}
 		});
-	    getContentPane().add(botao6);
+	    getContentPane().add(btnVerProdsVendidos);
 	    
-	    botao7 = new JButton("Ver Produtos Vencidos");
-	    botao7.setBounds(30, 260, 350, 30);
-	    botao7.addActionListener(new ActionListener() {
+	    btnVerProdsVencidos = new JButton("Ver Produtos Vencidos");
+	    btnVerProdsVencidos.setBounds(30, 260, 350, 30);
+	    btnVerProdsVencidos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				janelaProdutosVencidos(mercado);
 			}
 		});
-	    getContentPane().add(botao7);
+	    getContentPane().add(btnVerProdsVencidos);
 	    
-	    botao8 = new JButton("Ver Produtos De Um Leiloador");
-	    botao8.setBounds(30, 300, 350, 30);
-	    botao8.addActionListener(new ActionListener() {
+	    btnVerProdsLeiloador = new JButton("Ver Produtos De Um Leiloador");
+	    btnVerProdsLeiloador.setBounds(30, 300, 350, 30);
+	    btnVerProdsLeiloador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				janelaProdutosDeUmLeiloador(mercado);
 			}
 		});
-	    getContentPane().add(botao8);
+	    getContentPane().add(btnVerProdsLeiloador);
 	    
-	    botao9 = new JButton("Ver Lances De Um Usuario");
-	    botao9.setBounds(30, 340, 350, 30);
-	    botao9.addActionListener(new ActionListener() {
+	    btnVerLancesUsuario = new JButton("Ver Lances De Um Usuario");
+	    btnVerLancesUsuario.setBounds(30, 340, 350, 30);
+	    btnVerLancesUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				janelaLancesDeUmUsuario(mercado);
 			}
 		});
-	    getContentPane().add(botao9);
+	    getContentPane().add(btnVerLancesUsuario);
 	    
-	    botao10 = new JButton("Salvar o Mercado");
-	    botao10.setBounds(30, 381, 165, 30);
-	    botao10.addActionListener(new ActionListener() {
+	    btnSalvar = new JButton("Salvar o Mercado");
+	    btnSalvar.setBounds(30, 381, 165, 30);
+	    btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				FabricaDeMercado fabrica = new FabricaDeMercado();
 				fabrica.desmontar(mercado);
@@ -144,18 +146,18 @@ public class LeilaoGUI extends JFrame {
 			}
 	    	
 	    });
-	    getContentPane().add(botao10);
+	    getContentPane().add(btnSalvar);
 	    
-	    botao11 = new JButton("Carregar o Mercado");
-	    botao11.setBounds(215, 381, 165, 30);
-	    botao11.addActionListener(new ActionListener() {
+	    btnCarregar = new JButton("Carregar o Mercado");
+	    btnCarregar.setBounds(215, 381, 165, 30);
+	    btnCarregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FabricaDeMercado fabrica = new FabricaDeMercado();
 				mercado = (MercadoLeilao) fabrica.montar();
 				JOptionPane.showMessageDialog(null, "Mercado Carregado");
 			}
 		});
-	    getContentPane().add(botao11);
+	    getContentPane().add(btnCarregar);
 	}
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -193,19 +195,13 @@ public class LeilaoGUI extends JFrame {
 	    fieldEmail.setBounds(30, 172, 350, 30);
 	    janela.getContentPane().add(fieldEmail);
 	    
-	    JLabel labelCpf = new JLabel("CPF do usuario:");
+	    JLabel labelCpf = new JLabel("Apelido do usuario:");
 	    labelCpf.setBounds(30, 213, 150, 20);
 	    janela.getContentPane().add(labelCpf);
 	    
-	    MaskFormatter mascara = null;
-	    try {
-	        mascara = new MaskFormatter("###.###.###-##");       
-	      }
-	      catch(Exception e){}
-	    mascara.setPlaceholderCharacter('_');
-        final JFormattedTextField fieldCpf = new JFormattedTextField(mascara); 
-        fieldCpf.setBounds(30,233,350,30);
-        janela.getContentPane().add(fieldCpf);
+	    final JTextField fieldApelido = new JTextField();
+	    fieldApelido.setBounds(30, 233, 350, 30);
+	    janela.getContentPane().add(fieldApelido);
 	    
 	    JButton botao = new JButton("Cadastrar");
 	    botao.setBounds(155, 330, 100, 30);
@@ -214,13 +210,13 @@ public class LeilaoGUI extends JFrame {
 				String nome = fieldNome.getText();
 				String endereco = fieldEndereco.getText();
 				String email = fieldEmail.getText();
-				String cpf = fieldCpf.getText();
+				String apelido = fieldApelido.getText();
 				try {
-					mercado.cadastrarUsuario(nome, endereco, email, cpf);
+					mercado.cadastrarUsuario(nome, endereco, email, apelido);
 					janela.dispose();
 				} catch (Exception e) {
 //					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, "O usuario ja existe.");
+					JOptionPane.showMessageDialog(null, "Ja existe um usuario com este apelido.");
 				}
 			}
 	    });
@@ -262,18 +258,13 @@ public class LeilaoGUI extends JFrame {
 	    fieldLanceMinimo.setBounds(30, 167, 350, 30);
 	    janela.getContentPane().add(fieldLanceMinimo);
 	    
-	    JLabel labelCpf = new JLabel("CPF do leiloador:");
-	    labelCpf.setBounds(30, 208, 150, 20);
-	    janela.getContentPane().add(labelCpf);
+	    JLabel labelApelido = new JLabel("Apelido do leiloador:");
+	    labelApelido.setBounds(30, 208, 150, 20);
+	    janela.getContentPane().add(labelApelido);
 	    
-	    MaskFormatter mascaraCpf = null;
-	    try {
-			mascaraCpf = new MaskFormatter("###.###.###-##");
-			mascaraCpf.setPlaceholderCharacter('_');
-		} catch (Exception e) {}
-	    final JFormattedTextField fieldCpf = new JFormattedTextField(mascaraCpf);
-	    fieldCpf.setBounds(30, 228, 350, 30);
-	    janela.getContentPane().add(fieldCpf);
+	    final JTextField fieldApelido = new JTextField();
+	    fieldApelido.setBounds(30, 228, 350, 30);
+	    janela.getContentPane().add(fieldApelido);
 	    
 	    JLabel labelData = new JLabel("Data limite (dd/MM/yyyy HH:mm)");
 	    labelData.setBounds(30, 269, 350, 20);
@@ -303,11 +294,11 @@ public class LeilaoGUI extends JFrame {
 //					e.printStackTrace();
 					JOptionPane.showMessageDialog(null, "O lance minimo deve ser um numero.\nEx: 1234.56");
 				}
-				String cpfLeiloador = fieldCpf.getText();
+				String apelidoLeiloador = fieldApelido.getText();
 				String data = fieldData.getText();
 				try {
 					Date dataLimite = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(data);
-					mercado.cadastrarProduto(nome, descricao, valorMinimo, cpfLeiloador, dataLimite);
+					mercado.cadastrarProduto(nome, descricao, valorMinimo, apelidoLeiloador, dataLimite);
 					janela.dispose();
 				} catch (Exception e) {
 //					e.printStackTrace();
@@ -337,19 +328,13 @@ public class LeilaoGUI extends JFrame {
 	    fieldNome.setBounds(30, 50, 350, 30);
 	    janela.getContentPane().add(fieldNome);
 	    
-	    JLabel labelCpf = new JLabel("CPF do comprador:");
-	    labelCpf.setBounds(30, 91, 150, 20);
-	    janela.getContentPane().add(labelCpf);
+	    JLabel labelApelido = new JLabel("Apelido do comprador:");
+	    labelApelido.setBounds(30, 91, 150, 20);
+	    janela.getContentPane().add(labelApelido);
 	    
-	    MaskFormatter mascara = null;
-	    try {
-	        mascara = new MaskFormatter("###.###.###-##");       
-	    }
-	    catch(Exception e){}
-	    mascara.setPlaceholderCharacter('_');
-        final JFormattedTextField fieldCpf = new JFormattedTextField(mascara); 
-        fieldCpf.setBounds(30,111,350,30);
-        janela.getContentPane().add(fieldCpf);
+	    final JTextField fieldApelido = new JTextField();
+	    fieldApelido.setBounds(30,111,350,30);
+	    janela.getContentPane().add(fieldApelido);
         
         JLabel labelValor = new JLabel("Valor do lance:");
 	    labelValor.setBounds(30, 152, 150, 20);
@@ -364,7 +349,7 @@ public class LeilaoGUI extends JFrame {
 	    botao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String nomeProduto = fieldNome.getText();
-				String cpfComprador = fieldCpf.getText();
+				String apelidoComprador = fieldApelido.getText();
 				Double valorLance = 0.0;
 				try {
 					valorLance = Double.parseDouble(fieldValor.getText());
@@ -373,7 +358,7 @@ public class LeilaoGUI extends JFrame {
 					JOptionPane.showMessageDialog(null, "O valor do lance deve ser um numero.\nEx: 1234.56");
 				}
 				try {
-					mercado.daLance(nomeProduto, cpfComprador, valorLance);
+					mercado.daLance(nomeProduto, apelidoComprador, valorLance);
 					janela.dispose();
 				} catch (Exception e) {
 //					e.printStackTrace();
@@ -421,29 +406,30 @@ public class LeilaoGUI extends JFrame {
 		scroll.setViewportView(list);
 		
 		final JLabel labelNome = new JLabel("Nome:  ");
-		final JLabel labelCpf = new JLabel("CPF:  ");
+		final JLabel labelApelido = new JLabel("Apelido:  ");
 		final JLabel labelEndereco = new JLabel("Endereco:  ");
 		final JLabel labelEmail = new JLabel("E-mail:  ");
 		panel.add(labelNome);
-        panel.add(labelCpf);
+        panel.add(labelApelido);
         panel.add(labelEndereco);
         panel.add(labelEmail);
         
-        atualizaJanelaUsuariosCadastrados(list, labelNome, labelCpf, labelEndereco, labelEmail);
+        atualizaJanelaUsuariosCadastrados(list, labelNome, labelApelido, labelEndereco, labelEmail);
         
 		list.addListSelectionListener(new ListSelectionListener() {
             
 			public void valueChanged(ListSelectionEvent event) {
-				atualizaJanelaUsuariosCadastrados(list, labelNome, labelCpf, labelEndereco, labelEmail);
+				atualizaJanelaUsuariosCadastrados(list, labelNome, labelApelido, labelEndereco, labelEmail);
             }
         });
 	}
 	
-	private void atualizaJanelaUsuariosCadastrados(JList<Object> list, JLabel labelNome, JLabel labelCpf, JLabel labelEndereco, JLabel labelEmail) {
+	private void atualizaJanelaUsuariosCadastrados(JList<Object> list, JLabel labelNome, JLabel labelApelido, 
+			JLabel labelEndereco, JLabel labelEmail) {
 		IUsuario usuarioSelecionado = (IUsuario) list.getSelectedValue();
 		if(usuarioSelecionado != null) {
 			labelNome.setText("Nome:  " + usuarioSelecionado.getNome());
-            labelCpf.setText("CPF:  " + usuarioSelecionado.getCpf());
+            labelApelido.setText("Apelido:  " + usuarioSelecionado.getApelido());
             labelEndereco.setText("Endereco:  " + usuarioSelecionado.getEndereco());
             labelEmail.setText("E-mail:  " + usuarioSelecionado.getEmail());
 		}
@@ -491,36 +477,36 @@ public class LeilaoGUI extends JFrame {
 		final JLabel labelDescricao = new JLabel("Descricao:  ");
 		final JLabel labelLanceMinimo = new JLabel("Lance minimo:  R$");
 		final JLabel labelUltimoLance = new JLabel("Ultimo lance: R$");
-		final JLabel labelCpfLeiloador = new JLabel("CPF Leiloador:  ");
+		final JLabel labelApelidoLeiloador = new JLabel("Apelido Leiloador:  ");
 		final JLabel labelDataLimite = new JLabel("Data limite:  ");
         panel.add(labelNome);
         panel.add(labelDescricao);
         panel.add(labelLanceMinimo);
         panel.add(labelUltimoLance);
-        panel.add(labelCpfLeiloador);
+        panel.add(labelApelidoLeiloador);
         panel.add(labelDataLimite);
         
         atualizaJanelaProdutosEmLeilao(list, labelNome, labelDescricao, labelLanceMinimo, 
-        		labelUltimoLance, labelCpfLeiloador, labelDataLimite);
+        		labelUltimoLance, labelApelidoLeiloador, labelDataLimite);
         
 		list.addListSelectionListener(new ListSelectionListener() {
             
 			public void valueChanged(ListSelectionEvent event) {
 				atualizaJanelaProdutosEmLeilao(list, labelNome, labelDescricao, labelLanceMinimo, 
-						labelUltimoLance, labelCpfLeiloador, labelDataLimite);
+						labelUltimoLance, labelApelidoLeiloador, labelDataLimite);
             }
         });
 	}
 	
 	private void atualizaJanelaProdutosEmLeilao(JList<Object> list, JLabel labelNome, JLabel labelDescricao,
-			JLabel labelLanceMinimo, JLabel labelUltimoLance, JLabel labelCpfLeiloador, JLabel labelDataLimite) {
+			JLabel labelLanceMinimo, JLabel labelUltimoLance, JLabel labelApelidoLeiloador, JLabel labelDataLimite) {
 		ProdutoLeilao produtoSelecionado = (ProdutoLeilao)list.getSelectedValue();
 		if(produtoSelecionado != null) {
 			labelNome.setText("Nome:  " + produtoSelecionado.getNome());
 	        labelDescricao.setText("Descricao:  " + produtoSelecionado.getDescricao());
 	        labelLanceMinimo.setText("Lance minimo:  R$" + produtoSelecionado.getLanceMinimo());
 	        labelUltimoLance.setText("Ultimo lance: R$" + produtoSelecionado.getValorUltimoLance());
-	        labelCpfLeiloador.setText("CPF Leiloador:  " + produtoSelecionado.getCpfLeiloador());
+	        labelApelidoLeiloador.setText("Apelido Leiloador:  " + produtoSelecionado.getApelidoLeiloador());
 	        labelDataLimite.setText("Data limite:  " + dateFormat.format(produtoSelecionado.getDataLimite()));
 		}
 	}
@@ -566,38 +552,40 @@ public class LeilaoGUI extends JFrame {
 		final JLabel labelDescricao = new JLabel("Descricao:  ");
 		final JLabel labelLanceMinimo = new JLabel("Lance minimo:  R$");
 		final JLabel labelPrecoVendido = new JLabel("Preco vendido: R$");
-		final JLabel labelCpfLeiloador = new JLabel("CPF Leiloador:  ");
-		final JLabel labelCpfComprador = new JLabel("CPF Comprador:  ");
+		final JLabel labelApelidoLeiloador = new JLabel("Apelido Leiloador:  ");
+		final JLabel labelApelidoComprador = new JLabel("Apelido Comprador:  ");
 		final JLabel labelDataLimite = new JLabel("Data limite:  ");
         panel.add(labelNome);
         panel.add(labelDescricao);
         panel.add(labelLanceMinimo);
         panel.add(labelPrecoVendido);
-        panel.add(labelCpfLeiloador);
-        panel.add(labelCpfComprador);
+        panel.add(labelApelidoLeiloador);
+        panel.add(labelApelidoComprador);
         panel.add(labelDataLimite);
         
         atualizaJanelaProdutosVendidos(list, labelNome, labelDescricao, labelLanceMinimo, 
-				labelPrecoVendido, labelCpfLeiloador, labelCpfComprador, labelDataLimite);
+				labelPrecoVendido, labelApelidoLeiloador, labelApelidoComprador, labelDataLimite);
         
 		list.addListSelectionListener(new ListSelectionListener() {
             
 			public void valueChanged(ListSelectionEvent event) {
 				atualizaJanelaProdutosVendidos(list, labelNome, labelDescricao, labelLanceMinimo, 
-						labelPrecoVendido, labelCpfLeiloador, labelCpfComprador, labelDataLimite);
+						labelPrecoVendido, labelApelidoLeiloador, labelApelidoComprador, labelDataLimite);
             }
         });
 	}
 	
-	private void atualizaJanelaProdutosVendidos(JList<Object> list, JLabel labelNome, JLabel labelDescricao, JLabel labelLanceMinimo, JLabel labelPrecoVendido, JLabel labelCpfLeiloador, JLabel labelCpfComprador, JLabel labelDataLimite) {
+	private void atualizaJanelaProdutosVendidos(JList<Object> list, JLabel labelNome, JLabel labelDescricao, 
+			JLabel labelLanceMinimo, JLabel labelPrecoVendido, JLabel labelApelidoLeiloador, JLabel labelApelidoComprador, 
+			JLabel labelDataLimite) {
 		ProdutoLeilao produtoSelecionado = (ProdutoLeilao)list.getSelectedValue();
 		if(produtoSelecionado != null) {
 			labelNome.setText("Nome:  " + produtoSelecionado.getNome());
 	        labelDescricao.setText("Descricao:  " + produtoSelecionado.getDescricao());
 	        labelLanceMinimo.setText("Lance minimo:  R$" + produtoSelecionado.getLanceMinimo());
 	        labelPrecoVendido.setText("Preco vendido: R$" + produtoSelecionado.getValorUltimoLance());
-	        labelCpfLeiloador.setText("CPF Leiloador:  " + produtoSelecionado.getCpfLeiloador());
-	        labelCpfComprador.setText("CPF Comprador:  " + produtoSelecionado.getCpfComprador());
+	        labelApelidoLeiloador.setText("Apelido Leiloador:  " + produtoSelecionado.getApelidoLeiloador());
+	        labelApelidoComprador.setText("Apelido Comprador:  " + produtoSelecionado.getApelidoComprador());
 	        labelDataLimite.setText("Data limite:  " + dateFormat.format(produtoSelecionado.getDataLimite()));
 		}
 	}
@@ -642,32 +630,34 @@ public class LeilaoGUI extends JFrame {
 		final JLabel labelNome = new JLabel("Nome:  ");
 		final JLabel labelDescricao = new JLabel("Descricao:  ");
 		final JLabel labelLanceMinimo = new JLabel("Lance minimo:  R$");
-		final JLabel labelCpfLeiloador = new JLabel("CPF Leiloador:  ");
+		final JLabel labelApelidoLeiloador = new JLabel("Apelido Leiloador:  ");
 		final JLabel labelDataLimite = new JLabel("Data limite:  ");
         panel.add(labelNome);
         panel.add(labelDescricao);
         panel.add(labelLanceMinimo);
-        panel.add(labelCpfLeiloador);
+        panel.add(labelApelidoLeiloador);
         panel.add(labelDataLimite);
         
-        atualizaJanelaProdutosVencidos(list, labelNome, labelDescricao, labelLanceMinimo, labelCpfLeiloador, labelDataLimite);
+        atualizaJanelaProdutosVencidos(list, labelNome, labelDescricao, labelLanceMinimo, 
+        		labelApelidoLeiloador, labelDataLimite);
         
 		list.addListSelectionListener(new ListSelectionListener() {
             
 			public void valueChanged(ListSelectionEvent event) {
-				atualizaJanelaProdutosVencidos(list, labelNome, labelDescricao, labelLanceMinimo, labelCpfLeiloador, labelDataLimite);
+				atualizaJanelaProdutosVencidos(list, labelNome, labelDescricao, labelLanceMinimo, 
+						labelApelidoLeiloador, labelDataLimite);
             }
         });
 	}
 	
 	private void atualizaJanelaProdutosVencidos(JList<Object> list, JLabel labelNome, JLabel labelDescricao, 
-			JLabel labelLanceMinimo, JLabel labelCpfLeiloador, JLabel labelDataLimite) {
+			JLabel labelLanceMinimo, JLabel labelApelidoLeiloador, JLabel labelDataLimite) {
 		ProdutoLeilao produtoSelecionado = (ProdutoLeilao)list.getSelectedValue();
 		if(produtoSelecionado != null) {
 			labelNome.setText("Nome:  " + produtoSelecionado.getNome());
 			labelDescricao.setText("Descricao:  " + produtoSelecionado.getDescricao());
 			labelLanceMinimo.setText("Lance minimo:  R$" + produtoSelecionado.getLanceMinimo());
-			labelCpfLeiloador.setText("CPF Leiloador:  " + produtoSelecionado.getCpfLeiloador());
+			labelApelidoLeiloador.setText("Apelido Leiloador:  " + produtoSelecionado.getApelidoLeiloador());
 			labelDataLimite.setText("Data limite:  " + dateFormat.format(produtoSelecionado.getDataLimite()));
 		}
 	}
@@ -705,13 +695,13 @@ public class LeilaoGUI extends JFrame {
 		final JLabel labelDescricao = new JLabel("Descricao:  ");
 		final JLabel labelLanceMinimo = new JLabel("Lance minimo:  R$");
 		final JLabel labelUltimoLance = new JLabel("Ultimo lance: R$");
-		final JLabel labelCpfLeiloador = new JLabel("CPF Leiloador:  ");
+		final JLabel labelApelidoLeiloador = new JLabel("Apelido Leiloador:  ");
 		final JLabel labelDataLimite = new JLabel("Data limite:  ");
         panel.add(labelNome);
         panel.add(labelDescricao);
         panel.add(labelLanceMinimo);
         panel.add(labelUltimoLance);
-        panel.add(labelCpfLeiloador);
+        panel.add(labelApelidoLeiloador);
         panel.add(labelDataLimite);
 		scrollPane_1.setViewportView(panel);
 		
@@ -730,7 +720,7 @@ public class LeilaoGUI extends JFrame {
 				Usuario usuarioSelecionado = (Usuario) comboBox.getSelectedItem();
 				List<ProdutoLeilao> produtosDoLeiloador = null;
 				try {
-					produtosDoLeiloador = mercado.retornaProdutosDeUmLeiloador(usuarioSelecionado.getCpf());
+					produtosDoLeiloador = mercado.retornaProdutosDeUmLeiloador(usuarioSelecionado.getApelido());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -746,7 +736,7 @@ public class LeilaoGUI extends JFrame {
 						labelDescricao.setText("Descricao:  " + produtoSelecionado.getDescricao());
 						labelLanceMinimo.setText("Lance minimo:  R$" + produtoSelecionado.getLanceMinimo());
 						labelUltimoLance.setText("Ultimo lance: R$" + produtoSelecionado.getValorUltimoLance());
-						labelCpfLeiloador.setText("CPF Leiloador:  " + produtoSelecionado.getCpfLeiloador());
+						labelApelidoLeiloador.setText("Apelido Leiloador:  " + produtoSelecionado.getApelidoLeiloador());
 						labelDataLimite.setText("Data limite:  " + dateFormat.format(produtoSelecionado.getDataLimite()));
 		            }
 		        });
@@ -758,7 +748,7 @@ public class LeilaoGUI extends JFrame {
 					labelDescricao.setText("Descricao:  ");
 					labelLanceMinimo.setText("Lance minimo:  R$");
 					labelUltimoLance.setText("Ultimo lance: R$");
-					labelCpfLeiloador.setText("CPF Leiloador:  ");
+					labelApelidoLeiloador.setText("Apelido Leiloador:  ");
 					labelDataLimite.setText("Data limite:  ");
 				}
 			}
@@ -819,7 +809,7 @@ public class LeilaoGUI extends JFrame {
 				Usuario usuarioSelecionado = (Usuario) comboBox.getSelectedItem();
 				List<Lance> lancesDoUsuario = null;
 				try {
-					lancesDoUsuario = mercado.retornaLancesDeUmUsuario(usuarioSelecionado.getCpf());
+					lancesDoUsuario = mercado.retornaLancesDeUmUsuario(usuarioSelecionado.getApelido());
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}

@@ -9,10 +9,6 @@ import java.util.List;
 
 public class ProdutoLeilao extends Produto implements IVendido, Serializable  {
 
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 12L;
 	private Date dataLimite;
 	private Double lanceMinimo;
@@ -52,10 +48,10 @@ public class ProdutoLeilao extends Produto implements IVendido, Serializable  {
 		return new Date().after(this.dataLimite);
 	}
 	
-	public List<Lance> verificaLancesEfetuadosPorUmUsuario(String cpfUsuario) {
+	public List<Lance> verificaLancesEfetuadosPorUmUsuario(String apelidoUsuario) {
 		List<Lance> retornoDeLances = new ArrayList<Lance>();
 		for(int i=0; i<lancesEfetuados.size(); i++) {
-			if(cpfUsuario.equals(lancesEfetuados.get(i).getCpfDonoDoLance())) {
+			if(apelidoUsuario.equals(lancesEfetuados.get(i).getApelidoDonoDoLance())) {
 				retornoDeLances.add(lancesEfetuados.get(i));
 			}
 		}
@@ -70,8 +66,8 @@ public class ProdutoLeilao extends Produto implements IVendido, Serializable  {
 		return this.descricao();
 	}
 	
-	public String getCpfLeiloador() {
-		return this.leiloador.getCpf();
+	public String getApelidoLeiloador() {
+		return this.leiloador.getApelido();
 	}
 	
 	public Double getValorUltimoLance() {
@@ -95,8 +91,8 @@ public class ProdutoLeilao extends Produto implements IVendido, Serializable  {
 		}
 	}
 	
-	public String getCpfComprador() {
-		return this.comprador.getCpf();
+	public String getApelidoComprador() {
+		return this.comprador.getApelido();
 	}
 	
 	public void setComprador(Usuario comprador) {
