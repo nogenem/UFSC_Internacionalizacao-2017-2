@@ -1,12 +1,11 @@
 package visao;
 
-import interfaces.IUsuario;
-
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +28,12 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.text.MaskFormatter;
 
+import exceptions.CadastroProdutoException;
+import exceptions.CadastroUsuarioException;
+import exceptions.LanceInvalidoException;
+import exceptions.ProdutoNaoCadastradoException;
+import exceptions.UsuarioNaoCadastradoException;
+import interfaces.IUsuario;
 import modelo.FabricaDeMercado;
 import modelo.Lance;
 import modelo.MercadoLeilao;
@@ -37,16 +42,15 @@ import modelo.Usuario;
 
 public class LeilaoGUI extends JFrame {
 	
-	
 	private static final long serialVersionUID = 1L;
-	private JButton btnCadastraUsuario, btnCadastraProduto, btnDarLance, 
-		btnVerUsuarios, btnVerProdsLeilao, btnVerProdsVendidos, btnVerProdsVencidos, 
-		btnVerProdsLeiloador, btnVerLancesUsuario, btnSalvar, btnCarregar;
 	private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	private MercadoLeilao mercado;
 	
 	public LeilaoGUI(final MercadoLeilao mercadoLeilao) {
 		this.mercado = mercadoLeilao;
+		
+		JFrame janela = this;
+		
 		setTitle("Mercado de leilao");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setSize(420,455);
@@ -55,7 +59,7 @@ public class LeilaoGUI extends JFrame {
 	    setLocationRelativeTo(null);
 	    setVisible(true);
 	    
-	    btnCadastraUsuario = new JButton("Cadastrar Usuario");
+	    final JButton btnCadastraUsuario = new JButton("Cadastrar Usuario");
 	    btnCadastraUsuario.setBounds(30, 20, 350, 30);
 	    btnCadastraUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -64,7 +68,7 @@ public class LeilaoGUI extends JFrame {
 		});
 	    getContentPane().add(btnCadastraUsuario);
 	    
-	    btnCadastraProduto = new JButton("Cadastrar Produto");
+	    final JButton btnCadastraProduto = new JButton("Cadastrar Produto");
 	    btnCadastraProduto.setBounds(30, 60, 350, 30);
 	    btnCadastraProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -73,7 +77,7 @@ public class LeilaoGUI extends JFrame {
 		});
 	    getContentPane().add(btnCadastraProduto);
 	    
-	    btnDarLance = new JButton("Dar Lance");
+	    final JButton btnDarLance = new JButton("Dar Lance");
 	    btnDarLance.setBounds(30, 100, 350, 30);
 	    btnDarLance.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -82,7 +86,7 @@ public class LeilaoGUI extends JFrame {
 		});
 	    getContentPane().add(btnDarLance);
 	    
-	    btnVerUsuarios = new JButton("Ver Usu\u00E1rios Cadastrados");
+	    final JButton btnVerUsuarios = new JButton("Ver Usu\u00E1rios Cadastrados");
 	    btnVerUsuarios.setBounds(30, 140, 350, 30);
 	    btnVerUsuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -91,7 +95,7 @@ public class LeilaoGUI extends JFrame {
 		});
 	    getContentPane().add(btnVerUsuarios);
 	    
-	    btnVerProdsLeilao = new JButton("Ver Produtos Em Leilao");
+	    final JButton btnVerProdsLeilao = new JButton("Ver Produtos Em Leilao");
 	    btnVerProdsLeilao.setBounds(30, 180, 350, 30);
 	    btnVerProdsLeilao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -100,7 +104,7 @@ public class LeilaoGUI extends JFrame {
 		});
 	    getContentPane().add(btnVerProdsLeilao);
 	    
-	    btnVerProdsVendidos = new JButton("Ver Produtos Vendidos");
+	    final JButton btnVerProdsVendidos = new JButton("Ver Produtos Vendidos");
 	    btnVerProdsVendidos.setBounds(30, 220, 350, 30);
 	    btnVerProdsVendidos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -109,7 +113,7 @@ public class LeilaoGUI extends JFrame {
 		});
 	    getContentPane().add(btnVerProdsVendidos);
 	    
-	    btnVerProdsVencidos = new JButton("Ver Produtos Vencidos");
+	    final JButton btnVerProdsVencidos = new JButton("Ver Produtos Vencidos");
 	    btnVerProdsVencidos.setBounds(30, 260, 350, 30);
 	    btnVerProdsVencidos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -118,7 +122,7 @@ public class LeilaoGUI extends JFrame {
 		});
 	    getContentPane().add(btnVerProdsVencidos);
 	    
-	    btnVerProdsLeiloador = new JButton("Ver Produtos De Um Leiloador");
+	    final JButton btnVerProdsLeiloador = new JButton("Ver Produtos De Um Leiloador");
 	    btnVerProdsLeiloador.setBounds(30, 300, 350, 30);
 	    btnVerProdsLeiloador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -127,7 +131,7 @@ public class LeilaoGUI extends JFrame {
 		});
 	    getContentPane().add(btnVerProdsLeiloador);
 	    
-	    btnVerLancesUsuario = new JButton("Ver Lances De Um Usuario");
+	    final JButton btnVerLancesUsuario = new JButton("Ver Lances De Um Usuario");
 	    btnVerLancesUsuario.setBounds(30, 340, 350, 30);
 	    btnVerLancesUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -136,25 +140,25 @@ public class LeilaoGUI extends JFrame {
 		});
 	    getContentPane().add(btnVerLancesUsuario);
 	    
-	    btnSalvar = new JButton("Salvar o Mercado");
+	    final JButton btnSalvar = new JButton("Salvar o Mercado");
 	    btnSalvar.setBounds(30, 381, 165, 30);
 	    btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				FabricaDeMercado fabrica = new FabricaDeMercado();
 				fabrica.desmontar(mercado);
-				JOptionPane.showMessageDialog(null, "Mercado Salvo");
+				mostraMensagemDeInformacao(janela, "Mercado salvo!");
 			}
 	    	
 	    });
 	    getContentPane().add(btnSalvar);
 	    
-	    btnCarregar = new JButton("Carregar o Mercado");
+	    final JButton btnCarregar = new JButton("Carregar o Mercado");
 	    btnCarregar.setBounds(215, 381, 165, 30);
 	    btnCarregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FabricaDeMercado fabrica = new FabricaDeMercado();
 				mercado = (MercadoLeilao) fabrica.montar();
-				JOptionPane.showMessageDialog(null, "Mercado Carregado");
+				mostraMensagemDeInformacao(janela, "Mercado carregado!");
 			}
 		});
 	    getContentPane().add(btnCarregar);
@@ -211,12 +215,12 @@ public class LeilaoGUI extends JFrame {
 				String endereco = fieldEndereco.getText();
 				String email = fieldEmail.getText();
 				String apelido = fieldApelido.getText();
+				
 				try {
 					mercado.cadastrarUsuario(nome, endereco, email, apelido);
 					janela.dispose();
-				} catch (Exception e) {
-//					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, "Ja existe um usuario com este apelido.");
+				} catch (CadastroUsuarioException e) {
+					mostraMensagemDeAlerta(janela, e.getMessage());
 				}
 			}
 	    });
@@ -287,23 +291,24 @@ public class LeilaoGUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				String nome = fieldNome.getText();
 				String descricao = fieldDescricao.getText();
-				Double valorMinimo = 0.0;
-				try {
-					valorMinimo = Double.parseDouble(fieldLanceMinimo.getText());
-				}catch(Exception e) {
-//					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, "O lance minimo deve ser um numero.\nEx: 1234.56");
-				}
 				String apelidoLeiloador = fieldApelido.getText();
 				String data = fieldData.getText();
+				Double valorMinimo = 0.0;
+
 				try {
+					valorMinimo = Double.parseDouble(fieldLanceMinimo.getText());
 					Date dataLimite = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(data);
 					mercado.cadastrarProduto(nome, descricao, valorMinimo, apelidoLeiloador, dataLimite);
 					janela.dispose();
-				} catch (Exception e) {
-//					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, "O produto ja existe ou o leiloador nao esta cadastrado.");
-				}
+				} catch (NumberFormatException e) {
+					mostraMensagemDeAlerta(janela, "O valor do lance minimo deve ser um numero.");
+					System.err.println(e.getMessage());
+				} catch (ParseException e) {
+					mostraMensagemDeAlerta(janela, "Data limite invalida!");
+					System.err.println(e.getMessage());
+				} catch (CadastroProdutoException e) {
+					mostraMensagemDeAlerta(janela, e.getMessage());
+				} 
 			}
 	    });
 	    janela.getContentPane().add(botao);
@@ -351,19 +356,17 @@ public class LeilaoGUI extends JFrame {
 				String nomeProduto = fieldNome.getText();
 				String apelidoComprador = fieldApelido.getText();
 				Double valorLance = 0.0;
+				
 				try {
 					valorLance = Double.parseDouble(fieldValor.getText());
-				}catch(Exception e) {
-//					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, "O valor do lance deve ser um numero.\nEx: 1234.56");
-				}
-				try {
 					mercado.daLance(nomeProduto, apelidoComprador, valorLance);
 					janela.dispose();
-				} catch (Exception e) {
-//					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, "O valor do lance eh inferior ao necessario ou o comprador nao esta cadastrado.");
-				}
+				} catch (NumberFormatException e) {
+					mostraMensagemDeAlerta(janela, "O valor do lance deve ser um numero.");
+					System.err.println(e.getMessage());
+				} catch (LanceInvalidoException|ProdutoNaoCadastradoException e) {
+					mostraMensagemDeAlerta(janela, e.getMessage());
+				} 
 			}
 	    });
 	    janela.getContentPane().add(botao);
@@ -721,7 +724,7 @@ public class LeilaoGUI extends JFrame {
 				List<ProdutoLeilao> produtosDoLeiloador = null;
 				try {
 					produtosDoLeiloador = mercado.retornaProdutosDeUmLeiloador(usuarioSelecionado.getApelido());
-				} catch (Exception e) {
+				} catch (UsuarioNaoCadastradoException e) {
 					e.printStackTrace();
 				}
 				final JList<Object> listProdutos = new JList<>(produtosDoLeiloador.toArray());
@@ -810,7 +813,7 @@ public class LeilaoGUI extends JFrame {
 				List<Lance> lancesDoUsuario = null;
 				try {
 					lancesDoUsuario = mercado.retornaLancesDeUmUsuario(usuarioSelecionado.getApelido());
-				} catch (Exception e1) {
+				} catch (UsuarioNaoCadastradoException e1) {
 					e1.printStackTrace();
 				}
 				final JList<Object> listLances = new JList<>(lancesDoUsuario.toArray());
@@ -837,5 +840,15 @@ public class LeilaoGUI extends JFrame {
 		});
 		if(comboBox.getItemCount() > 0)
 			comboBox.setSelectedIndex(0);
+	}
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private void mostraMensagemDeAlerta(JFrame parent, String message) {
+		JOptionPane.showMessageDialog(parent, message, "Alerta", JOptionPane.WARNING_MESSAGE);
+	}
+	
+	private void mostraMensagemDeInformacao(JFrame parent, String message) {
+		JOptionPane.showMessageDialog(parent, message, "Informação", JOptionPane.INFORMATION_MESSAGE);
 	}
 }

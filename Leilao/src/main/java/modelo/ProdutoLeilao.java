@@ -86,7 +86,7 @@ public class ProdutoLeilao extends Produto implements IVendido, Serializable  {
 			int index = this.lancesEfetuados.size()-1;
 			return this.lancesEfetuados.get(index);
 		}catch(Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			return new Lance(0.0, new Usuario("", ""));
 		}
 	}

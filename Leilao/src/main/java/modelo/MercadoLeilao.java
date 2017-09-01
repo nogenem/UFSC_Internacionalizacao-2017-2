@@ -12,6 +12,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
+import exceptions.CadastroProdutoException;
+import exceptions.CadastroUsuarioException;
+import exceptions.LanceInvalidoException;
+import exceptions.ProdutoNaoCadastradoException;
+import exceptions.UsuarioNaoCadastradoException;
+
 public class MercadoLeilao implements IMercadoLeilao, Serializable {
 	
 	
@@ -29,9 +35,9 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 	}
 	
 	
-	public void cadastrarUsuario(String nome, String endereco, String email, String apelido) throws Exception {
+	public void cadastrarUsuario(String nome, String endereco, String email, String apelido) throws CadastroUsuarioException {
 		if(verificaSeOUsuarioJaExiste(apelido)) {
-			throw new Exception("Ja existe um usuario com este apelido.");
+			throw new CadastroUsuarioException("Ja existe um usuario com este apelido.");
 		}
 		else {
 			Usuario usuario = new Usuario(apelido, nome);
@@ -42,7 +48,8 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 	}
 
 	
-	public void cadastrarProduto(String nome, String descricao, Double lanceMinimo, String apelidoLeiloador, Date dataLimite) throws Exception {
+	public void cadastrarProduto(String nome, String descricao, Double lanceMinimo, 
+			String apelidoLeiloador, Date dataLimite) throws CadastroProdutoException {
 		if(!verificaSeOProdutoJaExiste(nome) && verificaSeOUsuarioJaExiste(apelidoLeiloador)) {
 			Usuario leiloador = usuarios.get(apelidoLeiloador);
 			ProdutoLeilao produto = new ProdutoLeilao(nome, descricao, lanceMinimo, leiloador);
@@ -51,7 +58,7 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 			leiloador.setBemOfertado(produto);
 		}
 		else
-			throw new Exception("O produto ja existe ou o leiloador nao esta cadastrado.");
+			throw new CadastroProdutoException("O produto ja existe ou o leiloador nao esta cadastrado.");
 	}
 	
 	
@@ -85,7 +92,8 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 	}
 	
 
-	public void daLance(String nomeProduto, String apelidoComprador, Double valorLance) throws Exception {
+	public void daLance(String nomeProduto, String apelidoComprador, Double valorLance) 
+			throws LanceInvalidoException, ProdutoNaoCadastradoException {
 		atualizarListasDeProdutos();
 		Lance lance = new Lance(valorLance, (Usuario)this.getUsuarioPor(apelidoComprador));
 		ProdutoLeilao produto = produtosEmLeilao.get(pesquisaIndexProdutoEmLeilaoViaNome(nomeProduto));
@@ -96,7 +104,7 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 			lance.setProdutoQueRecebeuOLance(produto);
 		}
 		else
-			throw new Exception("O valor do lance eh inferior ao necessario ou o comprador nao esta cadastrado.");
+			throw new LanceInvalidoException("O valor do lance eh inferior ao necessario ou o comprador nao esta cadastrado.");
 	}
 	
 	public List<Lance> retornaTodosOsLancesEfetuados() {
@@ -106,19 +114,21 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		return retornoLances;
 	}
 	
-	public List<Lance> retornaLancesDeUmUsuario(String apelidoUsuario) throws Exception {
+	public List<Lance> retornaLancesDeUmUsuario(String apelidoUsuario) throws UsuarioNaoCadastradoException {
 		if(!verificaSeOUsuarioJaExiste(apelidoUsuario))
-			throw new Exception("O usuario nao esta cadastrado.");
+			throw new UsuarioNaoCadastradoException();
+		
 		List<Lance> retornoLances = new ArrayList<Lance>();
 		retornoLances.addAll(retornaLancesDeUmUsuarioEmProdutosAindaEmLeilao(apelidoUsuario));
 		retornoLances.addAll(retornaLancesDeUmUsuarioEmProdutosVendidos(apelidoUsuario));
 		return retornoLances;
 	}
 	
-	public List<ProdutoLeilao> retornaProdutosDeUmLeiloador(String apelidoUsuario) throws Exception {
+	public List<ProdutoLeilao> retornaProdutosDeUmLeiloador(String apelidoUsuario) throws UsuarioNaoCadastradoException {
 		atualizarListasDeProdutos();
 		if(!verificaSeOUsuarioJaExiste(apelidoUsuario))
-			throw new Exception("O usuario nao esta cadastrado.");
+			throw new UsuarioNaoCadastradoException();
+		
 		List<ProdutoLeilao> retornoProdutos = new ArrayList<ProdutoLeilao>();
 		retornoProdutos.addAll(retornaProdutosEmLeilaoPorUmUsuario(apelidoUsuario));
 		retornoProdutos.addAll(retornaProdutosVendidosPorUmUsuario(apelidoUsuario));
@@ -127,20 +137,19 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 	}
 	
 	
-	public List<? extends ILeiloavel> getProdutosQueDeuLance(String apelidoUsuario) throws Exception {
+	public List<? extends ILeiloavel> getProdutosQueDeuLance(String apelidoUsuario) throws UsuarioNaoCadastradoException {
 		atualizarListasDeProdutos();
 		if(!verificaSeOUsuarioJaExiste(apelidoUsuario))
-			throw new Exception("O usuario nao esta cadastrado.");
-		else {
-			List<ILeiloavel> produtosQueDeuLance = new ArrayList<ILeiloavel>();
-			produtosQueDeuLance.addAll(getProdutosEmLeilaoQueDeuLance(apelidoUsuario));
-			produtosQueDeuLance.addAll(getProdutosVendidosQueDeuLance(apelidoUsuario));
-			return produtosQueDeuLance;
-		}
+			throw new UsuarioNaoCadastradoException();
+		
+		List<ILeiloavel> produtosQueDeuLance = new ArrayList<ILeiloavel>();
+		produtosQueDeuLance.addAll(getProdutosEmLeilaoQueDeuLance(apelidoUsuario));
+		produtosQueDeuLance.addAll(getProdutosVendidosQueDeuLance(apelidoUsuario));
+		return produtosQueDeuLance;
 	}
 	
 	
-	public IUsuario getUsuarioPor(String apelido) throws Exception {
+	public IUsuario getUsuarioPor(String apelido) {
 		return this.usuarios.get(apelido);
 	}
 
@@ -214,12 +223,12 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		return usuarios.containsKey(apelidoUsuario);
 	}
 	
-	private Integer pesquisaIndexProdutoEmLeilaoViaNome(String nomeProduto) throws Exception {
+	private Integer pesquisaIndexProdutoEmLeilaoViaNome(String nomeProduto) throws ProdutoNaoCadastradoException {
 		for(int i=0; i<produtosEmLeilao.size(); i++) {
 			if(nomeProduto.equalsIgnoreCase(produtosEmLeilao.get(i).nome()))
 				return i;
 		}
-		throw new Exception("Nao existe produto cadastrado com esse nome.");
+		throw new ProdutoNaoCadastradoException();
 	}
 	
 	private List<Lance> retornaLancesDeUmUsuarioEmProdutosAindaEmLeilao(String apelidoUsuario) {
