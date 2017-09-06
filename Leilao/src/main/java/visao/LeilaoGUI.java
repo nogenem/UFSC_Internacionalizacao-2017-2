@@ -708,6 +708,7 @@ public class LeilaoGUI extends JFrame {
 		janela.setResizable(false);
 		janela.setLocationRelativeTo(null);
 		janela.setVisible(true);
+		
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		janela.setContentPane(contentPane);
@@ -747,7 +748,6 @@ public class LeilaoGUI extends JFrame {
 		contentPane.add(label);
 		
 		List<IUsuario> usuariosCadastrados = mercado.getUsuariosCadastrados();
-		
 		final JComboBox<Object> comboBox = new JComboBox<>(usuariosCadastrados.toArray());
 		comboBox.setBounds(5, 23, 189, 22);
 		contentPane.add(comboBox);

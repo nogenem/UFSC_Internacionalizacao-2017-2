@@ -1,7 +1,7 @@
 package controle;
 
-import visao.LeilaoGUI;
 import modelo.MercadoLeilao;
+import visao.PrincipalGUI;
 
 public class Principal {
 
@@ -15,6 +15,7 @@ public class Principal {
 	
 	private static void iniciarComInterfaceGrafica() {
 		MercadoLeilao mercado = new MercadoLeilao();
-		new LeilaoGUI(mercado);
+		//new LeilaoGUI(mercado);
+		new PrincipalGUI(mercado);
 	}
 }
