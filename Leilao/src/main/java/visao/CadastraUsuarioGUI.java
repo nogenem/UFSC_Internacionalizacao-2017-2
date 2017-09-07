@@ -1,57 +1,71 @@
 package visao;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import exceptions.CadastroUsuarioException;
 import modelo.MercadoLeilao;
 import net.miginfocom.swing.MigLayout;
 
-public class CadastraUsuarioGUI {
+public class CadastraUsuarioGUI extends ParentGUI {
 	
 	public CadastraUsuarioGUI() {}
 	
-	public void mostrarJanela(final JFrame parent, final MercadoLeilao mercado) {
-		final JFrame frame = new JFrame();
-		frame.setTitle("Cadastrar Usuário");
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setBounds(100, 100, 450, 381);
-		frame.setLocationRelativeTo(parent);
-		frame.getContentPane().setLayout(new MigLayout("al center center,fillx", 
+	@Override
+	protected void constroiFrame(final PrincipalGUI parent, final MercadoLeilao mercado) {
+		currentFrame.setTitle("Cadastrar Usuário");
+		currentFrame.setSize(450, 381);
+		currentFrame.getContentPane().setLayout(new MigLayout("al center center,fillx", 
 				"[grow]", "[][]20[][]20[][]20[][]40[]"));
 		
-		final JLabel lblNome = new JLabel("Nome Usuário:");
-		frame.getContentPane().add(lblNome, "span,grow");
+		final JLabel lblNome = new JLabel("Nome usuário:");
+		currentFrame.getContentPane().add(lblNome, "span,grow");
 		
 		final JTextField tfNome = new JTextField();
-		frame.getContentPane().add(tfNome, "span,grow,height 25::");
+		currentFrame.getContentPane().add(tfNome, "span,grow,height 25::");
 		tfNome.setColumns(10);
 		
-		final JLabel lblEndereco = new JLabel("Endereço Usuário:");
-		frame.getContentPane().add(lblEndereco, "span,grow");
+		final JLabel lblEndereco = new JLabel("Endereço usuário:");
+		currentFrame.getContentPane().add(lblEndereco, "span,grow");
 		
 		final JTextField tfEndereco = new JTextField();
-		frame.getContentPane().add(tfEndereco, "span,grow,height 25::");
+		currentFrame.getContentPane().add(tfEndereco, "span,grow,height 25::");
 		tfEndereco.setColumns(10);
 		
-		final JLabel lblEmail = new JLabel("E-mail Usuário:");
-		frame.getContentPane().add(lblEmail, "span,grow");
+		final JLabel lblEmail = new JLabel("E-mail usuário:");
+		currentFrame.getContentPane().add(lblEmail, "span,grow");
 		
 		final JTextField tfEmail = new JTextField();
-		frame.getContentPane().add(tfEmail, "span,grow,height 25::");
+		currentFrame.getContentPane().add(tfEmail, "span,grow,height 25::");
 		tfEmail.setColumns(10);
 		
-		final JLabel lblApelidoUsuario = new JLabel("Apelido Usuário:");
-		frame.getContentPane().add(lblApelidoUsuario, "span,grow");
+		final JLabel lblApelidoUsuario = new JLabel("Apelido usuário:");
+		currentFrame.getContentPane().add(lblApelidoUsuario, "span,grow");
 		
 		final JTextField tfApelidoUsuario = new JTextField();
-		frame.getContentPane().add(tfApelidoUsuario, "span,grow,height 25::");
+		currentFrame.getContentPane().add(tfApelidoUsuario, "span,grow,height 25::");
 		tfApelidoUsuario.setColumns(10);
 		
 		final JButton btnCadastrar = new JButton("Cadastrar");
-		frame.getContentPane().add(btnCadastrar, "span,grow,height 30::");
-		
-		frame.setVisible(true);
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String nome = tfNome.getText();
+				String endereco = tfEndereco.getText();
+				String email = tfEmail.getText();
+				String apelido = tfApelidoUsuario.getText();
+				
+				try {
+					mercado.cadastrarUsuario(nome, endereco, email, apelido);
+					currentFrame.dispose();
+				} catch (CadastroUsuarioException e) {
+					parent.mostraMensagemDeAlerta(currentFrame, e.getMessage());
+				}
+			}
+	    });
+		currentFrame.getContentPane().add(btnCadastrar, "span,grow,height 30::");
 	}
 }

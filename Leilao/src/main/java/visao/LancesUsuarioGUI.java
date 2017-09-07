@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -15,13 +17,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import exceptions.UsuarioNaoCadastradoException;
 import interfaces.IUsuario;
 import modelo.Lance;
 import modelo.MercadoLeilao;
+import modelo.Usuario;
 import net.miginfocom.swing.MigLayout;
 
-public class LancesUsuarioGUI {
+public class LancesUsuarioGUI extends ParentGUI {
 	
 	private JLabel lblNomeUsuario, lblNomeProduto, lblValorLance;
 	private JComboBox<Object> comboBox;
@@ -29,18 +35,17 @@ public class LancesUsuarioGUI {
 	
 	public LancesUsuarioGUI() {}
 	
-	public void mostrarJanela(final JFrame parent, final MercadoLeilao mercado) {
-		final JFrame frame = new JFrame();
-		frame.setTitle("Ver Lances de um Usuário");
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setBounds(100, 100, 600, 339);
-		frame.setLocationRelativeTo(parent);
-		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+	@Override
+	protected void constroiFrame(final PrincipalGUI parent, final MercadoLeilao mercado) {
+		currentFrame.setTitle("Ver Lances de um Usuário");
+		currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		currentFrame.setSize(600, 339);
+		currentFrame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		///////////////////////////////////////////////////
 		final JPanel upperPanel = new JPanel();
 		upperPanel.setLayout(new MigLayout("", "[grow]", "[]5[]"));
-		frame.getContentPane().add(upperPanel, BorderLayout.NORTH);
+		currentFrame.getContentPane().add(upperPanel, BorderLayout.NORTH);
 		
 		final JLabel label = new JLabel("Selecione um usuário:");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -56,16 +61,21 @@ public class LancesUsuarioGUI {
 		final JScrollPane spLeft = new JScrollPane();
 		final Dimension max = spLeft.getMaximumSize();
 		spLeft.setPreferredSize(new Dimension(210, (int)max.getHeight()));
-		frame.getContentPane().add(spLeft, BorderLayout.WEST);
+		currentFrame.getContentPane().add(spLeft, BorderLayout.WEST);
 		
 		list = new JList<>();
 		list.setBorder(new LineBorder(new Color(0, 0, 0)));
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				atualizaLabels();
+            }
+        });
 		spLeft.setViewportView(list);
 		
 		///////////////////////////////////////////////////
 		final JScrollPane spCenter = new JScrollPane();
-		frame.getContentPane().add(spCenter, BorderLayout.CENTER);
+		currentFrame.getContentPane().add(spCenter, BorderLayout.CENTER);
 		
 		final JPanel centerPanel = new JPanel();
 		centerPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -79,10 +89,28 @@ public class LancesUsuarioGUI {
 		lblValorLance = new JLabel();
 		centerPanel.add(lblValorLance);
 		
-		//list.setSelectedIndex(0);
-		this.atualizaLabels();
-		
-		frame.setVisible(true);
+		///////////////////////////////////////////////////
+		comboBox.addActionListener(new ActionListener () {
+			public void actionPerformed(ActionEvent arg0) {
+				Usuario usuarioSelecionado = (Usuario) comboBox.getSelectedItem();
+				List<Lance> lancesDoUsuario = null;
+				try {
+					lancesDoUsuario = mercado.retornaLancesDeUmUsuario(usuarioSelecionado.getApelido());
+				} catch (UsuarioNaoCadastradoException e) {
+					e.printStackTrace();
+				}
+				list.setListData(lancesDoUsuario.toArray());
+				
+				if(list.getModel().getSize() > 0)
+					list.setSelectedIndex(0);
+				else
+					atualizaLabels();
+			}
+		});
+		if(comboBox.getItemCount() > 0)
+			comboBox.setSelectedIndex(0);
+		else
+			atualizaLabels();
 	}
 	
 	private void atualizaLabels() {

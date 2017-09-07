@@ -14,11 +14,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import modelo.MercadoLeilao;
 import modelo.ProdutoLeilao;
 
-public class ProdutosEmLeilaoGUI {
+public class ProdutosEmLeilaoGUI extends ParentGUI {
 	
 	private JLabel lblNome, lblDescricao, lblLanceMin,
 		lblUltimoLance, lblApelidoLeiloador, lblDataLimite;
@@ -30,29 +32,34 @@ public class ProdutosEmLeilaoGUI {
 		this.dateFormat = dateFormat;
 	}
 	
-	public void mostrarJanela(final JFrame parent, final MercadoLeilao mercado) {
-		final JFrame frame = new JFrame();
-		frame.setTitle("Produtos em Leilão");
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setBounds(100, 100, 600, 339);
-		frame.setLocationRelativeTo(parent);
-		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+	@Override
+	protected void constroiFrame(final PrincipalGUI parent, final MercadoLeilao mercado) {
+		currentFrame.setTitle("Produtos em Leilão");
+		currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		currentFrame.setSize(600, 339);
+		currentFrame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
+		///////////////////////////////////////////////////
 		final JScrollPane spLeft = new JScrollPane();
 		final Dimension max = spLeft.getMaximumSize();
 		spLeft.setPreferredSize(new Dimension(210, (int)max.getHeight()));
-		frame.getContentPane().add(spLeft, BorderLayout.WEST);
+		currentFrame.getContentPane().add(spLeft, BorderLayout.WEST);
 		
 		@SuppressWarnings("unchecked")
 		final List<ProdutoLeilao> produtosEmLeilao = (List<ProdutoLeilao>) mercado.getProdutosEmLeilao();
 		list = new JList<>(produtosEmLeilao.toArray());
 		list.setBorder(new LineBorder(new Color(0, 0, 0)));
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.setSelectedIndex(0);
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent event) {
+				atualizaLabels();
+            }
+        });
 		spLeft.setViewportView(list);
 		
+		///////////////////////////////////////////////////
 		final JScrollPane spCenter = new JScrollPane();
-		frame.getContentPane().add(spCenter, BorderLayout.CENTER);
+		currentFrame.getContentPane().add(spCenter, BorderLayout.CENTER);
 		
 		final JPanel centerPanel = new JPanel();
 		centerPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -72,9 +79,11 @@ public class ProdutosEmLeilaoGUI {
 		lblDataLimite = new JLabel();
 		centerPanel.add(lblDataLimite);
 		
-		this.atualizaLabels();
-		
-		frame.setVisible(true);
+		///////////////////////////////////////////////////
+		if(list.getModel().getSize() > 0)
+			list.setSelectedIndex(0);
+		else
+			atualizaLabels();
 	}
 	
 	private void atualizaLabels() {
@@ -93,7 +102,7 @@ public class ProdutosEmLeilaoGUI {
 		lblDescricao.setText("Descrição:  " + desc);
 		lblLanceMin.setText("Lance mínimo:  R$" + lanceMin);
 		lblUltimoLance.setText("Ultimo lance: R$" + ultimoLance);
-		lblApelidoLeiloador.setText("Apelido Leiloador:  " + apelidoLeiloador);
+		lblApelidoLeiloador.setText("Apelido leiloador:  " + apelidoLeiloador);
 		lblDataLimite.setText("Data limite:  " + dataLimite);
 	}
 }

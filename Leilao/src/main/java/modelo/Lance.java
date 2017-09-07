@@ -40,7 +40,7 @@ public class Lance implements Serializable {
 		this.produtoQueRecebeuOLance = produto;
 	}
 	
-	public String toString() {
+	public String toString() {//TODO remover esse 'lance no produto' !?
 		return "Lance no produto:  " + this.produtoQueRecebeuOLance.getNome();
 	}
 }

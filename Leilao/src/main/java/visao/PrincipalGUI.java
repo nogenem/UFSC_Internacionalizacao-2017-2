@@ -8,8 +8,10 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import modelo.FabricaDeMercado;
 import modelo.MercadoLeilao;
 import net.miginfocom.swing.MigLayout;
 
@@ -29,6 +31,7 @@ public class PrincipalGUI extends JFrame {
 	}
 	
 	private void inicializarGUI() {
+		final JFrame frame = this;
 		setTitle("Mercado Leilão");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 381);
@@ -105,7 +108,7 @@ public class PrincipalGUI extends JFrame {
 		});
 		upperBtns.add(btnProdutosLeiloador, "span,grow");
 		
-		JButton btnProdutosUsuario = new JButton("Ver Produtos de um Usuário");
+		JButton btnProdutosUsuario = new JButton("Ver Lances de um Usuário");
 		btnProdutosUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostraJanelaLancesDeUmUsuario();
@@ -119,17 +122,33 @@ public class PrincipalGUI extends JFrame {
 		lowerBtns.setLayout(new MigLayout("al center center, wrap", "[center][center][center]", "[center]"));
 		
 		JButton btnSalvar = new JButton("Salvar Mercado");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				FabricaDeMercado fabrica = new FabricaDeMercado();
+				fabrica.desmontar(mercado);
+				mostraMensagemDeInformacao(frame, "Mercado salvo!");
+			}
+	    });
 		lowerBtns.add(btnSalvar, "cell 0 0,alignx center,aligny center");
 		
 		JButton btnConfig = new JButton("Configuração");
 		lowerBtns.add(btnConfig, "cell 1 0,alignx center,aligny center");
 		
 		JButton btnCarregar = new JButton("Carregar Mercado");
+		btnCarregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FabricaDeMercado fabrica = new FabricaDeMercado();
+				mercado = (MercadoLeilao) fabrica.montar();
+				btnCarregar.setEnabled(false);
+				mostraMensagemDeInformacao(frame, "Mercado carregado!");
+			}
+		});
 		lowerBtns.add(btnCarregar, "cell 2 0,alignx center,aligny center");
 		
 		this.setVisible(true);
 	}
-
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void mostraJanelaCadastrarUsuario() {
 		new CadastraUsuarioGUI().mostrarJanela(this, this.mercado);
 	}
@@ -164,5 +183,14 @@ public class PrincipalGUI extends JFrame {
 	
 	private void mostraJanelaLancesDeUmUsuario() {
 		new LancesUsuarioGUI().mostrarJanela(this, this.mercado);
+	}
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public void mostraMensagemDeAlerta(JFrame parent, String message) {
+		JOptionPane.showMessageDialog(parent, message, "Alerta", JOptionPane.WARNING_MESSAGE);
+	}
+	
+	public void mostraMensagemDeInformacao(JFrame parent, String message) {
+		JOptionPane.showMessageDialog(parent, message, "Informação", JOptionPane.INFORMATION_MESSAGE);
 	}
 }

@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.util.List;
 
@@ -16,13 +18,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import exceptions.UsuarioNaoCadastradoException;
 import interfaces.IUsuario;
 import modelo.MercadoLeilao;
 import modelo.ProdutoLeilao;
+import modelo.Usuario;
 import net.miginfocom.swing.MigLayout;
 
-public class ProdutosLeiloadorGUI {
+public class ProdutosLeiloadorGUI extends ParentGUI {
 	
 	private JLabel lblNome, lblDescricao, lblLanceMin,
 		lblUltimoLance, lblApelidoLeiloador, lblDataLimite;
@@ -35,18 +41,17 @@ public class ProdutosLeiloadorGUI {
 		this.dateFormat = dateFormat;
 	}
 	
-	public void mostrarJanela(final JFrame parent, final MercadoLeilao mercado) {
-		final JFrame frame = new JFrame();
-		frame.setTitle("Ver Produtos de um Leiloador");
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setBounds(100, 100, 600, 339);
-		frame.setLocationRelativeTo(parent);
-		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+	@Override
+	protected void constroiFrame(final PrincipalGUI parent, final MercadoLeilao mercado) {
+		currentFrame.setTitle("Ver Produtos de um Leiloador");
+		currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		currentFrame.setSize(600, 339);
+		currentFrame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		///////////////////////////////////////////////////
 		final JPanel upperPanel = new JPanel();
 		upperPanel.setLayout(new MigLayout("", "[grow]", "[]5[]"));
-		frame.getContentPane().add(upperPanel, BorderLayout.NORTH);
+		currentFrame.getContentPane().add(upperPanel, BorderLayout.NORTH);
 		
 		final JLabel label = new JLabel("Selecione um usuário:");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -62,39 +67,62 @@ public class ProdutosLeiloadorGUI {
 		final JScrollPane spLeft = new JScrollPane();
 		final Dimension max = spLeft.getMaximumSize();
 		spLeft.setPreferredSize(new Dimension(210, (int)max.getHeight()));
-		frame.getContentPane().add(spLeft, BorderLayout.WEST);
+		currentFrame.getContentPane().add(spLeft, BorderLayout.WEST);
 		
 		list = new JList<>();
 		list.setBorder(new LineBorder(new Color(0, 0, 0)));
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				atualizaLabels();
+            }
+        });
 		spLeft.setViewportView(list);
 		
 		///////////////////////////////////////////////////
 		final JScrollPane spCenter = new JScrollPane();
-		frame.getContentPane().add(spCenter, BorderLayout.CENTER);
+		currentFrame.getContentPane().add(spCenter, BorderLayout.CENTER);
 		
 		final JPanel centerPanel = new JPanel();
 		centerPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		centerPanel.setLayout(new GridLayout(6, 1, 0, 0));
 		spCenter.setViewportView(centerPanel);
 		
-		lblNome = new JLabel("Nome:  ");
+		lblNome = new JLabel();
 		centerPanel.add(lblNome);
-		lblDescricao = new JLabel("Descrição:  ");
+		lblDescricao = new JLabel();
 		centerPanel.add(lblDescricao);
-		lblLanceMin = new JLabel("Lance mínimo: R$ ");
+		lblLanceMin = new JLabel();
 		centerPanel.add(lblLanceMin);
-		lblUltimoLance = new JLabel("Ultimo lance: R$ ");
+		lblUltimoLance = new JLabel();
 		centerPanel.add(lblUltimoLance);
-		lblApelidoLeiloador = new JLabel("Apelido Leiloador:  ");
+		lblApelidoLeiloador = new JLabel();
 		centerPanel.add(lblApelidoLeiloador);
-		lblDataLimite = new JLabel("Data limite:  ");
+		lblDataLimite = new JLabel();
 		centerPanel.add(lblDataLimite);
 		
-		//list.setSelectedIndex(0);
-		this.atualizaLabels();
-		
-		frame.setVisible(true);
+		///////////////////////////////////////////////////
+		comboBox.addActionListener(new ActionListener () {
+			public void actionPerformed(ActionEvent arg0) {
+				Usuario usuarioSelecionado = (Usuario) comboBox.getSelectedItem();
+				List<ProdutoLeilao> produtosDoLeiloador = null;
+				try {
+					produtosDoLeiloador = mercado.retornaProdutosDeUmLeiloador(usuarioSelecionado.getApelido());
+				} catch (UsuarioNaoCadastradoException e) {
+					e.printStackTrace();
+				}
+				list.setListData(produtosDoLeiloador.toArray());
+				
+				if(list.getModel().getSize() > 0)
+					list.setSelectedIndex(0);
+				else
+					atualizaLabels();
+			}
+		});
+		if(comboBox.getItemCount() > 0)
+			comboBox.setSelectedIndex(0);
+		else
+			atualizaLabels();
 	}
 	
 	private void atualizaLabels() {
@@ -112,10 +140,10 @@ public class ProdutosLeiloadorGUI {
 		}
 		
 		lblNome.setText("Nome:  " + nome);
-		lblDescricao.setText("Descricao:  " + desc);
-		lblLanceMin.setText("Lance minimo:  R$" + lanceMin);
+		lblDescricao.setText("Descrição:  " + desc);
+		lblLanceMin.setText("Lance mínimo:  R$" + lanceMin);
 		lblUltimoLance.setText("Ultimo lance: R$" + ultimoLance);
-		lblApelidoLeiloador.setText("Apelido Leiloador:  " + apelidoLeiloador);
+		lblApelidoLeiloador.setText("Apelido leiloador:  " + apelidoLeiloador);
 		lblDataLimite.setText("Data limite:  " + dataLimite);
 	}
 }

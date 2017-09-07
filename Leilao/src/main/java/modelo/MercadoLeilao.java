@@ -36,10 +36,11 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 	
 	
 	public void cadastrarUsuario(String nome, String endereco, String email, String apelido) throws CadastroUsuarioException {
-		if(verificaSeOUsuarioJaExiste(apelido)) {
+		if(nome.isEmpty() || endereco.isEmpty() || email.isEmpty() || apelido.isEmpty()) {
+			throw new CadastroUsuarioException("Dados insuficientes, por favor especifique todos os dados.");
+		}else if(verificaSeOUsuarioJaExiste(apelido)) {
 			throw new CadastroUsuarioException("Ja existe um usuario com este apelido.");
-		}
-		else {
+		}else{
 			Usuario usuario = new Usuario(apelido, nome);
 			usuario.setEndereco(endereco);
 			usuario.setEmail(email);
@@ -104,7 +105,7 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 			lance.setProdutoQueRecebeuOLance(produto);
 		}
 		else
-			throw new LanceInvalidoException("O valor do lance eh inferior ao necessario ou o comprador nao esta cadastrado.");
+			throw new LanceInvalidoException("O valor do lance é inferior ao necessário ou o comprador não esta cadastrado.");
 	}
 	
 	public List<Lance> retornaTodosOsLancesEfetuados() {
