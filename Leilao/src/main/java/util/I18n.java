@@ -24,7 +24,6 @@ public class I18n {
 		this.locales = new HashMap<>();
 		
 		this.carregaBundle(Locale.getDefault());
-//		this.carregaBundle(new Locale("en", "US"));
 		this.encontraTraducoesDisponiveis();
 	}
 	
@@ -63,7 +62,7 @@ public class I18n {
 		        if(name.contains("_")) {
 		        	key = name.substring(name.indexOf('_')+1, name.indexOf('.'));
 		        	tmp = key.split("_");
-		        	this.locales.put(key, new Locale(tmp[0], tmp[1]));
+		        	this.locales.put(key, new Locale(tmp[0], tmp.length > 1 ? tmp[1] : ""));
 		        }
 		    }
 		}
