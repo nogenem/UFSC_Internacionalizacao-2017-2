@@ -1,15 +1,10 @@
 package modelo;
 
-import interfaces.ILeiloavel;
-import interfaces.IMercadoLeilao;
-import interfaces.IUsuario;
-import interfaces.IVendido;
-
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import exceptions.CadastroProdutoException;
@@ -17,6 +12,11 @@ import exceptions.CadastroUsuarioException;
 import exceptions.LanceInvalidoException;
 import exceptions.ProdutoNaoCadastradoException;
 import exceptions.UsuarioNaoCadastradoException;
+import interfaces.ILeiloavel;
+import interfaces.IMercadoLeilao;
+import interfaces.IUsuario;
+import interfaces.IVendido;
+import util.I18n;
 
 public class MercadoLeilao implements IMercadoLeilao, Serializable {
 	
@@ -37,9 +37,9 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 	
 	public void cadastrarUsuario(String nome, String endereco, String email, String apelido) throws CadastroUsuarioException {
 		if(nome.isEmpty() || endereco.isEmpty() || email.isEmpty() || apelido.isEmpty()) {
-			throw new CadastroUsuarioException("Dados insuficientes, por favor especifique todos os dados.");
+			throw new CadastroUsuarioException(I18n.getInstance().getString("exceptions.dados_insuficientes"));
 		}else if(verificaSeOUsuarioJaExiste(apelido)) {
-			throw new CadastroUsuarioException("Ja existe um usuario com este apelido.");
+			throw new CadastroUsuarioException(I18n.getInstance().getString("exceptions.ja_existe_apelido"));
 		}else{
 			Usuario usuario = new Usuario(apelido, nome);
 			usuario.setEndereco(endereco);
@@ -59,7 +59,7 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 			leiloador.setBemOfertado(produto);
 		}
 		else
-			throw new CadastroProdutoException("O produto ja existe ou o leiloador nao esta cadastrado.");
+			throw new CadastroProdutoException(I18n.getInstance().getString("exceptions.produto_existe_leilador_nao_cadastrado"));
 	}
 	
 	
@@ -105,7 +105,7 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 			lance.setProdutoQueRecebeuOLance(produto);
 		}
 		else
-			throw new LanceInvalidoException("O valor do lance é inferior ao necessário ou o comprador não esta cadastrado.");
+			throw new LanceInvalidoException(I18n.getInstance().getString("exceptions.lance_inferior_comprador_nao_cadastrado"));
 	}
 	
 	public List<Lance> retornaTodosOsLancesEfetuados() {

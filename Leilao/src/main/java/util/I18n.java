@@ -13,7 +13,7 @@ import java.util.TreeSet;
 public class I18n {
 	
 	private static final String BUNDLE_PREFIX = "MessagesBundle";
-	private static final String TRANSLATIONS_FOLDER = "./translations";
+	private static final String TRANSLATIONS_FOLDER = "translations";
 	
 	private static I18n instance;
 	
@@ -24,6 +24,7 @@ public class I18n {
 		this.locales = new HashMap<>();
 		
 		this.carregaBundle(Locale.getDefault());
+//		this.carregaBundle(new Locale("en", "US"));
 		this.encontraTraducoesDisponiveis();
 	}
 	
@@ -44,9 +45,9 @@ public class I18n {
 	public void carregaBundle(Locale locale) {
 		try {
 			File file = new File(TRANSLATIONS_FOLDER);
-			URL[] urls = {file.toURI().toURL()};
+			URL[] urls = { file.toURI().toURL() };
 			ClassLoader loader = new URLClassLoader(urls);
-			this.bundle = ResourceBundle.getBundle(BUNDLE_PREFIX, locale, loader);			
+			this.bundle = ResourceBundle.getBundle(BUNDLE_PREFIX, locale, loader);
 		}catch(MalformedURLException e) {
 			e.printStackTrace();
 		}
