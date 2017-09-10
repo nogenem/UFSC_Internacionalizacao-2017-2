@@ -14,10 +14,15 @@ import javax.swing.JPanel;
 import modelo.FabricaDeMercado;
 import modelo.MercadoLeilao;
 import net.miginfocom.swing.MigLayout;
+import util.I18n;
 
 public class PrincipalGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
+	private JButton btnCadastraUsuario, btnCadastrarProduto, btnDarLance,
+		btnProdutosLeilao, btnProdutosVendidos, btnProdutosVencidos, btnProdutosLeiloador, 
+		btnProdutosUsuario, btnSalvar, btnConfig, btnCarregar, btnUsuariosCadastrados;
 	
 	private MercadoLeilao mercado;
 	private DateFormat dateFormat;
@@ -32,7 +37,6 @@ public class PrincipalGUI extends JFrame {
 	
 	private void inicializarGUI() {
 		final JFrame frame = this;
-		setTitle("Mercado Leilão");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 381);
 		setLocationRelativeTo(null);
@@ -44,7 +48,7 @@ public class PrincipalGUI extends JFrame {
 		upperBtns.setLayout(new MigLayout("al center center,fillx", "[center,grow,fill]", 
 				"[center][center][center][center][center][center][center][center][center]"));
 		
-		JButton btnCadastraUsuario = new JButton("Cadastrar Usuário");
+		btnCadastraUsuario = new JButton();
 		btnCadastraUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostraJanelaCadastrarUsuario();
@@ -52,7 +56,7 @@ public class PrincipalGUI extends JFrame {
 		});
 		upperBtns.add(btnCadastraUsuario, "span,grow");
 		
-		JButton btnCadastrarProduto = new JButton("Cadastrar Produto");
+		btnCadastrarProduto = new JButton();
 		btnCadastrarProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostraJanelaCadastrarProduto();
@@ -60,7 +64,7 @@ public class PrincipalGUI extends JFrame {
 		});
 		upperBtns.add(btnCadastrarProduto, "span,grow");
 		
-		JButton btnDarLance = new JButton("Dar Lance");
+		btnDarLance = new JButton();
 		btnDarLance.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostraJanelaDarLance();
@@ -68,7 +72,7 @@ public class PrincipalGUI extends JFrame {
 		});
 		upperBtns.add(btnDarLance, "span,grow");
 		
-		JButton btnUsuariosCadastrados = new JButton("Ver Usuários Cadastrados");
+		btnUsuariosCadastrados = new JButton();
 		btnUsuariosCadastrados.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostraJanelaUsuariosCadastrados();
@@ -76,7 +80,7 @@ public class PrincipalGUI extends JFrame {
 		});
 		upperBtns.add(btnUsuariosCadastrados, "span,grow");
 		
-		JButton btnProdutosLeilao = new JButton("Ver Produtos em Leilão");
+		btnProdutosLeilao = new JButton();
 		btnProdutosLeilao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostraJanelaProdutosEmLeilao();
@@ -84,7 +88,7 @@ public class PrincipalGUI extends JFrame {
 		});
 		upperBtns.add(btnProdutosLeilao, "span,grow");
 		
-		JButton btnProdutosVendidos = new JButton("Ver Produtos Vendidos");
+		btnProdutosVendidos = new JButton();
 		btnProdutosVendidos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostraJanelaProdutosVendidos();
@@ -92,7 +96,7 @@ public class PrincipalGUI extends JFrame {
 		});
 		upperBtns.add(btnProdutosVendidos, "span,grow");
 		
-		JButton btnProdutosVencidos = new JButton("Ver Produtos Vencidos");
+		btnProdutosVencidos = new JButton();
 		btnProdutosVencidos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostraJanelaProdutosVencidos();
@@ -100,7 +104,7 @@ public class PrincipalGUI extends JFrame {
 		});
 		upperBtns.add(btnProdutosVencidos, "span,grow");
 		
-		JButton btnProdutosLeiloador = new JButton("Ver Produtos de um Leiloador");
+		btnProdutosLeiloador = new JButton();
 		btnProdutosLeiloador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostraJanelaProdutosDeUmLeiloador();
@@ -108,7 +112,7 @@ public class PrincipalGUI extends JFrame {
 		});
 		upperBtns.add(btnProdutosLeiloador, "span,grow");
 		
-		JButton btnProdutosUsuario = new JButton("Ver Lances de um Usuário");
+		btnProdutosUsuario = new JButton();
 		btnProdutosUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostraJanelaLancesDeUmUsuario();
@@ -121,31 +125,51 @@ public class PrincipalGUI extends JFrame {
 		getContentPane().add(lowerBtns, BorderLayout.SOUTH);
 		lowerBtns.setLayout(new MigLayout("al center center, wrap", "[center][center][center]", "[center]"));
 		
-		JButton btnSalvar = new JButton("Salvar Mercado");
+		btnSalvar = new JButton();
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				FabricaDeMercado fabrica = new FabricaDeMercado();
 				fabrica.desmontar(mercado);
-				mostraMensagemDeInformacao(frame, "Mercado salvo!");
+				mostraMensagemDeInformacao(frame, I18n.getInstance().getString("principalGUI.mercado_salvo"));
 			}
 	    });
 		lowerBtns.add(btnSalvar, "cell 0 0,alignx center,aligny center");
 		
-		JButton btnConfig = new JButton("Configuração");
+		btnConfig = new JButton();
 		lowerBtns.add(btnConfig, "cell 1 0,alignx center,aligny center");
 		
-		JButton btnCarregar = new JButton("Carregar Mercado");
+		btnCarregar = new JButton();
 		btnCarregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FabricaDeMercado fabrica = new FabricaDeMercado();
 				mercado = (MercadoLeilao) fabrica.montar();
 				btnCarregar.setEnabled(false);
-				mostraMensagemDeInformacao(frame, "Mercado carregado!");
+				mostraMensagemDeInformacao(frame, I18n.getInstance().getString("principalGUI.mercado_carregado"));
 			}
 		});
 		lowerBtns.add(btnCarregar, "cell 2 0,alignx center,aligny center");
+		this.atualizaI18n();
 		
 		this.setVisible(true);
+	}
+	
+	private void atualizaI18n() {
+		I18n instance = I18n.getInstance();
+		
+		setTitle(instance.getString("principalGUI.titulo"));
+		
+		btnCadastraUsuario.setText(instance.getString("principalGUI.cadastrar_usuario"));
+		btnCadastrarProduto.setText(instance.getString("principalGUI.cadastrar_produto"));
+		btnDarLance.setText(instance.getString("principalGUI.dar_lance"));
+		btnUsuariosCadastrados.setText(instance.getString("principalGUI.usuarios_cadastrados"));
+		btnProdutosLeilao.setText(instance.getString("principalGUI.produtos_em_leilao"));
+		btnProdutosVendidos.setText(instance.getString("principalGUI.produtos_vendidos"));
+		btnProdutosVencidos.setText(instance.getString("principalGUI.produtos_vencidos"));
+		btnProdutosLeiloador.setText(instance.getString("principalGUI.produtos_leiloador"));
+		btnProdutosUsuario.setText(instance.getString("principalGUI.lances_usuario"));
+		btnSalvar.setText(instance.getString("principalGUI.salvar_mercado"));
+		btnConfig.setText(instance.getString("principalGUI.configuracao"));
+		btnCarregar.setText(instance.getString("principalGUI.carregar_mercado"));
 	}
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -186,11 +210,13 @@ public class PrincipalGUI extends JFrame {
 	}
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public void mostraMensagemDeAlerta(JFrame parent, String message) {
-		JOptionPane.showMessageDialog(parent, message, "Alerta", JOptionPane.WARNING_MESSAGE);
+	public void mostraMensagemDeAlerta(final JFrame parent, String message) {
+		JOptionPane.showMessageDialog(parent, message, 
+				I18n.getInstance().getString("principalGUI.titulo_alerta"), JOptionPane.WARNING_MESSAGE);
 	}
 	
-	public void mostraMensagemDeInformacao(JFrame parent, String message) {
-		JOptionPane.showMessageDialog(parent, message, "Informação", JOptionPane.INFORMATION_MESSAGE);
+	public void mostraMensagemDeInformacao(final JFrame parent, String message) {
+		JOptionPane.showMessageDialog(parent, message, 
+				I18n.getInstance().getString("principalGUI.titulo_informacao"), JOptionPane.INFORMATION_MESSAGE);
 	}
 }
