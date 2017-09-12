@@ -22,8 +22,8 @@ import modelo.ProdutoLeilao;
 
 public class ProdutosVendidosGUI extends ParentGUI {
 	
-	private JLabel labelNome, labelDescricao, labelLanceMin,
-		labelPrecoVendido, labelApelidoLeiloador, labelApelidoComprador, labelDataLimite;
+	private JLabel lblNome, lblDescricao, lblLanceMin,
+		lblPrecoVendido, lblApelidoLeiloador, lblApelidoComprador, lblDataLimite;
 	private JList<Object> list;
 	
 	private DateFormat dateFormat;
@@ -34,7 +34,7 @@ public class ProdutosVendidosGUI extends ParentGUI {
 	
 	@Override
 	protected void constroiFrame(final PrincipalGUI parent, final MercadoLeilao mercado) {
-		currentFrame.setTitle("Produtos Vendidos");
+		currentFrame.setTitle(i18n.getString("produtosVendidosGUI.titulo"));
 		currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		currentFrame.setSize(600, 339);
 		currentFrame.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -66,20 +66,20 @@ public class ProdutosVendidosGUI extends ParentGUI {
 		centerPanel.setLayout(new GridLayout(7, 1, 0, 0));
 		spCenter.setViewportView(centerPanel);
 		
-		labelNome = new JLabel();
-		centerPanel.add(labelNome);
-		labelDescricao = new JLabel();
-		centerPanel.add(labelDescricao);
-		labelLanceMin = new JLabel();
-		centerPanel.add(labelLanceMin);
-		labelPrecoVendido = new JLabel();
-		centerPanel.add(labelPrecoVendido);
-		labelApelidoLeiloador = new JLabel();
-		centerPanel.add(labelApelidoLeiloador);
-		labelApelidoComprador = new JLabel();
-		centerPanel.add(labelApelidoComprador);
-		labelDataLimite = new JLabel();
-		centerPanel.add(labelDataLimite);
+		lblNome = new JLabel();
+		centerPanel.add(lblNome);
+		lblDescricao = new JLabel();
+		centerPanel.add(lblDescricao);
+		lblLanceMin = new JLabel();
+		centerPanel.add(lblLanceMin);
+		lblPrecoVendido = new JLabel();
+		centerPanel.add(lblPrecoVendido);
+		lblApelidoLeiloador = new JLabel();
+		centerPanel.add(lblApelidoLeiloador);
+		lblApelidoComprador = new JLabel();
+		centerPanel.add(lblApelidoComprador);
+		lblDataLimite = new JLabel();
+		centerPanel.add(lblDataLimite);
 		
 		///////////////////////////////////////////////////
 		if(list.getModel().getSize() > 0)
@@ -101,13 +101,13 @@ public class ProdutosVendidosGUI extends ParentGUI {
 			apelidoComprador = produtoSelecionado.getApelidoComprador();
 			dataLimite = dateFormat.format(produtoSelecionado.getDataLimite());
 		}
-		
-		labelNome.setText("Nome:  " + nome);
-        labelDescricao.setText("Descrição:  " + desc);
-        labelLanceMin.setText("Lance mínimo:  R$" + lanceMin);
-        labelPrecoVendido.setText("Preço vendido: R$" + precoVendido);
-        labelApelidoLeiloador.setText("Apelido leiloador:  " + apelidoLeiloador);
-        labelApelidoComprador.setText("Apelido comprador:  " + apelidoComprador);
-        labelDataLimite.setText("Data limite:  " + dataLimite);
+
+		lblNome.setText(i18n.getString("produtosVendidosGUI.nome") +" "+ nome);
+		lblDescricao.setText(i18n.getString("produtosVendidosGUI.descricao") +" "+ desc);
+		lblLanceMin.setText(i18n.getString("produtosVendidosGUI.lance_minimo") +" R$"+ lanceMin);
+		lblPrecoVendido.setText(i18n.getString("produtosVendidosGUI.preco_vendido") +" R$"+ precoVendido);
+		lblApelidoLeiloador.setText(i18n.getString("produtosVendidosGUI.apelido_leiloador") +" "+ apelidoLeiloador);
+		lblApelidoComprador.setText(i18n.getString("produtosVendidosGUI.apelido_comprador") +" "+ apelidoComprador);
+		lblDataLimite.setText(i18n.getString("produtosVendidosGUI.data_limite") +" "+ dataLimite);
 	}
 }
