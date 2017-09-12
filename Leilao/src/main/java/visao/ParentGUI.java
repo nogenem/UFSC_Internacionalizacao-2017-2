@@ -6,12 +6,15 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
 import modelo.MercadoLeilao;
+import util.I18n;
 
 public abstract class ParentGUI {
 	
 	protected JFrame currentFrame;
+	protected I18n i18n;
 	
 	public final void mostrarJanela(final PrincipalGUI parent, final MercadoLeilao mercado) {
+		i18n = I18n.getInstance();
 		currentFrame = new JFrame();
 		currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		currentFrame.addWindowListener( new WindowAdapter() {
