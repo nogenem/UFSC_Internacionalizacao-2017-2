@@ -64,7 +64,7 @@ public class CadastraProdutoGUI extends ParentGUI {
 		currentFrame.getContentPane().add(tfDataLimite, "span,grow,height 25::");
 		tfDataLimite.setColumns(10);
 		
-		final JButton btnCadastrar = new JButton(i18n.getString("cadastraProdutoGUI.cadastrar"));
+		final JButton btnCadastrar = new JButton(i18n.getString("cadastraProdutoGUI.btn_cadastrar"));
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String nome = tfNome.getText();

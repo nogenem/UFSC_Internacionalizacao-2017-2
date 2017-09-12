@@ -50,7 +50,7 @@ public class CadastraUsuarioGUI extends ParentGUI {
 		currentFrame.getContentPane().add(tfApelidoUsuario, "span,grow,height 25::");
 		tfApelidoUsuario.setColumns(10);
 		
-		final JButton btnCadastrar = new JButton(i18n.getString("cadastraUsuarioGUI.cadastrar"));
+		final JButton btnCadastrar = new JButton(i18n.getString("cadastraUsuarioGUI.btn_cadastrar"));
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String nome = tfNome.getText();
