@@ -139,11 +139,11 @@ public class ProdutosLeiloadorGUI extends ParentGUI {
 			}
 		}
 		
-		lblNome.setText(i18n.getString("produtosEmLeilaoGUI.nome") +" "+ nome);
-		lblDescricao.setText(i18n.getString("produtosEmLeilaoGUI.descricao") +" "+ desc);
-		lblLanceMin.setText(i18n.getString("produtosEmLeilaoGUI.lance_minimo") +" R$"+ lanceMin);
-		lblUltimoLance.setText(i18n.getString("produtosEmLeilaoGUI.ultimo_lance") +" R$"+ ultimoLance);
-		lblApelidoLeiloador.setText(i18n.getString("produtosEmLeilaoGUI.apelido_leiloador") +" "+ apelidoLeiloador);
-		lblDataLimite.setText(i18n.getString("produtosEmLeilaoGUI.data_limite") +" "+ dataLimite);
+		lblNome.setText(i18n.getString("produtosLeiloadorGUI.nome") +" "+ nome);
+		lblDescricao.setText(i18n.getString("produtosLeiloadorGUI.descricao") +" "+ desc);
+		lblLanceMin.setText(i18n.getString("produtosLeiloadorGUI.lance_minimo") +" R$"+ lanceMin);
+		lblUltimoLance.setText(i18n.getString("produtosLeiloadorGUI.ultimo_lance") +" R$"+ ultimoLance);
+		lblApelidoLeiloador.setText(i18n.getString("produtosLeiloadorGUI.apelido_leiloador") +" "+ apelidoLeiloador);
+		lblDataLimite.setText(i18n.getString("produtosLeiloadorGUI.data_limite") +" "+ dataLimite);
 	}
 }
