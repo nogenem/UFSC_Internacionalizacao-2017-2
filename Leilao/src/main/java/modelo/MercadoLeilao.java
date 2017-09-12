@@ -51,7 +51,9 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 	
 	public void cadastrarProduto(String nome, String descricao, Double lanceMinimo, 
 			String apelidoLeiloador, Date dataLimite) throws CadastroProdutoException {
-		if(!verificaSeOProdutoJaExiste(nome) && verificaSeOUsuarioJaExiste(apelidoLeiloador)) {
+		if(nome.isEmpty() || descricao.isEmpty() || apelidoLeiloador.isEmpty()) {
+			throw new CadastroProdutoException(I18n.getInstance().getString("exceptions.dados_insuficientes"));
+		}else if(!verificaSeOProdutoJaExiste(nome) && verificaSeOUsuarioJaExiste(apelidoLeiloador)) {
 			Usuario leiloador = usuarios.get(apelidoLeiloador);
 			ProdutoLeilao produto = new ProdutoLeilao(nome, descricao, lanceMinimo, leiloador);
 			produto.setDataLimite(dataLimite);
