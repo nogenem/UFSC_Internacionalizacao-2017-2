@@ -2,6 +2,8 @@ package modelo;
 
 import java.io.Serializable;
 
+import util.I18n;
+
 
 public class Lance implements Serializable {
 
@@ -40,7 +42,8 @@ public class Lance implements Serializable {
 		this.produtoQueRecebeuOLance = produto;
 	}
 	
-	public String toString() {//TODO remover esse 'lance no produto' !?
-		return "Lance no produto:  " + this.produtoQueRecebeuOLance.getNome();
+	public String toString() {//TODO remover esse 'lance no produto' !? 
+		return I18n.getInstance().getString("lance.lance_no_produto") +
+				" "+ this.produtoQueRecebeuOLance.getNome();
 	}
 }

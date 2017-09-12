@@ -43,7 +43,7 @@ public class CadastraProdutoGUI extends ParentGUI {
 		currentFrame.getContentPane().add(tfDescricao, "span,grow,height 25::");
 		tfDescricao.setColumns(10);
 		
-		final JLabel lblLanceMin = new JLabel(i18n.getString("cadastraProdutoGUI.lance_minimo"));
+		final JLabel lblLanceMin = new JLabel(i18n.getString("cadastraProdutoGUI.lance_minimo") +" (R$)");
 		currentFrame.getContentPane().add(lblLanceMin, "span,grow");
 		
 		final JTextField tfLanceMin = new JTextField();

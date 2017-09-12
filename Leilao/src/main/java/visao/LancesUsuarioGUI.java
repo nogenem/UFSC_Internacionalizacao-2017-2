@@ -37,7 +37,7 @@ public class LancesUsuarioGUI extends ParentGUI {
 	
 	@Override
 	protected void constroiFrame(final PrincipalGUI parent, final MercadoLeilao mercado) {
-		currentFrame.setTitle("Ver Lances de um Usuário");
+		currentFrame.setTitle(i18n.getString("lancesUsuarioGUI.titulo"));
 		currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		currentFrame.setSize(600, 339);
 		currentFrame.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -47,7 +47,7 @@ public class LancesUsuarioGUI extends ParentGUI {
 		upperPanel.setLayout(new MigLayout("", "[grow]", "[]5[]"));
 		currentFrame.getContentPane().add(upperPanel, BorderLayout.NORTH);
 		
-		final JLabel label = new JLabel("Selecione um usuário:");
+		final JLabel label = new JLabel(i18n.getString("lancesUsuarioGUI.selecione_usuario"));
 		label.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		upperPanel.add(label, "cell 0 0");
 		
@@ -124,8 +124,8 @@ public class LancesUsuarioGUI extends ParentGUI {
 			}
 		}
 		
-		lblNomeUsuario.setText("Nome do usuário:  " + nomeUsuario);
-		lblNomeProduto.setText("Nome do produto:  " + nomeProduto);
-		lblValorLance.setText("Valor do lance:  R$" + valorLance);
+		lblNomeUsuario.setText(i18n.getString("lancesUsuarioGUI.nome_usuario") + " "+ nomeUsuario);
+		lblNomeProduto.setText(i18n.getString("lancesUsuarioGUI.nome_produto") +" "+ nomeProduto);
+		lblValorLance.setText(i18n.getString("lancesUsuarioGUI.valor_lance") +" R$"+ valorLance);
 	}
 }

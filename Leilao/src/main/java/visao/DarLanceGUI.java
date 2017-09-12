@@ -39,7 +39,7 @@ public class DarLanceGUI extends ParentGUI {
 		currentFrame.getContentPane().add(tfApelidoComprador, "span,grow,height 25::");
 		tfApelidoComprador.setColumns(10);
 		
-		final JLabel lblLance = new JLabel(i18n.getString("darLanceGUI.valor_lance"));
+		final JLabel lblLance = new JLabel(i18n.getString("darLanceGUI.valor_lance") +" (R$)");
 		currentFrame.getContentPane().add(lblLance, "span,grow");
 		
 		final JTextField tfLance = new JTextField();
