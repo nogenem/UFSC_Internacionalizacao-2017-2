@@ -17,40 +17,40 @@ public class CadastraUsuarioGUI extends ParentGUI {
 	
 	@Override
 	protected void constroiFrame(final PrincipalGUI parent, final MercadoLeilao mercado) {
-		currentFrame.setTitle("Cadastrar Usuário");
+		currentFrame.setTitle(i18n.getString("cadastraUsuarioGUI.titulo"));
 		currentFrame.setSize(450, 381);
 		currentFrame.getContentPane().setLayout(new MigLayout("al center center,fillx", 
 				"[grow]", "[][]20[][]20[][]20[][]40[]"));
 		
-		final JLabel lblNome = new JLabel("Nome usuário:");
+		final JLabel lblNome = new JLabel(i18n.getString("cadastraUsuarioGUI.nome_usuario"));
 		currentFrame.getContentPane().add(lblNome, "span,grow");
 		
 		final JTextField tfNome = new JTextField();
 		currentFrame.getContentPane().add(tfNome, "span,grow,height 25::");
 		tfNome.setColumns(10);
 		
-		final JLabel lblEndereco = new JLabel("Endereço usuário:");
+		final JLabel lblEndereco = new JLabel(i18n.getString("cadastraUsuarioGUI.endereco_usuario"));
 		currentFrame.getContentPane().add(lblEndereco, "span,grow");
 		
 		final JTextField tfEndereco = new JTextField();
 		currentFrame.getContentPane().add(tfEndereco, "span,grow,height 25::");
 		tfEndereco.setColumns(10);
 		
-		final JLabel lblEmail = new JLabel("E-mail usuário:");
+		final JLabel lblEmail = new JLabel(i18n.getString("cadastraUsuarioGUI.email_usuario"));
 		currentFrame.getContentPane().add(lblEmail, "span,grow");
 		
 		final JTextField tfEmail = new JTextField();
 		currentFrame.getContentPane().add(tfEmail, "span,grow,height 25::");
 		tfEmail.setColumns(10);
 		
-		final JLabel lblApelidoUsuario = new JLabel("Apelido usuário:");
+		final JLabel lblApelidoUsuario = new JLabel(i18n.getString("cadastraUsuarioGUI.apelido_usuario"));
 		currentFrame.getContentPane().add(lblApelidoUsuario, "span,grow");
 		
 		final JTextField tfApelidoUsuario = new JTextField();
 		currentFrame.getContentPane().add(tfApelidoUsuario, "span,grow,height 25::");
 		tfApelidoUsuario.setColumns(10);
 		
-		final JButton btnCadastrar = new JButton("Cadastrar");
+		final JButton btnCadastrar = new JButton(i18n.getString("cadastraUsuarioGUI.cadastrar"));
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String nome = tfNome.getText();
