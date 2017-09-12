@@ -34,7 +34,7 @@ public class ProdutosEmLeilaoGUI extends ParentGUI {
 	
 	@Override
 	protected void constroiFrame(final PrincipalGUI parent, final MercadoLeilao mercado) {
-		currentFrame.setTitle("Produtos em Leilão");
+		currentFrame.setTitle(i18n.getString("produtosEmLeilaoGUI.titulo"));
 		currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		currentFrame.setSize(600, 339);
 		currentFrame.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -98,11 +98,11 @@ public class ProdutosEmLeilaoGUI extends ParentGUI {
 			dataLimite = dateFormat.format(produtoSelecionado.getDataLimite());
 		}
 		
-		lblNome.setText("Nome:  " + nome);
-		lblDescricao.setText("Descrição:  " + desc);
-		lblLanceMin.setText("Lance mínimo:  R$" + lanceMin);
-		lblUltimoLance.setText("Ultimo lance: R$" + ultimoLance);
-		lblApelidoLeiloador.setText("Apelido leiloador:  " + apelidoLeiloador);
-		lblDataLimite.setText("Data limite:  " + dataLimite);
+		lblNome.setText(i18n.getString("produtosEmLeilaoGUI.nome") +" "+ nome);
+		lblDescricao.setText(i18n.getString("produtosEmLeilaoGUI.descricao") +" "+ desc);
+		lblLanceMin.setText(i18n.getString("produtosEmLeilaoGUI.lance_minimo") +" R$"+ lanceMin);
+		lblUltimoLance.setText(i18n.getString("produtosEmLeilaoGUI.ultimo_lance") +" R$"+ ultimoLance);
+		lblApelidoLeiloador.setText(i18n.getString("produtosEmLeilaoGUI.apelido_leiloador") +" "+ apelidoLeiloador);
+		lblDataLimite.setText(i18n.getString("produtosEmLeilaoGUI.data_limite") +" "+ dataLimite);
 	}
 }
