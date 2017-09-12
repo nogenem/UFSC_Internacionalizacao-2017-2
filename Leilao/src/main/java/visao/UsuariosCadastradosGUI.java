@@ -29,7 +29,7 @@ public class UsuariosCadastradosGUI extends ParentGUI {
 	
 	@Override
 	protected void constroiFrame(final PrincipalGUI parent, final MercadoLeilao mercado) {
-		currentFrame.setTitle("Usuários Cadastrados");
+		currentFrame.setTitle(i18n.getString("usuariosCadastradosGUI.titulo"));
 		currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		currentFrame.setSize(600, 339);
 		currentFrame.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -86,9 +86,9 @@ public class UsuariosCadastradosGUI extends ParentGUI {
 			email = usuarioSelecionado.getEmail();
 		}
 		
-		lblNome.setText("Nome:  " + nome);
-        lblApelido.setText("Apelido:  " + apelido);
-        lblEndereco.setText("Endereço:  " + endereco);
-        lblEmail.setText("E-mail:  " + email);
+		lblNome.setText(i18n.getString("usuariosCadastradosGUI.nome") +" "+ nome);
+        lblApelido.setText(i18n.getString("usuariosCadastradosGUI.apelido") +" "+ apelido);
+        lblEndereco.setText(i18n.getString("usuariosCadastradosGUI.endereco") +" "+ endereco);
+        lblEmail.setText(i18n.getString("usuariosCadastradosGUI.email") +" "+ email);
 	}
 }
