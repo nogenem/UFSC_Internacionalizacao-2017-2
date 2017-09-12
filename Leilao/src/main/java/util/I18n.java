@@ -22,9 +22,14 @@ public class I18n {
 	
 	private I18n() {
 		this.locales = new HashMap<>();
-		
-		this.carregaBundle(Locale.getDefault());
 		this.encontraTraducoesDisponiveis();
+		
+		Locale _default = Locale.getDefault();
+		if(!this.locales.containsKey(_default.toString())) {
+			System.out.println("> Default sem traducao, voltando para pt_BR.");
+			_default = new Locale("pt", "BR");
+		}
+		this.carregaBundle(_default);
 	}
 	
 	public static I18n getInstance() {
