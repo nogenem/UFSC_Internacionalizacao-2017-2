@@ -7,31 +7,33 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import interfaces.IMercadoLeilao;
+import interfaces.IConfiguracao;
 
-public abstract class FabricaDeMercado implements Serializable {
-	
-	private final static String FILE_NAME = "arquivoDoMercado";
+public abstract class FabricaDeConfiguracao implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
-	public static IMercadoLeilao montar() {
-		MercadoLeilao mercado = null;
+	private final static String FILE_NAME = "arquivoDeConfiguracao";
+
+	public static IConfiguracao montar() {
+		Configuracao config = null;
 		try {
 			FileInputStream arquivo = new FileInputStream(FILE_NAME);
 			ObjectInputStream objLeitura = new ObjectInputStream(arquivo);
-			mercado = (MercadoLeilao) objLeitura.readObject();
+			config = (Configuracao) objLeitura.readObject();
 			objLeitura.close();
 		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
+			System.err.println("> Erro ao carregar dados de configuracao! Inicializando os dados do zero...");
+			System.err.println(">\t"+e.getMessage());
+			config = new Configuracao();
 		}
-		return mercado;
+		return config;
 	}
 	
-	public static void desmontar(IMercadoLeilao mercado) {
+	public static void desmontar(IConfiguracao config) {
 		try {
 			FileOutputStream arquivo = new FileOutputStream(FILE_NAME);
 			ObjectOutputStream objGravacao = new ObjectOutputStream(arquivo);
-			objGravacao.writeObject(mercado);
+			objGravacao.writeObject(config);
 			objGravacao.close();
 		} catch (IOException e) {
 			e.printStackTrace();
