@@ -25,6 +25,7 @@ import modelo.Lance;
 import modelo.MercadoLeilao;
 import modelo.Usuario;
 import net.miginfocom.swing.MigLayout;
+import util.DadosDeLocalidade;
 
 public class LancesUsuarioGUI extends ParentGUI {
 	
@@ -32,7 +33,9 @@ public class LancesUsuarioGUI extends ParentGUI {
 	private JComboBox<Object> comboBox;
 	private JList<Object> list;
 	
-	public LancesUsuarioGUI() {}
+	public LancesUsuarioGUI(DadosDeLocalidade locData) {
+		super(locData);
+	}
 	
 	@Override
 	protected void constroiFrame(final PrincipalGUI parent, final MercadoLeilao mercado) {
@@ -118,7 +121,7 @@ public class LancesUsuarioGUI extends ParentGUI {
 			if(lanceSelecionado != null) {
 				nomeUsuario = lanceSelecionado.getNomeDonoDoLance();
 				nomeProduto = lanceSelecionado.getNomeProdutoQueRecebeuOLance();
-				valorLance = lanceSelecionado.getValorDoLance() + "";
+				valorLance = this.locData.getNumberFormat().format(lanceSelecionado.getValorDoLance());
 			}
 		}
 		

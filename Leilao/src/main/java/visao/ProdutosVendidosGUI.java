@@ -18,6 +18,7 @@ import javax.swing.event.ListSelectionListener;
 
 import modelo.MercadoLeilao;
 import modelo.ProdutoLeilao;
+import util.DadosDeLocalidade;
 
 public class ProdutosVendidosGUI extends ParentGUI {
 	
@@ -25,10 +26,8 @@ public class ProdutosVendidosGUI extends ParentGUI {
 		lblPrecoVendido, lblApelidoLeiloador, lblApelidoComprador, lblDataLimite;
 	private JList<Object> list;
 	
-	private DateFormat dateFormat;
-	
-	public ProdutosVendidosGUI(DateFormat dateFormat) {
-		this.dateFormat = dateFormat;
+	public ProdutosVendidosGUI(DadosDeLocalidade locData, DateFormat dateFormat) {
+		super(locData, dateFormat);
 	}
 	
 	@Override
@@ -93,8 +92,8 @@ public class ProdutosVendidosGUI extends ParentGUI {
 		if(produtoSelecionado != null) {
 			nome = produtoSelecionado.getNome();
 			desc = produtoSelecionado.getDescricao();
-			lanceMin = produtoSelecionado.getLanceMinimo() + "";
-			precoVendido = produtoSelecionado.getValorUltimoLance() +"";
+			lanceMin = this.locData.getNumberFormat().format(produtoSelecionado.getLanceMinimo());
+			precoVendido = this.locData.getNumberFormat().format(produtoSelecionado.getValorUltimoLance());
 			apelidoLeiloador = produtoSelecionado.getApelidoLeiloador();
 			apelidoComprador = produtoSelecionado.getApelidoComprador();
 			dataLimite = dateFormat.format(produtoSelecionado.getDataLimite());

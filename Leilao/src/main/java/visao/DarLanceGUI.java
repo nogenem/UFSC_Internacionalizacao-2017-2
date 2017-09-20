@@ -2,8 +2,10 @@ package visao;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -11,10 +13,13 @@ import exceptions.LanceInvalidoException;
 import exceptions.ProdutoNaoCadastradoException;
 import modelo.MercadoLeilao;
 import net.miginfocom.swing.MigLayout;
+import util.DadosDeLocalidade;
 
 public class DarLanceGUI extends ParentGUI {
 	
-	public DarLanceGUI() {}
+	public DarLanceGUI(DadosDeLocalidade locData) {
+		super(locData);
+	}
 	
 	@Override
 	protected void constroiFrame(final PrincipalGUI parent, final MercadoLeilao mercado) {
@@ -37,10 +42,13 @@ public class DarLanceGUI extends ParentGUI {
 		currentFrame.getContentPane().add(tfApelidoComprador, "span,grow,height 25::");
 		tfApelidoComprador.setColumns(10);
 		
-		final JLabel lblLance = new JLabel(i18n.getString("darLanceGUI.valor_lance") +" (R$)");
+		String valorLanceTxt = i18n.getString("darLanceGUI.valor_lance") +" (R$)";
+		valorLanceTxt = this.constroiLabelDeNumeroComExemplo(valorLanceTxt);
+		
+		final JLabel lblLance = new JLabel(valorLanceTxt);
 		currentFrame.getContentPane().add(lblLance, "span,grow");
 		
-		final JTextField tfLance = new JTextField();
+		final JFormattedTextField tfLance = this.constroiCampoFormatadoParaNumeros();
 		currentFrame.getContentPane().add(tfLance, "span,grow,height 25::");
 		tfLance.setColumns(10);
 		
@@ -51,12 +59,12 @@ public class DarLanceGUI extends ParentGUI {
 				String apelidoComprador = tfApelidoComprador.getText();
 				
 				try {
-					Double valorLance = Double.parseDouble(tfLance.getText());
+					Double valorLance = locData.getNumberFormat()
+							.parse(tfLance.getText()).doubleValue();
 					mercado.daLance(nomeProduto, apelidoComprador, valorLance);
 					currentFrame.dispose();
-				} catch (NumberFormatException e) {
+				} catch (ParseException e) {
 					parent.mostraMensagemDeAlerta(currentFrame, i18n.getString("exceptions.lance_numero"));
-					System.err.println("DarLanceGUI:> " +e.getMessage());
 				} catch (LanceInvalidoException|ProdutoNaoCadastradoException e) {
 					parent.mostraMensagemDeAlerta(currentFrame, e.getMessage());
 				} 

@@ -184,11 +184,13 @@ public class PrincipalGUI extends JFrame {
 	}
 	
 	private void mostraJanelaCadastrarProduto() {
-		new CadastraProdutoGUI(this.dateFormat).mostrarJanela(this, this.mercado);
+		new CadastraProdutoGUI(this.config.getConfig().getDadosDeLocalidadeAtuais(), 
+				this.dateFormat).mostrarJanela(this, this.mercado);
 	}
 	
 	private void mostraJanelaDarLance() {
-		new DarLanceGUI().mostrarJanela(this, this.mercado);
+		new DarLanceGUI(this.config.getConfig().getDadosDeLocalidadeAtuais())
+			.mostrarJanela(this, this.mercado);
 	}
 	
 	private void mostraJanelaUsuariosCadastrados() {
@@ -196,23 +198,28 @@ public class PrincipalGUI extends JFrame {
 	}
 	
 	private void mostraJanelaProdutosEmLeilao() {
-		new ProdutosEmLeilaoGUI(this.dateFormat).mostrarJanela(this, this.mercado);
+		new ProdutosEmLeilaoGUI(this.config.getConfig().getDadosDeLocalidadeAtuais(), this.dateFormat)
+			.mostrarJanela(this, this.mercado);
 	}
 	
 	private void mostraJanelaProdutosVendidos() {
-		new ProdutosVendidosGUI(this.dateFormat).mostrarJanela(this, this.mercado);
+		new ProdutosVendidosGUI(this.config.getConfig().getDadosDeLocalidadeAtuais(), this.dateFormat)
+			.mostrarJanela(this, this.mercado);
 	}
 	
 	private void mostraJanelaProdutosVencidos() {
-		new ProdutosVencidosGUI(this.dateFormat).mostrarJanela(this, this.mercado);
+		new ProdutosVencidosGUI(this.config.getConfig().getDadosDeLocalidadeAtuais(), this.dateFormat)
+			.mostrarJanela(this, this.mercado);
 	}
 	
 	private void mostraJanelaProdutosDeUmLeiloador() {
-		new ProdutosLeiloadorGUI(this.dateFormat).mostrarJanela(this, this.mercado);
+		new ProdutosLeiloadorGUI(this.config.getConfig().getDadosDeLocalidadeAtuais(), this.dateFormat)
+			.mostrarJanela(this, this.mercado);
 	}
 	
 	private void mostraJanelaLancesDeUmUsuario() {
-		new LancesUsuarioGUI().mostrarJanela(this, this.mercado);
+		new LancesUsuarioGUI(this.config.getConfig().getDadosDeLocalidadeAtuais())
+			.mostrarJanela(this, this.mercado);
 	}
 	
 	private void mostraJanelaConfiguracao() {
