@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -20,7 +19,6 @@ public class DarLanceGUI extends ParentGUI {
 	@Override
 	protected void constroiFrame(final PrincipalGUI parent, final MercadoLeilao mercado) {
 		currentFrame.setTitle(i18n.getString("darLanceGUI.titulo"));
-		currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		currentFrame.setSize(450, 339);
 		currentFrame.getContentPane().setLayout(new MigLayout("al center center,fillx", 
 				"[grow]", "[][]20[][]20[][]40[]"));

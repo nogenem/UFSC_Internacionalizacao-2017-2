@@ -11,7 +11,6 @@ import java.text.DateFormat;
 import java.util.List;
 
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -44,7 +43,6 @@ public class ProdutosLeiloadorGUI extends ParentGUI {
 	@Override
 	protected void constroiFrame(final PrincipalGUI parent, final MercadoLeilao mercado) {
 		currentFrame.setTitle(i18n.getString("produtosLeiloadorGUI.titulo"));
-		currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		currentFrame.setSize(600, 339);
 		currentFrame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
