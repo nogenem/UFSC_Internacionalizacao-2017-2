@@ -15,7 +15,6 @@ public class Principal {
 	
 	private static void iniciarComInterfaceGrafica() {
 		MercadoLeilao mercado = new MercadoLeilao();
-		//new LeilaoGUI(mercado);
 		new PrincipalGUI(mercado);
 	}
 }

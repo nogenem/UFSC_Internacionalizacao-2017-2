@@ -144,8 +144,7 @@ public class LeilaoGUI extends JFrame {
 	    btnSalvar.setBounds(30, 381, 165, 30);
 	    btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				FabricaDeMercado fabrica = new FabricaDeMercado();
-				fabrica.desmontar(mercado);
+				FabricaDeMercado.desmontar(mercado);
 				mostraMensagemDeInformacao(janela, "Mercado salvo!");
 			}
 	    	
@@ -156,8 +155,7 @@ public class LeilaoGUI extends JFrame {
 	    btnCarregar.setBounds(215, 381, 165, 30);
 	    btnCarregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FabricaDeMercado fabrica = new FabricaDeMercado();
-				mercado = (MercadoLeilao) fabrica.montar();
+				mercado = (MercadoLeilao) FabricaDeMercado.montar();
 				mostraMensagemDeInformacao(janela, "Mercado carregado!");
 			}
 		});

@@ -25,12 +25,15 @@ public class PrincipalGUI extends JFrame {
 		btnProdutosUsuario, btnSalvar, btnConfig, btnCarregar, btnUsuariosCadastrados;
 	
 	private MercadoLeilao mercado;
+	private ConfiguracaoGUI config;
 	private DateFormat dateFormat;
 
 	public PrincipalGUI(final MercadoLeilao mercadoLeilao) {
 		super();
 		
 		this.mercado = mercadoLeilao;
+		this.config = new ConfiguracaoGUI();
+		
 		this.dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		inicializarGUI();
 	}
@@ -128,21 +131,24 @@ public class PrincipalGUI extends JFrame {
 		btnSalvar = new JButton();
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				FabricaDeMercado fabrica = new FabricaDeMercado();
-				fabrica.desmontar(mercado);
+				FabricaDeMercado.desmontar(mercado);
 				mostraMensagemDeInformacao(frame, I18n.getInstance().getString("principalGUI.mercado_salvo"));
 			}
 	    });
 		lowerBtns.add(btnSalvar, "cell 0 0,alignx center,aligny center");
 		
 		btnConfig = new JButton();
+		btnConfig.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mostraJanelaConfiguracao();
+			}
+		});
 		lowerBtns.add(btnConfig, "cell 1 0,alignx center,aligny center");
 		
 		btnCarregar = new JButton();
 		btnCarregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FabricaDeMercado fabrica = new FabricaDeMercado();
-				mercado = (MercadoLeilao) fabrica.montar();
+				mercado = (MercadoLeilao) FabricaDeMercado.montar();
 				btnCarregar.setEnabled(false);
 				mostraMensagemDeInformacao(frame, I18n.getInstance().getString("principalGUI.mercado_carregado"));
 			}
@@ -153,7 +159,7 @@ public class PrincipalGUI extends JFrame {
 		this.setVisible(true);
 	}
 	
-	private void atualizaI18n() {
+	public void atualizaI18n() {
 		I18n instance = I18n.getInstance();
 		
 		setTitle(instance.getString("principalGUI.titulo"));
@@ -207,6 +213,10 @@ public class PrincipalGUI extends JFrame {
 	
 	private void mostraJanelaLancesDeUmUsuario() {
 		new LancesUsuarioGUI().mostrarJanela(this, this.mercado);
+	}
+	
+	private void mostraJanelaConfiguracao() {
+		this.config.mostrarJanela(this, this.mercado);
 	}
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
