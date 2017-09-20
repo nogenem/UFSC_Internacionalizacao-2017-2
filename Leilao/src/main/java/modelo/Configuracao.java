@@ -1,5 +1,6 @@
 package modelo;
 
+import java.io.Serializable;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -7,8 +8,9 @@ import interfaces.IConfiguracao;
 import util.DadosDeLocalidade;
 import util.I18n;
 
-public class Configuracao implements IConfiguracao {
+public class Configuracao implements IConfiguracao, Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private DadosDeLocalidade currentLocaleData;
 	//https://www.mkyong.com/java/java-display-list-of-timezone-with-gmt/
 	private TimeZone currentTimeZone;
@@ -27,19 +29,23 @@ public class Configuracao implements IConfiguracao {
 		this.currentTimeZone = TimeZone.getDefault();
 	}
 	
-	public Locale getCurrentLocale() {
+	public Locale getLocalidadeAtual() {
 		return this.currentLocaleData.getLocale();
 	}
 	
-	public void setCurrentLocale(String newLocaleID) {
-		this.currentLocaleData = I18n.getInstance().getDadosDeLocalidade(newLocaleID);
+	public void setLocalidadeAtual(String idNovaLocalidade) {
+		this.currentLocaleData = I18n.getInstance().getDadosDeLocalidade(idNovaLocalidade);
 	}
 	
-	public TimeZone getCurrentTimeZone() {
+	public TimeZone getFusoHorarioAtual() {
 		return this.currentTimeZone;
 	}
 	
-	public void setCurrentTimeZone(String newTimeZoneID) {
-		this.currentTimeZone = TimeZone.getTimeZone(newTimeZoneID);
+	public void setFusoHorarioAtual(String idNovoFusoHorario) {
+		this.currentTimeZone = TimeZone.getTimeZone(idNovoFusoHorario);
+	}
+	
+	public DadosDeLocalidade getDadosDeLocalidadeAtuais() {
+		return this.currentLocaleData;
 	}
 }

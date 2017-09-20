@@ -27,6 +27,10 @@ public class ConfiguracaoGUI extends ParentGUI {
 		config = (Configuracao) FabricaDeConfiguracao.montar();
 	}
 	
+	public Configuracao getConfig() {
+		return this.config;
+	}
+	
 	@Override
 	protected void constroiFrame(final PrincipalGUI parent, final MercadoLeilao mercado) {
 		currentFrame.setTitle(i18n.getString("configuracaoGUI.titulo"));
@@ -61,23 +65,25 @@ public class ConfiguracaoGUI extends ParentGUI {
 		this.btnSalvar = new JButton();
 		this.btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String currentLanguage = config.getCurrentLocale().toString();
-				String currentTimeZone = config.getCurrentTimeZone().getID();
+				String currentLanguage = config.getLocalidadeAtual().toString();
+				String currentTimeZone = config.getFusoHorarioAtual().getID();
 				
 				if(!selectedTimezone.equals(currentTimeZone))
-					config.setCurrentTimeZone(selectedTimezone);
+					config.setFusoHorarioAtual(selectedTimezone);
 				if(!selectedLanguage.equals(currentLanguage)) {
-					config.setCurrentLocale(selectedLanguage);
-					I18n.getInstance().carregaBundle(config.getCurrentLocale());
+					config.setLocalidadeAtual(selectedLanguage);
+					I18n.getInstance().carregaBundle(config.getLocalidadeAtual());
 					parent.atualizaI18n();
 				}
+				if(!selectedTimezone.equals(currentTimeZone) || !selectedLanguage.equals(currentLanguage))
+					FabricaDeConfiguracao.desmontar(config);
 				currentFrame.dispose();
 			}
 		});
 		currentFrame.getContentPane().add(btnSalvar, "span,grow,height 30::");
 		
 		////////////////////////////////////////////////////////////////////////
-		cbLinguas.setSelectedItem(this.config.getCurrentLocale().toString());
+		cbLinguas.setSelectedItem(this.config.getLocalidadeAtual().toString());
 		cbTimezones.setSelectedItem(TimeZone.getDefault().getID());
 		this.atualizaLabels();
 	}

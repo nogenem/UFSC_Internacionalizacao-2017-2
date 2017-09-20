@@ -1,23 +1,14 @@
 package util;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
-import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.NumberFormatter;
 
 public class I18n {
 	

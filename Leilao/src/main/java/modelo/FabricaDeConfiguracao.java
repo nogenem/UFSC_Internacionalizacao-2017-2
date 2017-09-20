@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import interfaces.IConfiguracao;
+import util.I18n;
 
 public abstract class FabricaDeConfiguracao implements Serializable {
 
@@ -21,6 +22,8 @@ public abstract class FabricaDeConfiguracao implements Serializable {
 			ObjectInputStream objLeitura = new ObjectInputStream(arquivo);
 			config = (Configuracao) objLeitura.readObject();
 			objLeitura.close();
+			
+			I18n.getInstance().carregaBundle(config.getLocalidadeAtual());
 		} catch (IOException | ClassNotFoundException e) {
 			System.err.println("> Erro ao carregar dados de configuracao! Inicializando os dados do zero...");
 			System.err.println(">\t"+e.getMessage());
