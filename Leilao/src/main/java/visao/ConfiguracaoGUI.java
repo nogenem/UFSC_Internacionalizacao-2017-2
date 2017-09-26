@@ -2,6 +2,7 @@ package visao;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.ZoneId;
 import java.util.SortedSet;
 import java.util.TimeZone;
 
@@ -24,7 +25,7 @@ public class ConfiguracaoGUI extends ParentGUI {
 	private JButton btnSalvar;
 	
 	public ConfiguracaoGUI() {
-		config = (Configuracao) FabricaDeConfiguracao.montar();
+		config = Configuracao.getInstance();
 	}
 	
 	public Configuracao getConfig() {
@@ -84,7 +85,7 @@ public class ConfiguracaoGUI extends ParentGUI {
 		
 		////////////////////////////////////////////////////////////////////////
 		cbLinguas.setSelectedItem(this.config.getLocalidadeAtual().toString());
-		cbTimezones.setSelectedItem(TimeZone.getDefault().getID());
+		cbTimezones.setSelectedItem(this.config.getFusoHorarioAtual().getID());
 		this.atualizaLabels();
 	}
 	

@@ -11,11 +11,14 @@ import util.I18n;
 public class Configuracao implements IConfiguracao, Serializable {
 	
 	private static final long serialVersionUID = 1L;
+	
+	private static Configuracao instance;
+	
 	private DadosDeLocalidade currentLocaleData;
 	//https://www.mkyong.com/java/java-display-list-of-timezone-with-gmt/
 	private TimeZone currentTimeZone;
 	
-	public Configuracao() {
+	private Configuracao() {
 		Locale _default = Locale.getDefault();
 		I18n i18n = I18n.getInstance();
 		
@@ -27,6 +30,15 @@ public class Configuracao implements IConfiguracao, Serializable {
 		
 		this.currentLocaleData = i18n.getDadosDeLocalidade(_default.toString());
 		this.currentTimeZone = TimeZone.getDefault();
+	}
+	
+	public static Configuracao getInstance() {
+		if(instance == null) {
+			instance = (Configuracao) FabricaDeConfiguracao.montar();
+			if(instance == null)
+				instance = new Configuracao();
+		}
+		return instance;
 	}
 	
 	public Locale getLocalidadeAtual() {

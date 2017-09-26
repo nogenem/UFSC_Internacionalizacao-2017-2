@@ -27,7 +27,6 @@ public abstract class FabricaDeConfiguracao implements Serializable {
 		} catch (IOException | ClassNotFoundException e) {
 			System.err.println("> Erro ao carregar dados de configuracao! Inicializando os dados do zero...");
 			System.err.println(">\t"+e.getMessage());
-			config = new Configuracao();
 		}
 		return config;
 	}
