@@ -3,8 +3,8 @@ package visao;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.SortedSet;
-import java.util.TimeZone;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -54,8 +54,9 @@ public class ConfiguracaoGUI extends ParentGUI {
 		this.lblFusos = new JLabel();
 		currentFrame.getContentPane().add(lblFusos, "span,grow");
 		
-		final String[] timezoneIDs = TimeZone.getAvailableIDs();
-		JComboBox<Object> cbTimezones = new JComboBox<>(timezoneIDs);
+		final Object[] timezoneOrdenado = ZoneId.getAvailableZoneIds().toArray();
+		Arrays.sort(timezoneOrdenado);
+		JComboBox<Object> cbTimezones = new JComboBox<>(timezoneOrdenado);
 		cbTimezones.addActionListener(new ActionListener () {
 			public void actionPerformed(ActionEvent arg0) {
 				selectedTimezone = (String) cbTimezones.getSelectedItem();
@@ -67,7 +68,7 @@ public class ConfiguracaoGUI extends ParentGUI {
 		this.btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String currentLanguage = config.getLocalidadeAtual().toString();
-				String currentTimeZone = config.getFusoHorarioAtual().getID();
+				String currentTimeZone = config.getFusoHorarioAtual().getId();
 				
 				if(!selectedTimezone.equals(currentTimeZone))
 					config.setFusoHorarioAtual(selectedTimezone);
@@ -85,7 +86,7 @@ public class ConfiguracaoGUI extends ParentGUI {
 		
 		////////////////////////////////////////////////////////////////////////
 		cbLinguas.setSelectedItem(this.config.getLocalidadeAtual().toString());
-		cbTimezones.setSelectedItem(this.config.getFusoHorarioAtual().getID());
+		cbTimezones.setSelectedItem(this.config.getFusoHorarioAtual().getId());
 		this.atualizaLabels();
 	}
 	
