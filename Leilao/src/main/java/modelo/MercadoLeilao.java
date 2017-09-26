@@ -156,9 +156,14 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		return this.usuarios.get(apelido);
 	}
 
+	public void atualizaListasQuandoFusoHorarioMuda() {
+		this.produtosEmLeilao.addAll(this.produtosVendidos);
+		this.produtosEmLeilao.addAll(this.produtosVencidosENaoVendidos);
+		this.produtosVendidos.clear();
+		this.produtosVencidosENaoVendidos.clear();
+	}
 	
 ///////////////////////////////////   METODOS PRIVADOS   ///////////////////////////////////
-	
 	
 	private void atualizarListasDeProdutos() {
 		for(int i=0; i<produtosEmLeilao.size(); i++) {

@@ -1,11 +1,14 @@
 package modelo;
 
-import interfaces.IVendido;
-
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import interfaces.IVendido;
 
 public class ProdutoLeilao extends Produto implements IVendido, Serializable  {
 
@@ -45,7 +48,10 @@ public class ProdutoLeilao extends Produto implements IVendido, Serializable  {
 	}
 	
 	public boolean dataDoProdutoExpirou() {
-		return new Date().after(this.dataLimite);
+		ZoneId zonaAtual = Configuracao.getInstance().getFusoHorarioAtual();
+		ZonedDateTime now = Instant.now().atZone(zonaAtual);
+		ZonedDateTime limite = this.dataLimite.toInstant().atZone(zonaAtual);
+		return now.compareTo(limite) > 0;
 	}
 	
 	public List<Lance> verificaLancesEfetuadosPorUmUsuario(String apelidoUsuario) {

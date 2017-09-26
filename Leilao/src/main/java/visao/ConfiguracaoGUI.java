@@ -70,8 +70,10 @@ public class ConfiguracaoGUI extends ParentGUI {
 				String currentLanguage = config.getLocalidadeAtual().toString();
 				String currentTimeZone = config.getFusoHorarioAtual().getId();
 				
-				if(!selectedTimezone.equals(currentTimeZone))
+				if(!selectedTimezone.equals(currentTimeZone)) {
 					config.setFusoHorarioAtual(selectedTimezone);
+					mercado.atualizaListasQuandoFusoHorarioMuda();
+				}
 				if(!selectedLanguage.equals(currentLanguage)) {
 					config.setLocalidadeAtual(selectedLanguage);
 					I18n.getInstance().carregaBundle(config.getLocalidadeAtual());
