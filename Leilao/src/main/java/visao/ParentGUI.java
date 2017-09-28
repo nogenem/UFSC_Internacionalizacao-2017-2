@@ -3,37 +3,40 @@ package visao;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
 
+import modelo.Configuracao;
 import modelo.MercadoLeilao;
 import util.DadosDeLocalidade;
 import util.I18n;
 
 public abstract class ParentGUI {
 	
+	protected static MaskFormatter editDateMask;
+	protected static DateFormat editDateFormat;
+
 	protected JFrame currentFrame;
 	protected I18n i18n;
 	
 	protected DadosDeLocalidade locData;
-	protected DateFormat dateFormat;
 	
-	protected ParentGUI() {}
-	
-	protected ParentGUI(DadosDeLocalidade locData) {
-		this(locData, null);
-	}
-	
-	protected ParentGUI(DadosDeLocalidade locData, DateFormat dateFormat) {
-		this.locData = locData;
-		this.dateFormat = dateFormat;
+	protected ParentGUI() {
+		this.locData = Configuracao.getInstance().getDadosDeLocalidadeAtuais();
 	}
 	
 	public final void mostrarJanela(final PrincipalGUI parent, final MercadoLeilao mercado) {
 		i18n = I18n.getInstance();
+		this.locData.atualizaFusoHorarioDoFormatadorDeData();
+		
 		currentFrame = new JFrame();
 		currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		currentFrame.addWindowListener( new WindowAdapter() {
@@ -66,5 +69,27 @@ public abstract class ParentGUI {
 		NumberFormatter numFormatter = this.locData.getNumberFormatter();
 		field.setFormatterFactory(new DefaultFormatterFactory(numFormatter,numFormatter,numFormatter));
 		return field;
+	}
+	
+	protected String constroiLabelDeDataComExemplo(String txtBase) {
+		txtBase  = "<html>"+txtBase;
+		txtBase += "<br>Ex: " + editDateFormat.format(new Date());
+		txtBase += "</html>";
+		return txtBase;
+	}
+	
+	protected JFormattedTextField constroiCampoFormatadoParaData() {
+		return new JFormattedTextField(editDateMask);
+	}
+	
+	static {
+		editDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+		editDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		try {
+			editDateMask = new MaskFormatter("####/##/## ##:##");
+			editDateMask.setPlaceholderCharacter('_');
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 }

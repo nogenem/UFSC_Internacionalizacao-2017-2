@@ -2,7 +2,6 @@ package visao;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -14,18 +13,17 @@ import javax.swing.JTextField;
 import exceptions.CadastroProdutoException;
 import modelo.MercadoLeilao;
 import net.miginfocom.swing.MigLayout;
-import util.DadosDeLocalidade;
 
 public class CadastraProdutoGUI extends ParentGUI {
 	
-	public CadastraProdutoGUI(DadosDeLocalidade locData, DateFormat dateFormat) {
-		super(locData, dateFormat);
+	public CadastraProdutoGUI() {
+		super();
 	}
 	
 	@Override
 	protected void constroiFrame(final PrincipalGUI parent, final MercadoLeilao mercado) {
 		currentFrame.setTitle(i18n.getString("cadastraProdutoGUI.titulo"));
-		currentFrame.setSize(450, 435);
+		currentFrame.setSize(450, 445);
 		currentFrame.getContentPane().setLayout(new MigLayout("al center center,fillx", 
 				"[grow]", "[][]20[][]20[][]20[][]20[][]30[]"));
 		
@@ -60,10 +58,13 @@ public class CadastraProdutoGUI extends ParentGUI {
 		currentFrame.getContentPane().add(tfApelidoLeiloador, "span,grow,height 25::");
 		tfApelidoLeiloador.setColumns(10);
 		
-		final JLabel lblDataLimite = new JLabel(i18n.getString("cadastraProdutoGUI.data_limite"));
+		String dataTxt = i18n.getString("cadastraProdutoGUI.data_limite") +" (UTC)";
+		dataTxt = constroiLabelDeDataComExemplo(dataTxt);
+		
+		final JLabel lblDataLimite = new JLabel(dataTxt);
 		currentFrame.getContentPane().add(lblDataLimite, "span,grow");
 		
-		final JTextField tfDataLimite = new JTextField();
+		final JFormattedTextField tfDataLimite = constroiCampoFormatadoParaData();
 		currentFrame.getContentPane().add(tfDataLimite, "span,grow,height 25::");
 		tfDataLimite.setColumns(10);
 		
@@ -78,7 +79,7 @@ public class CadastraProdutoGUI extends ParentGUI {
 				try {
 					Double valorMinimo = locData.getNumberFormat()
 							.parse(tfLanceMin.getText()).doubleValue();
-					Date dataLimite = dateFormat.parse(data);
+					Date dataLimite = editDateFormat.parse(data);
 					mercado.cadastrarProduto(nome, descricao, valorMinimo, apelidoLeiloador, dataLimite);
 					currentFrame.dispose();
 				} catch (ParseException e) {

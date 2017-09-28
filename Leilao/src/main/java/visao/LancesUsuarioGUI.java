@@ -25,7 +25,6 @@ import modelo.Lance;
 import modelo.MercadoLeilao;
 import modelo.Usuario;
 import net.miginfocom.swing.MigLayout;
-import util.DadosDeLocalidade;
 
 public class LancesUsuarioGUI extends ParentGUI {
 	
@@ -33,8 +32,8 @@ public class LancesUsuarioGUI extends ParentGUI {
 	private JComboBox<Object> comboBox;
 	private JList<Object> list;
 	
-	public LancesUsuarioGUI(DadosDeLocalidade locData) {
-		super(locData);
+	public LancesUsuarioGUI() {
+		super();
 	}
 	
 	@Override

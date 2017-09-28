@@ -13,12 +13,11 @@ import exceptions.LanceInvalidoException;
 import exceptions.ProdutoNaoCadastradoException;
 import modelo.MercadoLeilao;
 import net.miginfocom.swing.MigLayout;
-import util.DadosDeLocalidade;
 
 public class DarLanceGUI extends ParentGUI {
 	
-	public DarLanceGUI(DadosDeLocalidade locData) {
-		super(locData);
+	public DarLanceGUI() {
+		super();
 	}
 	
 	@Override

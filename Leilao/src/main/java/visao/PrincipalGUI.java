@@ -3,8 +3,6 @@ package visao;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,7 +24,6 @@ public class PrincipalGUI extends JFrame {
 	
 	private MercadoLeilao mercado;
 	private ConfiguracaoGUI config;
-	private DateFormat dateFormat;
 
 	public PrincipalGUI(final MercadoLeilao mercadoLeilao) {
 		super();
@@ -34,7 +31,6 @@ public class PrincipalGUI extends JFrame {
 		this.mercado = mercadoLeilao;
 		this.config = new ConfiguracaoGUI();
 		
-		this.dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		inicializarGUI();
 	}
 	
@@ -184,13 +180,11 @@ public class PrincipalGUI extends JFrame {
 	}
 	
 	private void mostraJanelaCadastrarProduto() {
-		new CadastraProdutoGUI(this.config.getConfig().getDadosDeLocalidadeAtuais(), 
-				this.dateFormat).mostrarJanela(this, this.mercado);
+		new CadastraProdutoGUI().mostrarJanela(this, this.mercado);
 	}
 	
 	private void mostraJanelaDarLance() {
-		new DarLanceGUI(this.config.getConfig().getDadosDeLocalidadeAtuais())
-			.mostrarJanela(this, this.mercado);
+		new DarLanceGUI().mostrarJanela(this, this.mercado);
 	}
 	
 	private void mostraJanelaUsuariosCadastrados() {
@@ -198,28 +192,23 @@ public class PrincipalGUI extends JFrame {
 	}
 	
 	private void mostraJanelaProdutosEmLeilao() {
-		new ProdutosEmLeilaoGUI(this.config.getConfig().getDadosDeLocalidadeAtuais(), this.dateFormat)
-			.mostrarJanela(this, this.mercado);
+		new ProdutosEmLeilaoGUI().mostrarJanela(this, this.mercado);
 	}
 	
 	private void mostraJanelaProdutosVendidos() {
-		new ProdutosVendidosGUI(this.config.getConfig().getDadosDeLocalidadeAtuais(), this.dateFormat)
-			.mostrarJanela(this, this.mercado);
+		new ProdutosVendidosGUI().mostrarJanela(this, this.mercado);
 	}
 	
 	private void mostraJanelaProdutosVencidos() {
-		new ProdutosVencidosGUI(this.config.getConfig().getDadosDeLocalidadeAtuais(), this.dateFormat)
-			.mostrarJanela(this, this.mercado);
+		new ProdutosVencidosGUI().mostrarJanela(this, this.mercado);
 	}
 	
 	private void mostraJanelaProdutosDeUmLeiloador() {
-		new ProdutosLeiloadorGUI(this.config.getConfig().getDadosDeLocalidadeAtuais(), this.dateFormat)
-			.mostrarJanela(this, this.mercado);
+		new ProdutosLeiloadorGUI().mostrarJanela(this, this.mercado);
 	}
 	
 	private void mostraJanelaLancesDeUmUsuario() {
-		new LancesUsuarioGUI(this.config.getConfig().getDadosDeLocalidadeAtuais())
-			.mostrarJanela(this, this.mercado);
+		new LancesUsuarioGUI().mostrarJanela(this, this.mercado);
 	}
 	
 	private void mostraJanelaConfiguracao() {

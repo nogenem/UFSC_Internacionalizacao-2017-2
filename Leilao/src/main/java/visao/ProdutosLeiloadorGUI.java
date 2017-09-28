@@ -7,7 +7,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -26,7 +25,6 @@ import modelo.MercadoLeilao;
 import modelo.ProdutoLeilao;
 import modelo.Usuario;
 import net.miginfocom.swing.MigLayout;
-import util.DadosDeLocalidade;
 
 public class ProdutosLeiloadorGUI extends ParentGUI {
 	
@@ -35,8 +33,8 @@ public class ProdutosLeiloadorGUI extends ParentGUI {
 	private JComboBox<Object> comboBox;
 	private JList<Object> list;
 	
-	public ProdutosLeiloadorGUI(DadosDeLocalidade locData, DateFormat dateFormat) {
-		super(locData, dateFormat);
+	public ProdutosLeiloadorGUI() {
+		super();
 	}
 	
 	@Override
@@ -132,7 +130,7 @@ public class ProdutosLeiloadorGUI extends ParentGUI {
 				lanceMin = this.locData.getNumberFormat().format(produtoSelecionado.getLanceMinimo());
 				ultimoLance = this.locData.getNumberFormat().format(produtoSelecionado.getValorUltimoLance());
 				apelidoLeiloador = produtoSelecionado.getApelidoLeiloador();
-				dataLimite = dateFormat.format(produtoSelecionado.getDataLimite());
+				dataLimite = this.locData.getDateFormatter().format(produtoSelecionado.getDataLimite().toInstant());
 			}
 		}
 		

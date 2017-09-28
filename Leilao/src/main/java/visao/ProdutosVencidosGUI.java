@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.text.DateFormat;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -18,7 +17,6 @@ import javax.swing.event.ListSelectionListener;
 
 import modelo.MercadoLeilao;
 import modelo.ProdutoLeilao;
-import util.DadosDeLocalidade;
 
 public class ProdutosVencidosGUI extends ParentGUI {
 	
@@ -26,8 +24,8 @@ public class ProdutosVencidosGUI extends ParentGUI {
 		lblApelidoLeiloador, lblDataLimite;
 	private JList<Object> list;
 	
-	public ProdutosVencidosGUI(DadosDeLocalidade locData, DateFormat dateFormat) {
-		super(locData, dateFormat);
+	public ProdutosVencidosGUI() {
+		super();
 	}
 	
 	@Override
@@ -90,7 +88,7 @@ public class ProdutosVencidosGUI extends ParentGUI {
 			desc = produtoSelecionado.getDescricao();
 			lanceMin = this.locData.getNumberFormat().format(produtoSelecionado.getLanceMinimo());
 			apelidoLeiloador = produtoSelecionado.getApelidoLeiloador();
-			dataLimite = dateFormat.format(produtoSelecionado.getDataLimite());
+			dataLimite = this.locData.getDateFormatter().format(produtoSelecionado.getDataLimite().toInstant());
 		}
 		
 		lblNome.setText(i18n.getString("produtosVencidosGUI.nome") +" "+ nome);
