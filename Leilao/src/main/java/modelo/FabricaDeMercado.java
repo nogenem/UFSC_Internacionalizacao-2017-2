@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+import exceptions.CarregaMercadoException;
 import interfaces.IMercadoLeilao;
 
 public abstract class FabricaDeMercado implements Serializable {
@@ -14,17 +15,18 @@ public abstract class FabricaDeMercado implements Serializable {
 	private final static String FILE_NAME = "arquivoDoMercado";
 	private static final long serialVersionUID = 1L;
 	
-	public static IMercadoLeilao montar() {
-		MercadoLeilao mercado = null;
+	public static IMercadoLeilao montar() throws CarregaMercadoException {
 		try {
 			FileInputStream arquivo = new FileInputStream(FILE_NAME);
 			ObjectInputStream objLeitura = new ObjectInputStream(arquivo);
-			mercado = (MercadoLeilao) objLeitura.readObject();
+			MercadoLeilao mercado = (MercadoLeilao) objLeitura.readObject();
 			objLeitura.close();
+			
+			return mercado;
 		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
+			System.err.println("> " +e.getMessage());
+			throw new CarregaMercadoException();
 		}
-		return mercado;
 	}
 	
 	public static void desmontar(IMercadoLeilao mercado) {

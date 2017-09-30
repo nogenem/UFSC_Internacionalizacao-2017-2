@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import exceptions.CarregaMercadoException;
 import modelo.FabricaDeMercado;
 import modelo.MercadoLeilao;
 import net.miginfocom.swing.MigLayout;
@@ -144,9 +145,13 @@ public class PrincipalGUI extends JFrame {
 		btnCarregar = new JButton();
 		btnCarregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mercado = (MercadoLeilao) FabricaDeMercado.montar();
-				btnCarregar.setEnabled(false);
-				mostraMensagemDeInformacao(frame, I18n.getInstance().getString("principalGUI.mercado_carregado"));
+				try {
+					mercado = (MercadoLeilao) FabricaDeMercado.montar();
+					btnCarregar.setEnabled(false);
+					mostraMensagemDeInformacao(frame, I18n.getInstance().getString("principalGUI.mercado_carregado"));
+				} catch (CarregaMercadoException err) {
+					mostraMensagemDeInformacao(frame, err.getMessage());
+				}
 			}
 		});
 		lowerBtns.add(btnCarregar, "cell 2 0,alignx center,aligny center");
