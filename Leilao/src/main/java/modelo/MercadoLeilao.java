@@ -1,10 +1,13 @@
 package modelo;
 
 import java.io.Serializable;
+import java.text.Collator;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import exceptions.CadastroProdutoException;
@@ -69,6 +72,7 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		atualizarListasDeProdutos();
 		List<ILeiloavel> retornoProdutosEmLeilao = new ArrayList<ILeiloavel>();
 		retornoProdutosEmLeilao.addAll(this.produtosEmLeilao);
+		sortProdutos(retornoProdutosEmLeilao);
 		return retornoProdutosEmLeilao;
 	}
 	
@@ -77,6 +81,7 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		atualizarListasDeProdutos();
 		List<ILeiloavel> retornoProdutosVencidos = new ArrayList<ILeiloavel>();
 		retornoProdutosVencidos.addAll(this.produtosVencidosENaoVendidos);
+		sortProdutos(produtosVencidosENaoVendidos);
 		return retornoProdutosVencidos;
 	}
 	
@@ -85,12 +90,14 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		atualizarListasDeProdutos();
 		List<IVendido> retornoProdutosVendidos = new ArrayList<IVendido>();
 		retornoProdutosVendidos.addAll(this.produtosVendidos);
+		sortProdutos(retornoProdutosVendidos);
 		return retornoProdutosVendidos;
 	}
 	
 	public List<IUsuario> getUsuariosCadastrados() {
 		List<IUsuario> retornoUsuariosCadastrados = new ArrayList<IUsuario>();
 		retornoUsuariosCadastrados.addAll(this.usuarios.values());
+		sortUsuarios(retornoUsuariosCadastrados);
 		return retornoUsuariosCadastrados;
 	}
 	
@@ -114,6 +121,7 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		List<Lance> retornoLances = new ArrayList<Lance>();
 		retornoLances.addAll(retornaTodosOsLancesEfetuadosEmProdutosEmLeilao());
 		retornoLances.addAll(retornaTodosOsLancesEfetuadosEmProdutosVendidos());
+		sortLances(retornoLances);
 		return retornoLances;
 	}
 	
@@ -124,6 +132,7 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		List<Lance> retornoLances = new ArrayList<Lance>();
 		retornoLances.addAll(retornaLancesDeUmUsuarioEmProdutosAindaEmLeilao(apelidoUsuario));
 		retornoLances.addAll(retornaLancesDeUmUsuarioEmProdutosVendidos(apelidoUsuario));
+		sortLances(retornoLances);
 		return retornoLances;
 	}
 	
@@ -136,6 +145,7 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		retornoProdutos.addAll(retornaProdutosEmLeilaoPorUmUsuario(apelidoUsuario));
 		retornoProdutos.addAll(retornaProdutosVendidosPorUmUsuario(apelidoUsuario));
 		retornoProdutos.addAll(retornaProdutosVencidosMasNaoVendidosPorUmUsuario(apelidoUsuario));
+		sortProdutos(retornoProdutos);
 		return retornoProdutos;
 	}
 	
@@ -148,6 +158,7 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		List<ILeiloavel> produtosQueDeuLance = new ArrayList<ILeiloavel>();
 		produtosQueDeuLance.addAll(getProdutosEmLeilaoQueDeuLance(apelidoUsuario));
 		produtosQueDeuLance.addAll(getProdutosVendidosQueDeuLance(apelidoUsuario));
+		sortProdutos(produtosQueDeuLance);
 		return produtosQueDeuLance;
 	}
 	
@@ -329,5 +340,29 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 				retornoProdutos.add(produto);
 		}
 		return retornoProdutos;
+	}
+	
+	private void sortProdutos(List<? extends ILeiloavel> prods) {
+		Locale locale = Configuracao.getInstance().getLocalidadeAtual();
+		Collator collator = Collator.getInstance(locale);
+		prods.sort((prod1, prod2) -> collator.compare(
+				Normalizer.normalize(prod1.getNome(), Normalizer.Form.NFD),
+				Normalizer.normalize(prod2.getNome(), Normalizer.Form.NFD)));
+	}
+	
+	private void sortUsuarios(List<IUsuario> usuarios) {
+		Locale locale = Configuracao.getInstance().getLocalidadeAtual();
+		Collator collator = Collator.getInstance(locale);
+		usuarios.sort((user1, user2) -> collator.compare(
+				Normalizer.normalize(user1.getNome(), Normalizer.Form.NFD),
+				Normalizer.normalize(user2.getNome(), Normalizer.Form.NFD)));
+	}
+	
+	private void sortLances(List<Lance> lances) {
+		Locale locale = Configuracao.getInstance().getLocalidadeAtual();
+		Collator collator = Collator.getInstance(locale);
+		lances.sort((user1, user2) -> collator.compare(
+				Normalizer.normalize(user1.getNomeProdutoQueRecebeuOLance(), Normalizer.Form.NFD),
+				Normalizer.normalize(user2.getNomeProdutoQueRecebeuOLance(), Normalizer.Form.NFD)));
 	}
 }

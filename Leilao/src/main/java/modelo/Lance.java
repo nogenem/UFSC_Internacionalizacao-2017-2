@@ -17,7 +17,6 @@ public class Lance implements Serializable {
 		this.donoDoLance = donoDoLance;
 	}
 	
-	
 	public Double getValorDoLance() {
 		return this.valorDoLance;
 	}
