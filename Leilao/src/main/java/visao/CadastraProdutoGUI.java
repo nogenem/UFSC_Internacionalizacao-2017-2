@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import exceptions.CadastroProdutoException;
+import modelo.Configuracao;
 import modelo.MercadoLeilao;
 import net.miginfocom.swing.MigLayout;
 
@@ -58,7 +59,8 @@ public class CadastraProdutoGUI extends ParentGUI {
 		currentFrame.getContentPane().add(tfApelidoLeiloador, "span,grow,height 25::");
 		tfApelidoLeiloador.setColumns(10);
 		
-		String dataTxt = i18n.getString("cadastraProdutoGUI.data_limite") +" (UTC)";
+		String fuso = Configuracao.getInstance().getFusoHorarioAtual().toString();
+		String dataTxt = i18n.getString("cadastraProdutoGUI.data_limite") +" ("+fuso+")";
 		dataTxt = constroiLabelDeDataComExemplo(dataTxt);
 		
 		final JLabel lblDataLimite = new JLabel(dataTxt);
@@ -75,7 +77,7 @@ public class CadastraProdutoGUI extends ParentGUI {
 				String descricao = tfDescricao.getText();
 				String apelidoLeiloador = tfApelidoLeiloador.getText();
 				String data = tfDataLimite.getText();
-
+				
 				try {
 					Double valorMinimo = locData.getNumberFormat()
 							.parse(tfLanceMin.getText()).doubleValue();

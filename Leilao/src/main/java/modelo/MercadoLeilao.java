@@ -161,6 +161,8 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		this.produtosEmLeilao.addAll(this.produtosVencidosENaoVendidos);
 		this.produtosVendidos.clear();
 		this.produtosVencidosENaoVendidos.clear();
+		
+		atualizarListasDeProdutos();
 	}
 	
 ///////////////////////////////////   METODOS PRIVADOS   ///////////////////////////////////

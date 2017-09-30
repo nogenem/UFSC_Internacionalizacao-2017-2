@@ -9,8 +9,6 @@ import java.util.Locale;
 
 import javax.swing.text.NumberFormatter;
 
-import modelo.Configuracao;
-
 public class DadosDeLocalidade implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -44,8 +42,12 @@ public class DadosDeLocalidade implements Serializable {
 		return this.dateFormatter;
 	}
 	
-	public void atualizaFusoHorarioDoFormatadorDeData() {
-		ZoneId fuso = Configuracao.getInstance().getFusoHorarioAtual();
+//	public void atualizaFusoHorarioDoFormatadorDeData() {
+//		ZoneId fuso = Configuracao.getInstance().getFusoHorarioAtual();
+//		this.dateFormatter = this.getDateFormatter().withZone(fuso);
+//	}
+	
+	public void setFusoHorarioDoFormatadorDeData(ZoneId fuso) {
 		this.dateFormatter = this.getDateFormatter().withZone(fuso);
 	}
 }

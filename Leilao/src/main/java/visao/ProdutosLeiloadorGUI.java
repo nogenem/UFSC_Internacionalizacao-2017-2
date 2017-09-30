@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -21,6 +22,7 @@ import javax.swing.event.ListSelectionListener;
 
 import exceptions.UsuarioNaoCadastradoException;
 import interfaces.IUsuario;
+import modelo.Configuracao;
 import modelo.MercadoLeilao;
 import modelo.ProdutoLeilao;
 import modelo.Usuario;
@@ -130,7 +132,10 @@ public class ProdutosLeiloadorGUI extends ParentGUI {
 				lanceMin = this.locData.getNumberFormat().format(produtoSelecionado.getLanceMinimo());
 				ultimoLance = this.locData.getNumberFormat().format(produtoSelecionado.getValorUltimoLance());
 				apelidoLeiloador = produtoSelecionado.getApelidoLeiloador();
-				dataLimite = this.locData.getDateFormatter().format(produtoSelecionado.getDataLimite().toInstant());
+				
+				ZonedDateTime time = produtoSelecionado.getDataLimite().toInstant()
+						.atZone(Configuracao.getInstance().getFusoHorarioAtual());
+				dataLimite = this.locData.getDateFormatter().format(time);
 			}
 		}
 		

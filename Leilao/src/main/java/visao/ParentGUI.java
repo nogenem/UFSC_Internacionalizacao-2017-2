@@ -5,6 +5,7 @@ import java.awt.event.WindowEvent;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -22,20 +23,25 @@ import util.I18n;
 public abstract class ParentGUI {
 	
 	protected static MaskFormatter editDateMask;
-	protected static DateFormat editDateFormat;
 
 	protected JFrame currentFrame;
 	protected I18n i18n;
+	protected DateFormat editDateFormat;
 	
 	protected DadosDeLocalidade locData;
 	
 	protected ParentGUI() {
 		this.locData = Configuracao.getInstance().getDadosDeLocalidadeAtuais();
+		this.editDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 	}
 	
 	public final void mostrarJanela(final PrincipalGUI parent, final MercadoLeilao mercado) {
 		i18n = I18n.getInstance();
-		this.locData.atualizaFusoHorarioDoFormatadorDeData();
+		
+		// Atualiza fuso horario dos formatters
+		ZoneId fuso = Configuracao.getInstance().getFusoHorarioAtual();
+		this.locData.setFusoHorarioDoFormatadorDeData(fuso);
+		this.editDateFormat.setTimeZone(TimeZone.getTimeZone(fuso));
 		
 		currentFrame = new JFrame();
 		currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -83,8 +89,6 @@ public abstract class ParentGUI {
 	}
 	
 	static {
-		editDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-		editDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		try {
 			editDateMask = new MaskFormatter("####/##/## ##:##");
 			editDateMask.setPlaceholderCharacter('_');

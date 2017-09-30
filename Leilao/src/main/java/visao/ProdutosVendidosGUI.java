@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -15,6 +16,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import modelo.Configuracao;
 import modelo.MercadoLeilao;
 import modelo.ProdutoLeilao;
 
@@ -94,7 +96,10 @@ public class ProdutosVendidosGUI extends ParentGUI {
 			precoVendido = this.locData.getNumberFormat().format(produtoSelecionado.getValorUltimoLance());
 			apelidoLeiloador = produtoSelecionado.getApelidoLeiloador();
 			apelidoComprador = produtoSelecionado.getApelidoComprador();
-			dataLimite = this.locData.getDateFormatter().format(produtoSelecionado.getDataLimite().toInstant());
+			
+			ZonedDateTime time = produtoSelecionado.getDataLimite().toInstant()
+					.atZone(Configuracao.getInstance().getFusoHorarioAtual());
+			dataLimite = this.locData.getDateFormatter().format(time);
 		}
 
 		lblNome.setText(i18n.getString("produtosVendidosGUI.nome") +" "+ nome);
