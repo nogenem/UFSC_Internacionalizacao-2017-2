@@ -23,8 +23,12 @@ public class Configuracao implements IConfiguracao, Serializable {
 		I18n i18n = I18n.getInstance();
 		
 		if(!i18n.possuiLocale(_default.toString())) {
-			System.out.println("> Default sem traducao, voltando para pt_BR.");
-			_default = new Locale("pt", "BR");
+			if(i18n.possuiLocale(_default.getLanguage()))
+				//Tem pra língua mas não pro país, usa o da língua...
+				_default = new Locale(_default.getLanguage());
+			else 
+				//Não tem pra língua e nem pro país, usa pt_BR...
+				_default = new Locale("pt", "BR");
 		}
 		i18n.carregaBundle(_default);
 		
