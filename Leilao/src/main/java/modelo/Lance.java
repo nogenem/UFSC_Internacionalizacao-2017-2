@@ -2,12 +2,11 @@ package modelo;
 
 import java.io.Serializable;
 
-import util.I18n;
-
 
 public class Lance implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
 	private Double valorDoLance;
 	private Usuario donoDoLance;
 	private ProdutoLeilao produtoQueRecebeuOLance;
@@ -41,8 +40,7 @@ public class Lance implements Serializable {
 		this.produtoQueRecebeuOLance = produto;
 	}
 	
-	public String toString() {//TODO remover esse 'lance no produto' !? 
-		return I18n.getInstance().getString("lance.lance_no_produto") +
-				" "+ this.produtoQueRecebeuOLance.getNome();
+	public String toString() {
+		return this.produtoQueRecebeuOLance.getNome();
 	}
 }
