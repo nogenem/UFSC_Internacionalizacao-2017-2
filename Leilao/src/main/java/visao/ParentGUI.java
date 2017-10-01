@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import javax.swing.JFormattedTextField;
@@ -81,7 +82,8 @@ public abstract class ParentGUI {
 	protected String constroiLabelDeDataComExemplo(String txtBase) {
 		String ex = I18n.getInstance().getString("abrev_exemplo");
 		txtBase  = "<html>"+txtBase;
-		txtBase += "<br>" +ex+ " "+ editDateFormat.format(new Date());
+		Date date = new GregorianCalendar(2017, 10, 30, 14, 35).getTime();
+		txtBase += "<br>" +ex+ " "+ editDateFormat.format(date);
 		txtBase += "</html>";
 		return txtBase;
 	}
