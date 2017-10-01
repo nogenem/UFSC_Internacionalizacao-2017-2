@@ -64,8 +64,9 @@ public abstract class ParentGUI {
 	}
 	
 	protected String constroiLabelDeNumeroComExemplo(String txtBase) {
+		String ex = I18n.getInstance().getString("abrev_exemplo");
 		txtBase  = "<html>"+txtBase;
-		txtBase += "<br>Ex: " + this.locData.getNumberFormat().format(11000.55);
+		txtBase += "<br>" +ex+ " "+ this.locData.getNumberFormat().format(11000.55);
 		txtBase += "</html>";
 		return txtBase;
 	}
@@ -78,8 +79,9 @@ public abstract class ParentGUI {
 	}
 	
 	protected String constroiLabelDeDataComExemplo(String txtBase) {
+		String ex = I18n.getInstance().getString("abrev_exemplo");
 		txtBase  = "<html>"+txtBase;
-		txtBase += "<br>Ex: " + editDateFormat.format(new Date());
+		txtBase += "<br>" +ex+ " "+ editDateFormat.format(new Date());
 		txtBase += "</html>";
 		return txtBase;
 	}
