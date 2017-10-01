@@ -23,8 +23,8 @@ import util.I18n;
 
 public class MercadoLeilao implements IMercadoLeilao, Serializable {
 	
-	
 	private static final long serialVersionUID = 1L;
+	
 	private Map<String, Usuario> usuarios;
 	private List<ProdutoLeilao> produtosEmLeilao;
 	private List<ProdutoLeilao> produtosVendidos;
@@ -36,7 +36,6 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		this.produtosVendidos = new ArrayList<ProdutoLeilao>();
 		this.produtosVencidosENaoVendidos = new ArrayList<ProdutoLeilao>();
 	}
-	
 	
 	public void cadastrarUsuario(String nome, String endereco, String email, String apelido) throws CadastroUsuarioException {
 		if(nome.isEmpty() || endereco.isEmpty() || email.isEmpty() || apelido.isEmpty()) {
@@ -51,7 +50,6 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		}
 	}
 
-	
 	public void cadastrarProduto(String nome, String descricao, Double lanceMinimo, 
 			String apelidoLeiloador, Date dataLimite) throws CadastroProdutoException {
 		if(nome.isEmpty() || descricao.isEmpty() || apelidoLeiloador.isEmpty()) {
@@ -67,7 +65,6 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 			throw new CadastroProdutoException(I18n.getInstance().getString("exceptions.produto_existe_leilador_nao_cadastrado"));
 	}
 	
-	
 	public List<? extends ILeiloavel> getProdutosEmLeilao() {
 		atualizarListasDeProdutos();
 		List<ILeiloavel> retornoProdutosEmLeilao = new ArrayList<ILeiloavel>();
@@ -76,7 +73,6 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		return retornoProdutosEmLeilao;
 	}
 	
-	
 	public List<? extends ILeiloavel> getProdutosVencidosENaoVendidos() {
 		atualizarListasDeProdutos();
 		List<ILeiloavel> retornoProdutosVencidos = new ArrayList<ILeiloavel>();
@@ -84,7 +80,6 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		sortProdutos(produtosVencidosENaoVendidos);
 		return retornoProdutosVencidos;
 	}
-	
 
 	public List<? extends IVendido> getProdutosVendidos() {
 		atualizarListasDeProdutos();
@@ -101,7 +96,6 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		return retornoUsuariosCadastrados;
 	}
 	
-
 	public void daLance(String nomeProduto, String apelidoComprador, Double valorLance) 
 			throws LanceInvalidoException, ProdutoNaoCadastradoException {
 		atualizarListasDeProdutos();
@@ -149,7 +143,6 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		return retornoProdutos;
 	}
 	
-	
 	public List<? extends ILeiloavel> getProdutosQueDeuLance(String apelidoUsuario) throws UsuarioNaoCadastradoException {
 		atualizarListasDeProdutos();
 		if(!verificaSeOUsuarioJaExiste(apelidoUsuario))
@@ -161,7 +154,6 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		sortProdutos(produtosQueDeuLance);
 		return produtosQueDeuLance;
 	}
-	
 	
 	public IUsuario getUsuarioPor(String apelido) {
 		return this.usuarios.get(apelido);
@@ -205,7 +197,6 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 			produtosEmLeilao.remove(produto);
 		}
 	}
-	
 	
 	private boolean verificaSeOProdutoJaExiste(String nome) {
 		return verificaSeExisteEntreOsEmLeilao(nome) || verificaSeExisteEntreOsVendidos(nome) || 
@@ -311,7 +302,6 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		return retornoProdutos;
 	}
 	
-	
 	private boolean verificaSeDeuLanceNesseProduto(String apelidoComprador, ProdutoLeilao produto) {
 		List<Lance> lances = produto.retornaTodosOsLancesFeitosNesseProduto();
 		for(int i=0; i<lances.size(); i++) {
@@ -320,7 +310,6 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 		}
 		return false;
 	}
-	
 	
 	private List<? extends ILeiloavel> getProdutosEmLeilaoQueDeuLance(String apelido) {
 		List<ILeiloavel> retornoProdutos = new ArrayList<ILeiloavel>();
@@ -361,8 +350,8 @@ public class MercadoLeilao implements IMercadoLeilao, Serializable {
 	private void sortLances(List<Lance> lances) {
 		Locale locale = Configuracao.getInstance().getLocalidadeAtual();
 		Collator collator = Collator.getInstance(locale);
-		lances.sort((user1, user2) -> collator.compare(
-				Normalizer.normalize(user1.getNomeProdutoQueRecebeuOLance(), Normalizer.Form.NFD),
-				Normalizer.normalize(user2.getNomeProdutoQueRecebeuOLance(), Normalizer.Form.NFD)));
+		lances.sort((lance1, lance2) -> collator.compare(
+				Normalizer.normalize(lance1.getNomeProdutoQueRecebeuOLance(), Normalizer.Form.NFD),
+				Normalizer.normalize(lance2.getNomeProdutoQueRecebeuOLance(), Normalizer.Form.NFD)));
 	}
 }

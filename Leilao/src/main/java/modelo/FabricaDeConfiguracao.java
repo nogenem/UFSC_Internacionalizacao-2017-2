@@ -13,7 +13,7 @@ import util.I18n;
 public abstract class FabricaDeConfiguracao implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private final static String FILE_NAME = "arquivoDeConfiguracao";
+	private static final String FILE_NAME = "arquivoDeConfiguracao";
 
 	public static IConfiguracao montar() {
 		Configuracao config = null;

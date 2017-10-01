@@ -10,15 +10,14 @@ import java.util.List;
 
 public class Usuario implements IUsuario, Serializable {
 	
-	
 	private static final long serialVersionUID = 1L;
+	
 	private String apelido;
 	private String nome;
 	private String endereco;
 	private String email;
 	private List<ILeiloavel> bensOfertados;
 	private List<IVendido> bensComprados;
-	
 	
 	public Usuario(String apelido, String nome) {
 		this.apelido = apelido;

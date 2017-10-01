@@ -28,10 +28,6 @@ public class ConfiguracaoGUI extends ParentGUI {
 		config = Configuracao.getInstance();
 	}
 	
-	public Configuracao getConfig() {
-		return this.config;
-	}
-	
 	@Override
 	protected void constroiFrame(final PrincipalGUI parent, final MercadoLeilao mercado) {
 		currentFrame.setTitle(i18n.getString("configuracaoGUI.titulo"));
@@ -69,18 +65,21 @@ public class ConfiguracaoGUI extends ParentGUI {
 			public void actionPerformed(ActionEvent arg0) {
 				String currentLanguage = config.getLocalidadeAtual().toString();
 				String currentTimeZone = config.getFusoHorarioAtual().getId();
+				boolean hasUpdate = false;
 				
 				if(!selectedTimezone.equals(currentTimeZone)) {
 					config.setFusoHorarioAtual(selectedTimezone);
 					mercado.atualizaListasQuandoFusoHorarioMuda();
+					hasUpdate = true;
 				}
 				if(!selectedLanguage.equals(currentLanguage)) {
 					config.setLocalidadeAtual(selectedLanguage);
 					I18n.getInstance().carregaBundle(config.getLocalidadeAtual());
 					parent.atualizaI18n();
+					hasUpdate = true;
 				}
-				if(!selectedTimezone.equals(currentTimeZone) || !selectedLanguage.equals(currentLanguage))
-					FabricaDeConfiguracao.desmontar(config);
+				if(hasUpdate)
+					FabricaDeConfiguracao.desmontar(config);//salva os dados
 				currentFrame.dispose();
 			}
 		});

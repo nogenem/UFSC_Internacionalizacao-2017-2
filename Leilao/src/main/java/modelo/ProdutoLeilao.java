@@ -13,13 +13,13 @@ import interfaces.IVendido;
 public class ProdutoLeilao extends Produto implements IVendido, Serializable  {
 
 	private static final long serialVersionUID = 12L;
+	
 	private Date dataLimite;
 	private Double lanceMinimo;
 	private List<Lance> lancesEfetuados;
 	private Usuario leiloador;
 	private Usuario comprador;
  
-	
 	public ProdutoLeilao(String nome, String descricao, Double lanceMinimo, Usuario leiloador) {
 		super(nome, descricao);
 		this.lanceMinimo = lanceMinimo;

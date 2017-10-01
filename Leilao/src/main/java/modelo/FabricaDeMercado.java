@@ -12,8 +12,8 @@ import interfaces.IMercadoLeilao;
 
 public abstract class FabricaDeMercado implements Serializable {
 	
-	private final static String FILE_NAME = "arquivoDoMercado";
 	private static final long serialVersionUID = 1L;
+	private static final String FILE_NAME = "arquivoDoMercado";
 	
 	public static IMercadoLeilao montar() throws CarregaMercadoException {
 		try {

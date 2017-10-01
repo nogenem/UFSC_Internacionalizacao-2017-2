@@ -12,10 +12,11 @@ import javax.swing.text.NumberFormatter;
 public class DadosDeLocalidade implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
+	
 	private Locale locale;
 	private NumberFormat numFormat;
 	private NumberFormatter numFormatter;
-	transient private DateTimeFormatter dateFormatter;
+	transient private DateTimeFormatter dateFormatter;//DateTimeFormatter não é Serializable...
 	
 	public DadosDeLocalidade(Locale locale) {
 		this.locale = locale;
@@ -41,11 +42,6 @@ public class DadosDeLocalidade implements Serializable {
 			this.dateFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).withLocale(this.locale);
 		return this.dateFormatter;
 	}
-	
-//	public void atualizaFusoHorarioDoFormatadorDeData() {
-//		ZoneId fuso = Configuracao.getInstance().getFusoHorarioAtual();
-//		this.dateFormatter = this.getDateFormatter().withZone(fuso);
-//	}
 	
 	public void setFusoHorarioDoFormatadorDeData(ZoneId fuso) {
 		this.dateFormatter = this.getDateFormatter().withZone(fuso);
