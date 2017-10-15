@@ -6,9 +6,12 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import javax.swing.JOptionPane;
 
 public class I18n {
 	
@@ -57,6 +60,10 @@ public class I18n {
 			this.bundle = ResourceBundle.getBundle(BUNDLE_PREFIX, locale, loader);
 		}catch(MalformedURLException e) {
 			e.printStackTrace();
+		}catch(MissingResourceException e2) {
+			JOptionPane.showMessageDialog(null, 
+					"The program's translations could not be found.");
+			System.exit(0);
 		}
 	}
 	
@@ -65,6 +72,15 @@ public class I18n {
 		String name, key;
 		String[] tmp;
 		Locale locale;
+		
+		if(files == null) {
+			JOptionPane.showMessageDialog(null, 
+					"The program's translations could not be found.");
+			System.exit(0);
+			return;
+		}
+		
+		boolean foundBase = false;
 		for (File file : files) {
 		    if (file.isFile()) {
 		        name = file.getName();
@@ -73,8 +89,15 @@ public class I18n {
 		        	tmp = key.split("_");
 		        	locale = new Locale(tmp[0], tmp.length > 1 ? tmp[1] : "");
 		        	this.locales.put(key, new DadosDeLocalidade(locale));
+		        }else if(name.equals(BUNDLE_PREFIX + ".properties")) {
+		        	foundBase = true;
 		        }
 		    }
 		}
+		
+		//Encontrou o base mas não encontrou tradução pt_BR, 
+		//então adiciona os dados de pt_BR de todo jeito
+		if(foundBase && !this.locales.containsKey("pt_BR"))
+			this.locales.put("pt_BR", new DadosDeLocalidade(new Locale("pt", "BR")));
 	}
 }
